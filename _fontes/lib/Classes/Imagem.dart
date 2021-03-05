@@ -1,0 +1,3 @@
+class Imagem {
+  void gerarQRCode() {}
+}
