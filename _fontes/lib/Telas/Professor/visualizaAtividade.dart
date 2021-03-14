@@ -11,11 +11,13 @@ class ClasseVisualizaAtividade extends StatefulWidget {
 
 class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
   TextEditingController _atividadeTexto;
+  TextEditingController _descricaoTexto;
 
   @override
   void initState() {
     super.initState();
     _atividadeTexto = new TextEditingController(text: widget._atividade.getAtividade());
+    _descricaoTexto = new TextEditingController(text: widget._atividade.getDescricao());
   }
 
   @override
@@ -44,6 +46,7 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
                 autofocus: false,
                 maxLength: 150,
                 maxLines: 7,
+                controller: _descricaoTexto,
                 decoration: InputDecoration(
                   hintText: 'Objetivo geral da atividade de campo*',
                   enabledBorder: OutlineInputBorder(
@@ -85,6 +88,8 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
                       textColor: Colors.white,
                       child: Text("Cadastrar atividade"),
                       onPressed: () {
+                        widget._atividade.setAtividade(_atividadeTexto.text);
+                        widget._atividade.setDescricao(_descricaoTexto.text);
                         chamaTelaRoteiro(context);
                       },
                     ),

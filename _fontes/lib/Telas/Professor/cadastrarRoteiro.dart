@@ -174,5 +174,6 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
 
   void chamaTelaVisualizarAtividade(BuildContext context, Atividade atividade) async {
     atividade = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVisualizaAtividade(atividade)));
+    setState(() {});
   }
 }
