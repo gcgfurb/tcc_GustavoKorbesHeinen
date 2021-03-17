@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:teste/Classes/ObjEspecifico.dart';
-import 'package:teste/Classes/Atividade.dart';
-import 'package:teste/Telas/Professor/visualizaAtividade.dart';
+import 'package:TCC_II/Classes/ObjEspecifico.dart';
+import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:TCC_II/Telas/Professor/visualizaAtividade.dart';
 import 'cadastraNovaAtividade.dart';
 
 class ClasseRoteiro extends StatefulWidget {

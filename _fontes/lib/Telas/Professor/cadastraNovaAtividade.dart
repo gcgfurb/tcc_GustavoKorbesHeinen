@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:teste/Classes/Atividade.dart';
-import 'package:teste/Classes/ObjEspecifico.dart';
+import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:TCC_II/Classes/ObjEspecifico.dart';
 
 class ClasseAtividade extends StatefulWidget {
   ObjEspecifico _objEspecifico = new ObjEspecifico();

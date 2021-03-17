@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teste/Classes/Tema.dart';
+import 'package:TCC_II/Classes/Tema.dart';
 import 'cadastrarObjEspecificos.dart';
 
 class ClasseTema extends StatefulWidget {

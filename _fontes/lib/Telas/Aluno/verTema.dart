@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:teste/Telas/Aluno/visualizarRoteiroNaoDefinido.dart';
+import 'package:TCC_II/Telas/Aluno/visualizarRoteiroNaoDefinido.dart';
+import 'package:TCC_II/Classes/Tema.dart';
+import 'package:TCC_II/Classes/ObjEspecifico.dart';
 
 class ClasseVerTema extends StatefulWidget {
+  Tema _tema = new Tema();
+  ClasseVerTema(this._tema);
+
   @override
   VerTema createState() => VerTema();
 }
@@ -25,7 +30,7 @@ class VerTema extends State<ClasseVerTema> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 5, 15),
                     child: Text(
-                      "Tema: XXX",
+                      widget._tema.getTema(),
                       style: TextStyle(fontSize: 25),
                     ),
                   ),
@@ -34,7 +39,7 @@ class VerTema extends State<ClasseVerTema> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(5, 0, 15, 15),
                     child: Text(
-                      "Descrição: YYY",
+                      widget._tema.getDescricao(),
                       style: TextStyle(fontSize: 25),
                     ),
                   ),
@@ -44,13 +49,13 @@ class VerTema extends State<ClasseVerTema> {
             SizedBox(
               height: 250,
               child: ListView.builder(
-                  itemCount: itens.length,
+                  itemCount: widget._tema.getListaObjEspecifico().length,
                   itemBuilder: (context, index) {
                     return Container(
                       color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                       child: ListTile(
                         leading: Icon(Icons.bookmarks),
-                        title: Text('${itens[index]}'),
+                        title: Text('${widget._tema.getObjEspecifico(index).getObjetivo()}'),
                         dense: true,
                         trailing: RaisedButton(
                           padding: EdgeInsets.symmetric(horizontal: 10),
@@ -58,7 +63,7 @@ class VerTema extends State<ClasseVerTema> {
                           textColor: Colors.white,
                           child: Text("Realizar atividades"),
                           onPressed: () {
-                            chamaTelaRealizarAtividades(context);
+                            chamaTelaRealizarAtividades(context, widget._tema.getObjEspecifico(index));
                           },
                         ),
                       ),
@@ -83,6 +88,6 @@ class VerTema extends State<ClasseVerTema> {
   }
 }
 
-void chamaTelaRealizarAtividades(context) {
-  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroNaoDefinido()));
+void chamaTelaRealizarAtividades(context, ObjEspecifico _objEspecifico) {
+  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroNaoDefinido(_objEspecifico)));
 }

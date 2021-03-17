@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:teste/Classes/ObjEspecifico.dart';
-import 'package:teste/Classes/Tema.dart';
+import 'package:TCC_II/Classes/ObjEspecifico.dart';
+import 'package:TCC_II/Classes/Tema.dart';
 import 'cadastrarRoteiro.dart';
 
 class ClasseObjEspecifico extends StatefulWidget {

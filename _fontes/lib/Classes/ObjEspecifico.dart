@@ -1,4 +1,4 @@
-import 'package:teste/Classes/Roteiro.dart';
+import 'package:TCC_II/Classes/Roteiro.dart';
 
 class ObjEspecifico {
   String _objetivo;

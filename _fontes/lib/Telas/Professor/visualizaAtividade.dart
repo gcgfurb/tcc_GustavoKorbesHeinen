@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teste/Classes/Atividade.dart';
+import 'package:TCC_II/Classes/Atividade.dart';
 
 class ClasseVisualizaAtividade extends StatefulWidget {
   Atividade _atividade = new Atividade('', '');

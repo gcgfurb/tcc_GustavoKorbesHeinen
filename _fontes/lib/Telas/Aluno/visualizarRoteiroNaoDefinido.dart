@@ -1,40 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:teste/Telas/Aluno/verTema.dart';
+import 'package:TCC_II/Telas/Aluno/verTema.dart';
+import 'package:TCC_II/Classes/ObjEspecifico.dart';
 
 import 'cadastrarNovaPergunta.dart';
 
 class ClasseRoteiroNaoDefinido extends StatefulWidget {
+  ObjEspecifico _objEspecifico = new ObjEspecifico();
+  ClasseRoteiroNaoDefinido(this._objEspecifico);
+
   @override
   VisualizarRoteiroNaoDefinido createState() => VisualizarRoteiroNaoDefinido();
 }
 
 class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
-  List<String> listaRoteiro = [
-    "Obj1",
-    "Obj2",
-    "Obj3",
-    "Obj4",
-    "Obj5",
-    "Obj6",
-    "Obj7",
-    "Obj8",
-    "Obj9",
-    "Obj10",
-    "Obj11",
-    "Obj12",
-    "Obj13",
-    "Obj14",
-    "Obj15",
-    "Obj16",
-    "Obj17",
-    "Obj18",
-    "Obj19",
-    "Obj20"
-  ];
-
   List<String> listaRoteiroPergunta = new List();
-
-  String sObjetivo = "Visitar parque";
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +29,7 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                 Expanded(
                     flex: 6,
                     child: Text(
-                      'Objetivo: $sObjetivo',
+                      'Objetivo: ' + widget._objEspecifico.getObjetivo(),
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 30),
                     )),
@@ -69,7 +48,7 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
               flex: 4,
               child: Row(
                 children: <Widget>[
-                  if (listaRoteiro.length > 0) /*widget._objEspecifico.getRoteiro().getQtdAtividades() > 0)*/
+                  if (widget._objEspecifico.getRoteiro().getListaAtividade().length > 0) /*widget._objEspecifico.getRoteiro().getQtdAtividades() > 0)*/
                     Expanded(
                       flex: 2,
                       child: GridView.count(
@@ -78,8 +57,7 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                         crossAxisCount: 4,
                         scrollDirection: Axis.vertical,
                         primary: false,
-                        children: List.generate(listaRoteiro.length,
-                            /*widget._objEspecifico.getRoteiro().getQtdAtividades(),*/ (index) {
+                        children: List.generate(widget._objEspecifico.getRoteiro().getListaAtividade().length, (index) {
                           return RaisedButton(
                             color: Colors.green[500],
                             textColor: Colors.white,
@@ -87,14 +65,13 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  listaRoteiro[index] /*widget._objEspecifico.getRoteiro().getAtividade(index).getAtividade()*/,
+                                  widget._objEspecifico.getRoteiro().getAtividade(index).getAtividade(),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
                             onPressed: () {
-                              inserirPerguntaNaCaixa(context, listaRoteiro[index] /*widget._objEspecifico.getRoteiro().getAtividade(index)*/
-                                  );
+                              inserirPerguntaNaCaixa(context, widget._objEspecifico.getRoteiro().getAtividade(index).getAtividade());
                             },
                           );
                         }),
@@ -167,11 +144,7 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseCadastrarNovaPergunta()));
   }
 
-  void chamaTelaVisualizarAtividade(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVerTema()));
-  }
-
   void chamaTelaObjEspecificos(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVerTema()));
+    Navigator.pop(context);
   }
 }

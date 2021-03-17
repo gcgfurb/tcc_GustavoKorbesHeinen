@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:teste/Telas/aprendaUsar.dart';
+import 'package:TCC_II/Telas/aprendaUsar.dart';
 import '../telaInicial.dart';
 import 'cadastrarTema.dart';
 import '../../Classes/Tema.dart';

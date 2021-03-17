@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:teste/Telas/Aluno/sozinhoGrupo.dart';
+import 'package:TCC_II/Telas/Aluno/sozinhoGrupo.dart';
 
 class ClasseCarregarTema extends StatefulWidget {
   @override

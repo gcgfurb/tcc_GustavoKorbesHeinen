@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:teste/Classes/Pessoa.dart';
-import 'package:teste/Telas/Aluno/verTema.dart';
+import 'package:TCC_II/Classes/Pessoa.dart';
+import 'package:TCC_II/Telas/Aluno/verTema.dart';
 
 class ClasseCadastrarGrupo extends StatefulWidget {
   @override
@@ -159,7 +159,7 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
   }
 
   void chamaTelaVerTema(BuildContext context) async {
-    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVerTema()));
+    //  await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVerTema()));
     setState(() {});
   }
 
