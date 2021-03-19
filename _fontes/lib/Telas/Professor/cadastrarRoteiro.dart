@@ -1,3 +1,4 @@
+import 'package:TCC_II/Classes/Roteiro.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
@@ -13,6 +14,29 @@ class ClasseRoteiro extends StatefulWidget {
 }
 
 class CadastrarRoteiro extends State<ClasseRoteiro> {
+  List<String> _listCaracteristicas = [
+    'Foto',
+    'Medida',
+    'Solo',
+    'Interação',
+    'Área desmatada',
+    'Vídeo',
+    'Característica',
+    'Lupa',
+    'Vivência',
+    'Mosquito',
+    'Áudio',
+    'Teste',
+    'Desenhar',
+    'Ficha Coleta',
+    'Lixo',
+    'Sons da Natureza',
+    'Localização',
+    'Produção de Material',
+    'Outra intervenção',
+    'Plantar'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,35 +70,34 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
               flex: 4,
               child: Row(
                 children: <Widget>[
-                  if (widget._objEspecifico.getRoteiro().getQtdAtividades() > 0)
-                    Expanded(
-                      flex: 2,
-                      child: GridView.count(
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        crossAxisCount: 4,
-                        scrollDirection: Axis.vertical,
-                        primary: false,
-                        children: List.generate(widget._objEspecifico.getRoteiro().getQtdAtividades(), (index) {
-                          return RaisedButton(
-                            color: Colors.green[500],
-                            textColor: Colors.white,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  widget._objEspecifico.getRoteiro().getAtividade(index).getAtividade(),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                            onPressed: () {
-                              chamaTelaVisualizarAtividade(context, widget._objEspecifico.getRoteiro().getAtividade(index));
-                            },
-                          );
-                        }),
-                      ),
+                  Expanded(
+                    flex: 2,
+                    child: GridView.count(
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      crossAxisCount: 3,
+                      scrollDirection: Axis.vertical,
+                      primary: false,
+                      children: List.generate(_listCaracteristicas.length, (index) {
+                        return RaisedButton(
+                          color: Colors.green[500],
+                          textColor: Colors.white,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                _listCaracteristicas[index],
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                          onPressed: () {
+                            chamaTelaCadastrarNovaAtividade(context, widget._objEspecifico.getRoteiro(), _listCaracteristicas[index]);
+                          },
+                        );
+                      }),
                     ),
+                  ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -117,11 +140,11 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                       color: Colors.green[500],
                       textColor: Colors.white,
                       child: Text(
-                        "Cadastrar novo roteiro",
+                        "Cadastrar Atividade",
                         textAlign: TextAlign.justify,
                       ),
                       onPressed: () {
-                        chamaTelaCadastrarNovaAtividade(context, widget._objEspecifico);
+                        chamaTelaCadastrarNovaAtividade(context, widget._objEspecifico.getRoteiro(), "");
                       },
                     ),
                   ),
@@ -148,7 +171,7 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
 
   List<ListTile> getListItems() => widget._objEspecifico.getRoteiro().getListaAtividade().asMap().map((index, atividade) => MapEntry(index, geraLista(atividade, index))).values.toList();
 
-  ListTile geraLista(Atividade atividade, int index) => ListTile(key: ValueKey(atividade), title: Text(atividade.getAtividade()), leading: Text("#${index + 1}"), dense: true);
+  ListTile geraLista(Atividade atividade, int index) => ListTile(key: ValueKey(atividade), title: Text(atividade.getDescricao()), leading: Text("#${index + 1}"), dense: true);
 
   void onReorder(int oldIndex, int newIndex) {
     if (newIndex > oldIndex) {
@@ -167,13 +190,13 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
     Navigator.pop(context, objEspecifico);
   }
 
-  void chamaTelaCadastrarNovaAtividade(BuildContext context, ObjEspecifico objEspecifico) async {
-    objEspecifico = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAtividade(objEspecifico)));
+  void chamaTelaCadastrarNovaAtividade(BuildContext context, Roteiro roteiro, String _caracteristica) async {
+    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAtividade(roteiro, _caracteristica)));
     setState(() {});
   }
 
-  void chamaTelaVisualizarAtividade(BuildContext context, Atividade atividade) async {
-    atividade = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVisualizaAtividade(atividade)));
+  void chamaTelaVisualizarAtividade(BuildContext context, Roteiro roteiro, String _caracteristica) async {
+    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVisualizaAtividade(roteiro, _caracteristica)));
     setState(() {});
-  }
+  } //Ninguem chamando esse método por enquanto, nem a classe
 }

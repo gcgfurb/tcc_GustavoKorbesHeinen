@@ -1,22 +1,32 @@
 import 'Imagem.dart';
 
 class Atividade {
-  String _atvidade;
+  int _id;
   String _descricao;
-  Imagem _imagem;
+  String _nomeAtividade;
   String _resposta;
+  Imagem _imagem;
 
-  Atividade(String atividade, String descricao) {
-    _atvidade = atividade;
-    _descricao = descricao;
+  Atividade() {
+    _nomeAtividade = '';
+    _descricao = '';
+    _resposta = '';
   }
 
-  void setAtividade(String atividade) {
-    _atvidade = atividade;
+  void setId(int id) {
+    _id = id;
   }
 
-  String getAtividade() {
-    return _atvidade;
+  int getId() {
+    return _id;
+  }
+
+  void setNomeAtividade(String nomeAtividade) {
+    _nomeAtividade = nomeAtividade;
+  }
+
+  String getNomeAtividade() {
+    return _nomeAtividade;
   }
 
   void setDescricao(String descricao) {

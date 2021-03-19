@@ -1,9 +1,12 @@
+import 'package:TCC_II/Classes/Roteiro.dart';
+import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 
 class ClasseVisualizaAtividade extends StatefulWidget {
-  Atividade _atividade = new Atividade('', '');
-  ClasseVisualizaAtividade(this._atividade);
+  Roteiro roteiro;
+  String _caracteristica;
+  ClasseVisualizaAtividade(this.roteiro, this._caracteristica);
 
   @override
   VisualizaAtividade createState() => VisualizaAtividade();
@@ -16,8 +19,8 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
   @override
   void initState() {
     super.initState();
-    _atividadeTexto = new TextEditingController(text: widget._atividade.getAtividade());
-    _descricaoTexto = new TextEditingController(text: widget._atividade.getDescricao());
+    _atividadeTexto = new TextEditingController(text: widget._caracteristica);
+    _descricaoTexto = new TextEditingController(text: "");
   }
 
   @override
@@ -32,6 +35,7 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
           children: <Widget>[
             Expanded(
               child: TextField(
+                //   enabled: widget._atividade.getId() < 0,
                 controller: _atividadeTexto,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -88,8 +92,8 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
                       textColor: Colors.white,
                       child: Text("Cadastrar atividade"),
                       onPressed: () {
-                        widget._atividade.setAtividade(_atividadeTexto.text);
-                        widget._atividade.setDescricao(_descricaoTexto.text);
+                        //    widget._atividade.setNomeAtividade(_atividadeTexto.text);
+                        //    widget._atividade.setDescricao(_descricaoTexto.text);
                         chamaTelaRoteiro(context);
                       },
                     ),

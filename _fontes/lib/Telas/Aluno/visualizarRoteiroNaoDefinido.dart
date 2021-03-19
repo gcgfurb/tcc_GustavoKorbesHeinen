@@ -65,13 +65,13 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  widget._objEspecifico.getRoteiro().getAtividade(index).getAtividade(),
+                                  widget._objEspecifico.getRoteiro().getAtividade(index).getDescricao(),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
                             onPressed: () {
-                              inserirPerguntaNaCaixa(context, widget._objEspecifico.getRoteiro().getAtividade(index).getAtividade());
+                              inserirPerguntaNaCaixa(context, widget._objEspecifico.getRoteiro().getAtividade(index).getDescricao());
                             },
                           );
                         }),
