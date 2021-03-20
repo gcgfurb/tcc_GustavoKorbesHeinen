@@ -1,18 +1,17 @@
-import 'package:TCC_II/Telas/Aluno/visualizarRoteiroDefinido.dart';
+import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/material.dart';
-import 'package:TCC_II/Telas/Aluno/visualizarRoteiroNaoDefinido.dart';
-import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 
-class ClasseVerTema extends StatefulWidget {
-  Tema _tema = new Tema();
-  ClasseVerTema(this._tema);
+class ClasseRoteiroDefinido extends StatefulWidget {
+  ObjEspecifico _objEspecifico = new ObjEspecifico();
+  ClasseRoteiroDefinido(this._objEspecifico);
 
   @override
-  VerTema createState() => VerTema();
+  VisualizarRoteiroDefinido createState() => VisualizarRoteiroDefinido();
 }
 
-class VerTema extends State<ClasseVerTema> {
+class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,39 +26,29 @@ class VerTema extends State<ClasseVerTema> {
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.fromLTRB(5, 0, 0, 5),
                 child: Text(
-                  'Tema: ' + widget._tema.getTema(),
-                  style: TextStyle(fontSize: 25),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
-                child: Text(
-                  'Descrição: ' + widget._tema.getDescricao(),
+                  'Objetivo: ' + widget._objEspecifico.getObjetivo(),
                   style: TextStyle(fontSize: 25),
                 ),
               ),
             ),
             SizedBox(
-              height: 250,
+              height: 270,
               child: ListView.builder(
-                  itemCount: widget._tema.getListaObjEspecifico().length,
+                  itemCount: widget._objEspecifico.getRoteiro().getQtdAtividades(),
                   itemBuilder: (context, index) {
                     return Container(
                       color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                       child: ListTile(
                         leading: Icon(Icons.bookmarks),
-                        title: Text('${widget._tema.getObjEspecifico(index).getObjetivo()}'),
+                        title: Text('${widget._objEspecifico.getRoteiro().getAtividade(index).getNomeAtividade()}'),
                         dense: true,
                         trailing: RaisedButton(
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           color: Colors.green[500],
                           textColor: Colors.white,
-                          child: Text("Realizar atividades"),
+                          child: Text("Responder"),
                           onPressed: () {
-                            chamaTelaRealizarAtividades(context, widget._tema.getObjEspecifico(index));
+                            buscaAtividades(context, widget._objEspecifico.getRoteiro().getAtividade(index));
                           },
                         ),
                       ),
@@ -82,8 +71,12 @@ class VerTema extends State<ClasseVerTema> {
       ),
     );
   }
-}
 
-void chamaTelaRealizarAtividades(context, ObjEspecifico _objEspecifico) {
-  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroDefinido(_objEspecifico)));
+  void buscaAtividades(context, Atividade atividade) {
+    Util.escolheAtividadeCorreta(context, atividade);
+  }
+
+  void chamaTelaObjEspecificos(BuildContext context) {
+    Navigator.pop(context);
+  }
 }

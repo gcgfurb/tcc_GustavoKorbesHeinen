@@ -48,7 +48,7 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
               flex: 4,
               child: Row(
                 children: <Widget>[
-                  if (widget._objEspecifico.getRoteiro().getListaAtividade().length > 0) /*widget._objEspecifico.getRoteiro().getQtdAtividades() > 0)*/
+                  if (widget._objEspecifico.getRoteiro().getQtdAtividades() > 0)
                     Expanded(
                       flex: 2,
                       child: GridView.count(
@@ -57,7 +57,7 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                         crossAxisCount: 4,
                         scrollDirection: Axis.vertical,
                         primary: false,
-                        children: List.generate(widget._objEspecifico.getRoteiro().getListaAtividade().length, (index) {
+                        children: List.generate(widget._objEspecifico.getRoteiro().getQtdAtividades(), (index) {
                           return RaisedButton(
                             color: Colors.green[500],
                             textColor: Colors.white,
@@ -65,7 +65,7 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  widget._objEspecifico.getRoteiro().getAtividade(index).getDescricao(),
+                                  widget._objEspecifico.getRoteiro().getAtividade(index).getNomeAtividade(),
                                   textAlign: TextAlign.center,
                                 ),
                               ],

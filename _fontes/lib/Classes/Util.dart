@@ -1,3 +1,7 @@
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Foto.dart';
+import 'package:flutter/material.dart';
+import 'package:TCC_II/Classes/Atividade.dart';
+
 class Util {
   static String idToString(int index) {
     switch (index) {
@@ -89,5 +93,73 @@ class Util {
       return 19;
     else
       return -1;
+  }
+
+  static void escolheAtividadeCorreta(BuildContext context, Atividade atividade) {
+    switch (atividade.getId()) {
+      case 0:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 3:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 4:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 5:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 6:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 7:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 8:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 9:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 10:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 11:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 12:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 13:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 14:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 15:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 16:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 17:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 18:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      case 19:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+      default:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        break;
+    }
   }
 }

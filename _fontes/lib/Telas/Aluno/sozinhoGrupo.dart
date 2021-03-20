@@ -66,11 +66,17 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
     Tema _tema = new Tema();
     ObjEspecifico _objEspecifico = new ObjEspecifico();
     Roteiro _roteiro = new Roteiro();
-    Atividade _atividade = new Atividade(/*"Procurar formiga saúva", "Essas formigas se encontram próximas as folhas"*/);
 
+    Atividade _atividade = new Atividade();
+    _atividade.setId(-1);
+    _atividade.setNomeAtividade("Procurar formiga saúva");
+    _atividade.setDescricao("Essas formigas se encontram próximas as folhas");
     _roteiro.adicionaAtividade(_atividade);
 
-    _atividade = new Atividade(/*"Tirar foto das formigas", "Chegar próximo a elas e tirar uma foto"*/);
+    _atividade = new Atividade();
+    _atividade.setId(-1);
+    _atividade.setNomeAtividade("Tirar foto das formigas");
+    _atividade.setDescricao("Chegar próximo a elas e tirar uma foto");
     _roteiro.adicionaAtividade(_atividade);
     _roteiro.setOrdenado(true);
 
@@ -81,10 +87,16 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
     _roteiro = new Roteiro();
     _objEspecifico = new ObjEspecifico();
 
-    _atividade = new Atividade(/*"Procurar árvore de Araucária", "Ir próximo a um lugar onde possui árvores de araucária"*/);
+    _atividade = new Atividade();
+    _atividade.setId(-1);
+    _atividade.setNomeAtividade("Procurar árvore de Araucária");
+    _atividade.setDescricao("Ir próximo a um lugar onde possui árvores de araucária");
     _roteiro.adicionaAtividade(_atividade);
 
-    _atividade = new Atividade(/*"Pegar uma parte do tronco", "Retirar uma parte do tronco da árvore para realizar estudos"*/);
+    _atividade = new Atividade();
+    _atividade.setId(-1);
+    _atividade.setNomeAtividade("Pegar uma parte do tronco");
+    _atividade.setDescricao("Retirar uma parte do tronco da árvore para realizar estudos");
     _roteiro.adicionaAtividade(_atividade);
     _roteiro.setOrdenado(false);
 
