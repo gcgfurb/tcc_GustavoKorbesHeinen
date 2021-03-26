@@ -15,7 +15,7 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: Container(
         color: Colors.green[300],
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
@@ -40,7 +40,7 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
                       color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                       child: ListTile(
                         leading: Icon(Icons.bookmarks),
-                        title: Text('${widget._objEspecifico.getRoteiro().getAtividade(index).getNomeAtividade()}'),
+                        title: Text(widget._objEspecifico.getRoteiro().getAtividade(index).getNomeAtividade() + " - " + widget._objEspecifico.getRoteiro().getAtividade(index).getDescricao()),
                         dense: true,
                         trailing: RaisedButton(
                           padding: EdgeInsets.symmetric(horizontal: 10),
@@ -59,11 +59,13 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
               alignment: Alignment.bottomRight,
               padding: EdgeInsets.fromLTRB(0, 10, 15, 0),
               child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                 color: Colors.green[500],
                 textColor: Colors.white,
-                child: Text("Enviar respostas ao Professor"),
-                onPressed: () {},
+                child: Text("Voltar"),
+                onPressed: () {
+                  chamaTelaObjEspecificos(context);
+                },
               ),
             ),
           ],

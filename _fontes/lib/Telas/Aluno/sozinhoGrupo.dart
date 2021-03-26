@@ -51,7 +51,7 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
                   child: Text("Em grupo"),
                   onPressed: () {
                     Tema _tema = criaTema();
-                    chamaTelaEmGrupo(context);
+                    chamaTelaEmGrupo(context, _tema);
                   },
                 ),
               ),
@@ -74,8 +74,8 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
     _roteiro.adicionaAtividade(_atividade);
 
     _atividade = new Atividade();
-    _atividade.setId(-1);
-    _atividade.setNomeAtividade("Tirar foto das formigas");
+    _atividade.setId(0);
+    _atividade.setNomeAtividade("Foto");
     _atividade.setDescricao("Chegar próximo a elas e tirar uma foto");
     _roteiro.adicionaAtividade(_atividade);
     _roteiro.setOrdenado(true);
@@ -94,9 +94,9 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
     _roteiro.adicionaAtividade(_atividade);
 
     _atividade = new Atividade();
-    _atividade.setId(-1);
-    _atividade.setNomeAtividade("Pegar uma parte do tronco");
-    _atividade.setDescricao("Retirar uma parte do tronco da árvore para realizar estudos");
+    _atividade.setId(5);
+    _atividade.setNomeAtividade("Áudio");
+    _atividade.setDescricao("Gravar áudio do som da árvore");
     _roteiro.adicionaAtividade(_atividade);
     _roteiro.setOrdenado(false);
 
@@ -111,10 +111,10 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
   }
 }
 
-void chamaTelaVerTema(BuildContext context, Tema _tema) {
-  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVerTema(_tema)));
+void chamaTelaVerTema(BuildContext context, Tema tema) {
+  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVerTema(tema)));
 }
 
-void chamaTelaEmGrupo(BuildContext context) {
-  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseCadastrarGrupo()));
+void chamaTelaEmGrupo(BuildContext context, Tema tema) {
+  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseCadastrarGrupo(tema)));
 }

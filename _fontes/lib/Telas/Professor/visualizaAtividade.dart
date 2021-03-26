@@ -26,7 +26,7 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: Container(
         color: Colors.green[300],
         alignment: Alignment.center,

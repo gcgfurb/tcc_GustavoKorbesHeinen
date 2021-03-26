@@ -1,6 +1,5 @@
 import 'package:TCC_II/Telas/Aluno/visualizarRoteiroDefinido.dart';
 import 'package:flutter/material.dart';
-import 'package:TCC_II/Telas/Aluno/visualizarRoteiroNaoDefinido.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 
@@ -16,7 +15,7 @@ class VerTema extends State<ClasseVerTema> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: Container(
         color: Colors.green[300],
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
@@ -66,17 +65,34 @@ class VerTema extends State<ClasseVerTema> {
                     );
                   }),
             ),
-            Container(
-              alignment: Alignment.bottomRight,
-              padding: EdgeInsets.fromLTRB(0, 10, 15, 0),
-              child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-                color: Colors.green[500],
-                textColor: Colors.white,
-                child: Text("Enviar respostas ao Professor"),
-                onPressed: () {},
-              ),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.bottomRight,
+                  padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                  child: RaisedButton(
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                    color: Colors.green[500],
+                    textColor: Colors.white,
+                    child: Text("Enviar respostas ao Professor"),
+                    onPressed: () {},
+                  ),
+                ),
+                if (!widget._tema.getRoteiroDefinido())
+                  Container(
+                    alignment: Alignment.bottomLeft,
+                    padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                    child: RaisedButton(
+                      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                      color: Colors.green[500],
+                      textColor: Colors.white,
+                      child: Text("Cadastrar novo Objetivo Específico"),
+                      onPressed: () {},
+                    ),
+                  ),
+              ],
+            )
           ],
         ),
       ),

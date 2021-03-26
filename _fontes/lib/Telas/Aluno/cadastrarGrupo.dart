@@ -1,9 +1,13 @@
+import 'package:TCC_II/Classes/Tema.dart';
+import 'package:TCC_II/Telas/Aluno/verTema.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Pessoa.dart';
-import 'package:TCC_II/Telas/Aluno/verTema.dart';
 
 class ClasseCadastrarGrupo extends StatefulWidget {
+  Tema _tema = new Tema();
+  ClasseCadastrarGrupo(this._tema);
+
   @override
   CadastrarGrupo createState() => CadastrarGrupo();
 }
@@ -30,7 +34,7 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       body: Container(
         color: Colors.green[300],
         alignment: Alignment.center,
@@ -127,7 +131,7 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
       context: context,
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text("Excluir participante"),
-        content: Text("Deseja excluir o participante X?"),
+        content: Text("Deseja excluir o participante " + _participantes[index].getNome() + "?"),
         actions: <Widget>[
           CupertinoDialogAction(
             isDefaultAction: true,
@@ -159,7 +163,7 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
   }
 
   void chamaTelaVerTema(BuildContext context) async {
-    //  await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVerTema()));
+    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVerTema(widget._tema)));
     setState(() {});
   }
 
