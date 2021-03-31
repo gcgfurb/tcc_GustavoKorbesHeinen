@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaFoto.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,31 +14,8 @@ class ClasseFoto extends StatefulWidget {
 }
 
 class Foto extends State<ClasseFoto> {
-  PickedFile imageFile;
-
-  _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
-    this.setState(() {
-      imageFile = picture;
-    });
-  }
-
-  Widget _decideImageView() {
-    if (imageFile == null) {
-      return Expanded(
-        child: Center(
-          child: Text("Nenhuma imagem no momento"),
-        ),
-      );
-    } else {
-      return Expanded(
-          child: Image.file(
-        File(imageFile.path),
-        width: 400,
-        height: 400,
-      ));
-    }
-  }
+  TextEditingController _textoDescricao;
+  PickedFile _imageFile;
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +34,11 @@ class Foto extends State<ClasseFoto> {
                   children: <Widget>[
                     Container(
                       child: TextField(
-                        //focusNode: focusNodeDescricao,
-                        //controller: descricaoTexto,
+                        controller: _textoDescricao,
                         maxLength: 150,
                         maxLines: 7,
                         decoration: InputDecoration(
-                          hintText: 'Objetivo geral da atividade de campo*',
+                          hintText: 'Objetivo geral da atividade de campo',
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.grey),
@@ -97,7 +74,11 @@ class Foto extends State<ClasseFoto> {
                               textColor: Colors.white,
                               child: Text("Gravar"),
                               onPressed: () {
-                                //_openCamera(context);
+                                CaracteristicaFoto _caracteristicaFoto = new CaracteristicaFoto();
+                                _caracteristicaFoto.setImageFile(_imageFile);
+                                _caracteristicaFoto.setDescricao(_textoDescricao.text);
+                                widget._atividade.adicionaResposta(_caracteristicaFoto);
+                                chamaTelaVisualizaRoteiro(context);
                               },
                             ),
                           ),
@@ -109,7 +90,7 @@ class Foto extends State<ClasseFoto> {
                               textColor: Colors.white,
                               child: Text("Cancelar"),
                               onPressed: () {
-                                Navigator.pop(context);
+                                chamaTelaVisualizaRoteiro(context);
                               },
                             ),
                           ),
@@ -125,4 +106,38 @@ class Foto extends State<ClasseFoto> {
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _textoDescricao = new TextEditingController();
+  }
+
+  _openCamera(BuildContext context) async {
+    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    this.setState(() {
+      _imageFile = picture;
+    });
+  }
+
+  Widget _decideImageView() {
+    if (_imageFile == null) {
+      return Expanded(
+        child: Center(
+          child: Text("Nenhuma imagem no momento"),
+        ),
+      );
+    } else {
+      return Expanded(
+          child: Image.file(
+        File(_imageFile.path),
+        width: 400,
+        height: 400,
+      ));
+    }
+  }
+}
+
+chamaTelaVisualizaRoteiro(BuildContext context) {
+  Navigator.pop(context);
 }
