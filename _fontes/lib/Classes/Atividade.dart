@@ -37,67 +37,67 @@ class Atividade {
     return _descricao;
   }
 
-  void adicionaResposta(Object object) {
+  void adicionaResposta(var object) {
     switch (this._id) {
       case 0:
-        respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaFoto(object.getImageFile(), object.getDescricao());
         break;
       case 1:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 2:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 3:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 4:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 5:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 6:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 7:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 8:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 9:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 10:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 11:
-        respostaAtividade = new CaracteristicaFoto();
+        // respostaAtividade = new CaracteristicaFoto();
         break;
       case 12:
-        respostaAtividade = new CaracteristicaFoto();
+        // respostaAtividade = new CaracteristicaFoto();
         break;
       case 13:
-        respostaAtividade = new CaracteristicaFoto();
+        // respostaAtividade = new CaracteristicaFoto();
         break;
       case 14:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 15:
-        respostaAtividade = new CaracteristicaFoto();
+        // respostaAtividade = new CaracteristicaFoto();
         break;
       case 16:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 17:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 18:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       case 19:
-        respostaAtividade = new CaracteristicaFoto();
+        //respostaAtividade = new CaracteristicaFoto();
         break;
       default:
         respostaAtividade = null;

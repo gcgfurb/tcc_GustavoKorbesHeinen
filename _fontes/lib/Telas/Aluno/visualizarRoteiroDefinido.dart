@@ -46,7 +46,7 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           color: Colors.green[500],
                           textColor: Colors.white,
-                          child: Text("Responder"),
+                          child: Text(widget._objEspecifico.getRoteiro().getAtividade(index).respostaAtividade != null ? "Ver Resposta" : "Responder"),
                           onPressed: () {
                             buscaAtividades(context, widget._objEspecifico.getRoteiro().getAtividade(index));
                           },

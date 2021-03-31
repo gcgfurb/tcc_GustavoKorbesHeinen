@@ -74,9 +74,7 @@ class Foto extends State<ClasseFoto> {
                               textColor: Colors.white,
                               child: Text("Gravar"),
                               onPressed: () {
-                                CaracteristicaFoto _caracteristicaFoto = new CaracteristicaFoto();
-                                _caracteristicaFoto.setImageFile(_imageFile);
-                                _caracteristicaFoto.setDescricao(_textoDescricao.text);
+                                CaracteristicaFoto _caracteristicaFoto = new CaracteristicaFoto(_imageFile, _textoDescricao.text);
                                 widget._atividade.adicionaResposta(_caracteristicaFoto);
                                 chamaTelaVisualizaRoteiro(context);
                               },
@@ -110,7 +108,10 @@ class Foto extends State<ClasseFoto> {
   @override
   void initState() {
     super.initState();
-    _textoDescricao = new TextEditingController();
+    dynamic foto = widget._atividade.respostaAtividade;
+
+    _textoDescricao = new TextEditingController(text: foto.getDescricao());
+    _imageFile = foto.getImageFile();
   }
 
   _openCamera(BuildContext context) async {

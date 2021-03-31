@@ -6,6 +6,11 @@ class CaracteristicaFoto extends Resposta {
   PickedFile _imageFile;
   String _descricao;
 
+  CaracteristicaFoto(PickedFile imageFile, String descricao) {
+    _imageFile = imageFile;
+    _descricao = descricao;
+  }
+
   PickedFile getImageFile() {
     return _imageFile;
   }
