@@ -55,7 +55,7 @@ class CadastrarTema extends State<ClasseTema> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+              padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               child: TextField(
                 focusNode: focusNodeDescricao,
                 controller: descricaoTexto,

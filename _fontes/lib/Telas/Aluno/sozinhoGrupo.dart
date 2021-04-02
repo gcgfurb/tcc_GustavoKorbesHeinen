@@ -88,8 +88,8 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
     _objEspecifico = new ObjEspecifico();
 
     _atividade = new Atividade();
-    _atividade.setId(-1);
-    _atividade.setNomeAtividade("Procurar árvore de Araucária");
+    _atividade.setId(2);
+    _atividade.setNomeAtividade("Solo - Procurar árvore de Araucária");
     _atividade.setDescricao("Ir próximo a um lugar onde possui árvores de araucária");
     _roteiro.adicionaAtividade(_atividade);
 

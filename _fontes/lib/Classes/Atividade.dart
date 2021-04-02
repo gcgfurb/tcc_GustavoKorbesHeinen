@@ -1,5 +1,5 @@
-import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaFoto.dart';
-
+import 'Caracteristicas/CaracteristicaFoto.dart';
+import 'Caracteristicas/CaracteristicaSolo.dart';
 import 'Resposta.dart';
 
 class Atividade {
@@ -46,7 +46,7 @@ class Atividade {
         //respostaAtividade = new CaracteristicaFoto();
         break;
       case 2:
-        //respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaSolo(object.getResposta1(), object.getResposta2(), object.getResposta3(), object.getResposta4());
         break;
       case 3:
         //respostaAtividade = new CaracteristicaFoto();
