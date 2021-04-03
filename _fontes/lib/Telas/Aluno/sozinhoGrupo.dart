@@ -68,7 +68,7 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
     Roteiro _roteiro = new Roteiro();
 
     Atividade _atividade = new Atividade();
-    _atividade.setId(-1);
+    _atividade.setId(3);
     _atividade.setNomeAtividade("Procurar formiga saúva");
     _atividade.setDescricao("Essas formigas se encontram próximas as folhas");
     _roteiro.adicionaAtividade(_atividade);
@@ -94,7 +94,7 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
     _roteiro.adicionaAtividade(_atividade);
 
     _atividade = new Atividade();
-    _atividade.setId(5);
+    _atividade.setId(10);
     _atividade.setNomeAtividade("Áudio");
     _atividade.setDescricao("Gravar áudio do som da árvore");
     _roteiro.adicionaAtividade(_atividade);

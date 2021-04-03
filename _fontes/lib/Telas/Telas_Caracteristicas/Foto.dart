@@ -74,7 +74,7 @@ class Foto extends State<ClasseFoto> {
                               textColor: Colors.white,
                               child: Text("Gravar"),
                               onPressed: () {
-                                widget._atividade.adicionaResposta(new CaracteristicaFoto(_imageFile, _textoDescricao.text));
+                                widget._atividade.adicionaResposta(CaracteristicaFoto(_imageFile, _textoDescricao.text));
                                 chamaTelaVisualizaRoteiro(context);
                               },
                             ),

@@ -1,5 +1,7 @@
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Audio.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Foto.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Solo.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Interacao.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 
@@ -108,7 +110,7 @@ class Util {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSolo(atividade)));
         break;
       case 3:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseInteracao(atividade)));
         break;
       case 4:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
@@ -129,7 +131,7 @@ class Util {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
         break;
       case 10:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAudio(atividade)));
         break;
       case 11:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));

@@ -1,3 +1,5 @@
+import 'Caracteristicas/CaracteristicaInteracao.dart';
+import 'Caracteristicas/CaracteristicaAudio.dart';
 import 'Caracteristicas/CaracteristicaFoto.dart';
 import 'Caracteristicas/CaracteristicaSolo.dart';
 import 'Resposta.dart';
@@ -49,7 +51,7 @@ class Atividade {
         respostaAtividade = new CaracteristicaSolo(object.getResposta1(), object.getResposta2(), object.getResposta3(), object.getResposta4());
         break;
       case 3:
-        //respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaInteracao(object.getResposta1(), object.getResposta2());
         break;
       case 4:
         //respostaAtividade = new CaracteristicaFoto();
@@ -70,7 +72,7 @@ class Atividade {
         //respostaAtividade = new CaracteristicaFoto();
         break;
       case 10:
-        //respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaAudio(object.getDescricao());
         break;
       case 11:
         // respostaAtividade = new CaracteristicaFoto();
