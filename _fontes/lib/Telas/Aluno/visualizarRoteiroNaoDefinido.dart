@@ -134,7 +134,7 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                       ),
                       onPressed: () {
                         Atividade atividade = new Atividade();
-
+                        atividade.setNomeAtividade("Pergunta personalizada");
                         atividade.setId(-1);
                         chamaTelaCadastrarNovaPergunta(context, atividade);
                       },
@@ -148,7 +148,7 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                       textColor: Colors.white,
                       child: Text("Finalizar atividade"),
                       onPressed: () {
-                        chamaTelaObjEspecificos(context, widget._objEspecifico);
+                        chamaTelaObjEspecificos(context);
                       },
                     ),
                   ),
@@ -163,14 +163,16 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
 
   List<ListTile> getListItems() => widget._objEspecifico.getRoteiro().getListaAtividade().asMap().map((index, atividade) => MapEntry(index, geraLista(atividade, index))).values.toList();
 
-  ListTile geraLista(Atividade atividade, int index) => ListTile(key: ValueKey(atividade), title: Text(atividade.getNomeAtividade()), leading: Text("#${index + 1}"), dense: true);
+  ListTile geraLista(Atividade atividade, int index) =>
+      ListTile(key: ValueKey(atividade), title: Text(atividade.getNomeAtividade().isNotEmpty ? atividade.getNomeAtividade() : "Pergunta Personalizada"), leading: Text("#${index + 1}"), dense: true);
 
-  void chamaTelaObjEspecificos(BuildContext context, ObjEspecifico objEspecifico) {
-    Navigator.pop(context, objEspecifico);
+  void chamaTelaObjEspecificos(BuildContext context) {
+    Navigator.pop(context);
   }
 
   void chamaTelaCadastrarNovaPergunta(BuildContext context, Atividade atividade) async {
-    Atividade perguntaNova = await Util.escolheAtividadeCorreta(context, atividade);
+    Atividade perguntaNova = new Atividade();
+    perguntaNova = await Util.escolheAtividadeCorreta(context, atividade);
     widget._objEspecifico.getRoteiro().adicionaAtividade(perguntaNova);
     setState(() {});
   }

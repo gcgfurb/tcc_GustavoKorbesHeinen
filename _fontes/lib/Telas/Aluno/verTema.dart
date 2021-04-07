@@ -103,12 +103,13 @@ class VerTema extends State<ClasseVerTema> {
       ),
     );
   }
-}
 
-void chamaTelaRealizarAtividades(context, ObjEspecifico _objEspecifico) {
-  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroDefinido(_objEspecifico)));
-}
+  void chamaTelaRealizarAtividades(context, ObjEspecifico _objEspecifico) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroDefinido(_objEspecifico)));
+  }
 
-void chamaTelaNovoObjEspecifico(context, Tema _tema) {
-  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseObjEspecifico(_tema)));
+  void chamaTelaNovoObjEspecifico(context, Tema _tema) async {
+    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseObjEspecifico(_tema)));
+    setState(() {});
+  }
 }

@@ -1,29 +1,38 @@
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaPersonalizada.dart';
 import 'package:flutter/material.dart';
+import 'package:TCC_II/Classes/Atividade.dart';
 
-class ClasseCadastrarNovaPergunta extends StatefulWidget {
+class ClasseNovaPergunta extends StatefulWidget {
+  Atividade _atividade = new Atividade();
+  ClasseNovaPergunta(this._atividade);
+
   @override
   CadastrarNovaPergunta createState() => CadastrarNovaPergunta();
 }
 
-class CadastrarNovaPergunta extends State<ClasseCadastrarNovaPergunta> {
-  TextEditingController _perguntaTexto;
-  TextEditingController _respostaTexto;
-  FocusNode _focusNodePergunta;
-  FocusNode _focusNodeResposta;
+class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
+  TextEditingController _tecPergunta = new TextEditingController();
+  TextEditingController _tecResposta = new TextEditingController();
+  FocusNode _fnPergunta;
+  FocusNode _fnResposta;
 
-  @override
   void initState() {
     super.initState();
-    _perguntaTexto = new TextEditingController();
-    _respostaTexto = new TextEditingController();
-    _focusNodePergunta = FocusNode();
-    _focusNodeResposta = FocusNode();
+    dynamic pergunta = widget._atividade.respostaAtividade;
+
+    if (pergunta != null) {
+      _tecPergunta.text = pergunta.getPergunta();
+      _tecResposta.text = pergunta.getResposta();
+    }
+
+    _fnPergunta = FocusNode();
+    _fnResposta = FocusNode();
   }
 
   @override
   void dispose() {
-    _focusNodePergunta.dispose();
-    _focusNodeResposta.dispose();
+    _fnPergunta.dispose();
+    _fnResposta.dispose();
     super.dispose();
   }
 
@@ -40,25 +49,26 @@ class CadastrarNovaPergunta extends State<ClasseCadastrarNovaPergunta> {
             Padding(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
               child: TextField(
-                focusNode: _focusNodePergunta,
-                controller: _perguntaTexto,
+                focusNode: _fnPergunta,
+                controller: _tecPergunta,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Digite a sua pergunta*',
-                  hintText: 'Escreva uma pergunta nova*',
+                  hintText: 'Qual é a cor da terra?',
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
               child: TextField(
-                focusNode: _focusNodeResposta,
-                controller: _respostaTexto,
+                focusNode: _fnResposta,
+                controller: _tecResposta,
                 autofocus: false,
                 maxLength: 150,
                 maxLines: 8,
                 decoration: InputDecoration(
-                  hintText: 'Objetivo geral da atividade de campo',
+                  labelText: 'Resposta da sua pergunta*',
+                  hintText: 'Azul, Preta, Marrom',
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     borderSide: BorderSide(color: Colors.grey),
@@ -83,9 +93,16 @@ class CadastrarNovaPergunta extends State<ClasseCadastrarNovaPergunta> {
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                       color: Colors.green[500],
                       textColor: Colors.white,
-                      child: Text("Cancelar atividade"),
+                      child: Text("Cadastrar atividade"),
                       onPressed: () {
-                        chamaTelaVisualizarRoteiroNaoDefinido(context, _perguntaTexto.text);
+                        if (_tecPergunta.text.isEmpty)
+                          _fnPergunta.requestFocus();
+                        else if (_tecResposta.text.isEmpty)
+                          _fnResposta.requestFocus();
+                        else {
+                          widget._atividade.adicionaResposta(CaracteristicaPersonalizada(_tecPergunta.text, _tecResposta.text));
+                          Navigator.pop(context, widget._atividade);
+                        }
                       },
                     ),
                   ),
@@ -97,15 +114,9 @@ class CadastrarNovaPergunta extends State<ClasseCadastrarNovaPergunta> {
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                       color: Colors.green[500],
                       textColor: Colors.white,
-                      child: Text("Cadastrar atividade"),
+                      child: Text("Cancelar atividade"),
                       onPressed: () {
-                        if (_perguntaTexto.text.isEmpty)
-                          _focusNodePergunta.requestFocus();
-                        else if (_respostaTexto.text.isEmpty)
-                          _focusNodeResposta.requestFocus();
-                        else {
-                          chamaTelaVisualizarRoteiroNaoDefinido(context, _perguntaTexto.text);
-                        }
+                        Navigator.pop(context);
                       },
                     ),
                   ),
@@ -116,9 +127,5 @@ class CadastrarNovaPergunta extends State<ClasseCadastrarNovaPergunta> {
         ),
       ),
     );
-  }
-
-  chamaTelaVisualizarRoteiroNaoDefinido(BuildContext context, String sPergunta) {
-    Navigator.pop(context);
   }
 }

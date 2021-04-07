@@ -126,7 +126,7 @@ class Solo extends State<ClasseSolo> {
                       child: Text("Gravar"),
                       onPressed: () {
                         widget._atividade.adicionaResposta(CaracteristicaSolo(_tecResposta1.text, _tecResposta2.text, _tecResposta3.text, _tecResposta4.text));
-                        Navigator.pop(context, widget._atividade);
+                        return Navigator.pop(context, widget._atividade);
                       }),
                 ),
                 Container(
@@ -137,7 +137,7 @@ class Solo extends State<ClasseSolo> {
                       textColor: Colors.white,
                       child: Text("Cancelar"),
                       onPressed: () {
-                        Navigator.pop(context);
+                        return Navigator.pop(context);
                       }),
                 ),
               ],

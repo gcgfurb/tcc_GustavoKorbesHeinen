@@ -1,3 +1,4 @@
+import 'package:TCC_II/Telas/Aluno/cadastrarNovaPergunta.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Audio.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Foto.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Solo.dart';
@@ -109,7 +110,6 @@ class Util {
       case 2:
         Atividade atividade2 = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSolo(atividade)));
         return atividade2;
-        break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseInteracao(atividade)));
         break;
@@ -162,8 +162,8 @@ class Util {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
         break;
       default:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
-        break;
+        Atividade atividadeDefault = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseNovaPergunta(atividade)));
+        return atividadeDefault;
     }
   }
 }

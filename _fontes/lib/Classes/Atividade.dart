@@ -1,3 +1,4 @@
+import 'Caracteristicas/CaracteristicaPersonalizada.dart';
 import 'Caracteristicas/CaracteristicaInteracao.dart';
 import 'Caracteristicas/CaracteristicaAudio.dart';
 import 'Caracteristicas/CaracteristicaFoto.dart';
@@ -11,8 +12,8 @@ class Atividade {
   Resposta respostaAtividade;
 
   Atividade() {
-    _nomeAtividade = '';
-    _descricao = '';
+    _nomeAtividade = "";
+    _descricao = "";
   }
 
   void setId(int id) {
@@ -102,7 +103,7 @@ class Atividade {
         //respostaAtividade = new CaracteristicaFoto();
         break;
       default:
-        respostaAtividade = null;
+        respostaAtividade = new CaracteristicaPersonalizada(object.getPergunta(), object.getResposta());
     }
   }
 }
