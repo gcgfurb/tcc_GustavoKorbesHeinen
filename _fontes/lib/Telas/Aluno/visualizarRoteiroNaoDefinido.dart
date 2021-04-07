@@ -1,19 +1,42 @@
+import 'package:TCC_II/Classes/Roteiro.dart';
+import 'package:TCC_II/Classes/Util.dart';
+import 'package:TCC_II/Telas/Professor/cadastraNovaAtividade.dart';
 import 'package:flutter/material.dart';
-import 'package:TCC_II/Telas/Aluno/verTema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
-
-import 'cadastrarNovaPergunta.dart';
+import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:TCC_II/Telas/Professor/visualizaAtividade.dart';
 
 class ClasseRoteiroNaoDefinido extends StatefulWidget {
   ObjEspecifico _objEspecifico = new ObjEspecifico();
   ClasseRoteiroNaoDefinido(this._objEspecifico);
 
   @override
-  VisualizarRoteiroNaoDefinido createState() => VisualizarRoteiroNaoDefinido();
+  CadastrarRoteiroNaoDefinido createState() => CadastrarRoteiroNaoDefinido();
 }
 
-class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
-  List<String> listaRoteiroPergunta = new List();
+class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
+  List<String> _listCaracteristicas = [
+    'Foto',
+    'Medida',
+    'Solo',
+    'Interação',
+    'Área desmatada',
+    'Vídeo',
+    'Característica',
+    'Lupa',
+    'Vivência',
+    'Mosquito',
+    'Áudio',
+    'Teste',
+    'Desenhar',
+    'Ficha Coleta',
+    'Lixo',
+    'Sons da Natureza',
+    'Localização',
+    'Produção de Material',
+    'Outra intervenção',
+    'Plantar'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -48,71 +71,84 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
               flex: 4,
               child: Row(
                 children: <Widget>[
-                  if (widget._objEspecifico.getRoteiro().getQtdAtividades() > 0)
-                    Expanded(
-                      flex: 2,
-                      child: GridView.count(
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        crossAxisCount: 4,
-                        scrollDirection: Axis.vertical,
-                        primary: false,
-                        children: List.generate(widget._objEspecifico.getRoteiro().getQtdAtividades(), (index) {
-                          return RaisedButton(
-                            color: Colors.green[500],
-                            textColor: Colors.white,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  widget._objEspecifico.getRoteiro().getAtividade(index).getNomeAtividade(),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                            onPressed: () {
-                              inserirPerguntaNaCaixa(context, widget._objEspecifico.getRoteiro().getAtividade(index).getDescricao());
-                            },
-                          );
-                        }),
-                      ),
-                    ),
                   Expanded(
-                    child: ListView(
-                      children: getListItems(),
+                    flex: 2,
+                    child: GridView.count(
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10,
+                      crossAxisCount: 3,
+                      scrollDirection: Axis.vertical,
+                      primary: false,
+                      children: List.generate(_listCaracteristicas.length, (index) {
+                        return RaisedButton(
+                          color: Colors.green[500],
+                          textColor: Colors.white,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                _listCaracteristicas[index],
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                          onPressed: () {
+                            Atividade atividade = new Atividade();
+                            atividade.setNomeAtividade(_listCaracteristicas[index]);
+                            atividade.setId(index);
+                            chamaTelaCadastrarNovaPergunta(context, atividade);
+                          },
+                        );
+                      }),
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Expanded(
+                          child: ListView(
+                            children: getListItems(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            Container(
+            Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 5, 5, 5),
+                    height: 100,
+                    padding: EdgeInsets.all(5),
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                       color: Colors.green[500],
                       textColor: Colors.white,
                       child: Text(
-                        "Cadastrar nova pergunta",
+                        "Cadastrar outra pergunta",
                         textAlign: TextAlign.justify,
                       ),
                       onPressed: () {
-                        chamaTelaCadastrarNovaPergunta(context);
+                        Atividade atividade = new Atividade();
+
+                        atividade.setId(-1);
+                        chamaTelaCadastrarNovaPergunta(context, atividade);
                       },
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+                    height: 100,
+                    padding: EdgeInsets.all(5),
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
                       color: Colors.green[500],
                       textColor: Colors.white,
-                      child: Text("Voltar"),
+                      child: Text("Finalizar atividade"),
                       onPressed: () {
-                        chamaTelaObjEspecificos(context);
+                        chamaTelaObjEspecificos(context, widget._objEspecifico);
                       },
                     ),
                   ),
@@ -125,26 +161,17 @@ class VisualizarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
     );
   }
 
-  List<ListTile> getListItems() => listaRoteiroPergunta.asMap().map((index, item) => MapEntry(index, geraLista(item, index))).values.toList();
+  List<ListTile> getListItems() => widget._objEspecifico.getRoteiro().getListaAtividade().asMap().map((index, atividade) => MapEntry(index, geraLista(atividade, index))).values.toList();
 
-  ListTile geraLista(String item, int index) => ListTile(
-        key: ValueKey(item),
-        title: Text(item),
-        leading: Text("#${index + 1}"),
-        dense: true,
-      );
+  ListTile geraLista(Atividade atividade, int index) => ListTile(key: ValueKey(atividade), title: Text(atividade.getNomeAtividade()), leading: Text("#${index + 1}"), dense: true);
 
-  void inserirPerguntaNaCaixa(BuildContext context, String sPergunta) {
-    setState(() {
-      listaRoteiroPergunta.add(sPergunta);
-    });
+  void chamaTelaObjEspecificos(BuildContext context, ObjEspecifico objEspecifico) {
+    Navigator.pop(context, objEspecifico);
   }
 
-  void chamaTelaCadastrarNovaPergunta(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseCadastrarNovaPergunta()));
-  }
-
-  void chamaTelaObjEspecificos(BuildContext context) {
-    Navigator.pop(context);
+  void chamaTelaCadastrarNovaPergunta(BuildContext context, Atividade atividade) async {
+    Atividade perguntaNova = await Util.escolheAtividadeCorreta(context, atividade);
+    widget._objEspecifico.getRoteiro().adicionaAtividade(perguntaNova);
+    setState(() {});
   }
 }

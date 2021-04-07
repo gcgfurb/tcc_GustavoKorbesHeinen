@@ -1,7 +1,10 @@
+import 'package:TCC_II/Telas/Aluno/cadastrarObjEspecifico.dart';
 import 'package:TCC_II/Telas/Aluno/visualizarRoteiroDefinido.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
+
+import 'visualizarRoteiroNaoDefinido.dart';
 
 class ClasseVerTema extends StatefulWidget {
   Tema _tema = new Tema();
@@ -88,7 +91,9 @@ class VerTema extends State<ClasseVerTema> {
                       color: Colors.green[500],
                       textColor: Colors.white,
                       child: Text("Cadastrar novo Objetivo Específico"),
-                      onPressed: () {},
+                      onPressed: () {
+                        chamaTelaNovoObjEspecifico(context, widget._tema);
+                      },
                     ),
                   ),
               ],
@@ -102,4 +107,8 @@ class VerTema extends State<ClasseVerTema> {
 
 void chamaTelaRealizarAtividades(context, ObjEspecifico _objEspecifico) {
   Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroDefinido(_objEspecifico)));
+}
+
+void chamaTelaNovoObjEspecifico(context, Tema _tema) {
+  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseObjEspecifico(_tema)));
 }

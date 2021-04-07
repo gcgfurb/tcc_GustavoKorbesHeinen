@@ -50,7 +50,7 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
                   textColor: Colors.white,
                   child: Text("Em grupo"),
                   onPressed: () {
-                    Tema _tema = criaTema();
+                    Tema _tema = new Tema(); //criaTema();
                     chamaTelaEmGrupo(context, _tema);
                   },
                 ),

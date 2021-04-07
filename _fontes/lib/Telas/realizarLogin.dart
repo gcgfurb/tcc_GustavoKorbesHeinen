@@ -35,7 +35,7 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
                   chamaAPIGoogle(context, widget.bProfessor);
                 },
               ),
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 80),
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 70),
             ),
             Text("Caso você não tenha conta na Google, faça seu cadastro."),
           ],

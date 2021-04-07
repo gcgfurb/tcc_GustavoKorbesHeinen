@@ -1,12 +1,12 @@
+import 'package:TCC_II/Telas/Aluno/visualizarRoteiroNaoDefinido.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:TCC_II/Classes/Tema.dart';
-import 'cadastrarRoteiro.dart';
 
 class ClasseObjEspecifico extends StatefulWidget {
-  Tema _tema = new Tema();
-  ClasseObjEspecifico(this._tema);
+  Tema temaAtual = new Tema();
+  ClasseObjEspecifico(this.temaAtual);
 
   @override
   CadastrarObjEspecificos createState() => CadastrarObjEspecificos();
@@ -78,13 +78,13 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
             ),
             Flexible(
               child: ListView.builder(
-                  itemCount: widget._tema.getListaObjEspecifico().length,
+                  itemCount: widget.temaAtual.getListaObjEspecifico().length,
                   itemBuilder: (context, index) {
                     return Container(
                       color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                       child: ListTile(
                         leading: Icon(Icons.bookmarks),
-                        title: Text(widget._tema.getObjEspecifico(index).getObjetivo()),
+                        title: Text(widget.temaAtual.getObjEspecifico(index).getObjetivo()),
                         dense: true,
                         trailing: Wrap(
                           spacing: 12,
@@ -93,9 +93,9 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                               padding: EdgeInsets.symmetric(horizontal: 10),
                               color: Colors.green[500],
                               textColor: Colors.white,
-                              child: Text("Cadastrar Roteiro"),
+                              child: Text("Cadastrar Pergunta"),
                               onPressed: () {
-                                chamaTelaCadastrarRoteiro(context, widget._tema.getObjEspecifico(index));
+                                chamaTelaCadastrarRoteiro(context, widget.temaAtual.getObjEspecifico(index));
                               },
                             ),
                             IconButton(
@@ -114,20 +114,19 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                     );
                   }),
             ),
-            if (widget._tema.getListaObjEspecifico().length > 0 && widget._tema.getObjEspecifico(0).getRoteiro().getQtdAtividades() > 0)
-              Container(
-                alignment: Alignment.bottomRight,
-                padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
-                child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-                  color: Colors.green[500],
-                  textColor: Colors.white,
-                  child: Text("Finalizar Cadastro de Objetivos"),
-                  onPressed: () {
-                    chamaTelaCadastrarTema(context, widget._tema);
-                  },
-                ),
+            Container(
+              alignment: Alignment.bottomRight,
+              padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+              child: RaisedButton(
+                padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                color: Colors.green[500],
+                textColor: Colors.white,
+                child: Text("Finalizar Cadastro de Objetivos"),
+                onPressed: () {
+                  chamaTelaCadastrarTema(context, widget.temaAtual);
+                },
               ),
+            ),
           ],
         ),
       ),
@@ -160,20 +159,20 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
 
   void excluirObjetivo(int index) {
     setState(() {
-      widget._tema.removeObjEspecifico(index);
+      widget.temaAtual.removeObjEspecifico(index);
     });
   }
 
   void cadastrarObjetivo() {
     ObjEspecifico obj = new ObjEspecifico();
     obj.setObjetivo(objTexto.text);
-    widget._tema.adicionaObjEspecifico(obj);
+    widget.temaAtual.adicionaObjEspecifico(obj);
     objTexto.clear();
     setState(() {});
   }
 
-  void chamaTelaCadastrarRoteiro(BuildContext context, ObjEspecifico objEspecifico) async {
-    objEspecifico = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiro(objEspecifico)));
+  void chamaTelaCadastrarRoteiro(BuildContext context, ObjEspecifico _objEspecifico) async {
+    _objEspecifico = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroNaoDefinido(_objEspecifico)));
     setState(() {});
   }
 }

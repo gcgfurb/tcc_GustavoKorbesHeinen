@@ -98,7 +98,7 @@ class Util {
       return -1;
   }
 
-  static void escolheAtividadeCorreta(BuildContext context, Atividade atividade) {
+  static Future<Atividade> escolheAtividadeCorreta(BuildContext context, Atividade atividade) async {
     switch (atividade.getId()) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
@@ -107,7 +107,8 @@ class Util {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
         break;
       case 2:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSolo(atividade)));
+        Atividade atividade2 = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSolo(atividade)));
+        return atividade2;
         break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseInteracao(atividade)));
