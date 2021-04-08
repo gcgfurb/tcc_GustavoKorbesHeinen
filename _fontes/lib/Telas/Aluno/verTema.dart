@@ -1,10 +1,9 @@
 import 'package:TCC_II/Telas/Aluno/cadastrarObjEspecifico.dart';
 import 'package:TCC_II/Telas/Aluno/visualizarRoteiroDefinido.dart';
+import 'package:TCC_II/Telas/Aluno/visualizarRoteiroNaoDefinido.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
-
-import 'visualizarRoteiroNaoDefinido.dart';
 
 class ClasseVerTema extends StatefulWidget {
   Tema _tema = new Tema();
@@ -104,8 +103,13 @@ class VerTema extends State<ClasseVerTema> {
     );
   }
 
-  void chamaTelaRealizarAtividades(context, ObjEspecifico _objEspecifico) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroDefinido(_objEspecifico)));
+  void chamaTelaRealizarAtividades(context, ObjEspecifico _objEspecifico) async {
+    if (_objEspecifico.getRoteiro().getQtdAtividades() > 0) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroDefinido(_objEspecifico)));
+    } else {
+      await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroNaoDefinido(_objEspecifico)));
+      setState(() {});
+    }
   }
 
   void chamaTelaNovoObjEspecifico(context, Tema _tema) async {

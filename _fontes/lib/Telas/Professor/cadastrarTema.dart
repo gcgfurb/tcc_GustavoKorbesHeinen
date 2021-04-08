@@ -131,7 +131,7 @@ class CadastrarTema extends State<ClasseTema> {
     widget.tema.setTema(_tecTema.text);
     widget.tema.setDescricao(_tecDescricao.text);
 
-    Navigator.pop(context, widget.tema);
+    Navigator.pop(context);
   }
 
   bool validaCampos() {

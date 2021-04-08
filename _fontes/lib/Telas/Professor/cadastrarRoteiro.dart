@@ -219,7 +219,6 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
               setState(() {
                 widget.objEspecifico.getRoteiro().removeAtividade(idx);
               });
-
               Navigator.pop(context);
             },
           ),

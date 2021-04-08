@@ -13,7 +13,7 @@ class ClasseCadastrarGrupo extends StatefulWidget {
 }
 
 class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
-  List<Pessoa> _participantes = new List();
+  List<Pessoa> _participantes = [];
   int _index = 0;
   TextEditingController _participanteTexto = new TextEditingController();
 

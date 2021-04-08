@@ -9,7 +9,7 @@ class Tema {
   Tema() {
     _tema = '';
     _descricao = '';
-    _objEspecificos = new List();
+    _objEspecificos = [];
     _roteiroDefinido = false;
   }
 

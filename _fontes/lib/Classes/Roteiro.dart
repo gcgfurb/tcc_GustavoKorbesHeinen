@@ -5,7 +5,7 @@ class Roteiro {
   bool _ordenado;
 
   Roteiro() {
-    _atividades = new List();
+    _atividades = [];
     _ordenado = false;
   }
 

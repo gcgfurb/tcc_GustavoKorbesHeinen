@@ -117,7 +117,7 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                 textColor: Colors.white,
                 child: Text("Finalizar Cadastro de Objetivos"),
                 onPressed: () {
-                  chamaTelaCadastrarTema(context, widget.tema);
+                  chamaTelaCadastrarTema(context);
                 },
               ),
             ),
@@ -180,6 +180,6 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
   }
 }
 
-void chamaTelaCadastrarTema(BuildContext context, Tema temaAtual) {
-  Navigator.pop(context, temaAtual);
+void chamaTelaCadastrarTema(BuildContext context) {
+  Navigator.pop(context);
 }
