@@ -41,7 +41,7 @@ class TelaInicial extends State<ClasseTelaInicial> {
                   color: Colors.green[500],
                   child: Text("Sou Aluno"),
                   onPressed: () {
-                    bool bProfessor = false;
+                    bProfessor = false;
                     chamaTelaLogin(context, bProfessor);
                   },
                 ),

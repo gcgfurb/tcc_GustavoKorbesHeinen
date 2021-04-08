@@ -5,27 +5,26 @@ import 'package:TCC_II/Classes/Tema.dart';
 import 'cadastrarRoteiro.dart';
 
 class ClasseObjEspecifico extends StatefulWidget {
-  Tema _tema = new Tema();
-  ClasseObjEspecifico(this._tema);
+  Tema tema = new Tema();
+  ClasseObjEspecifico(this.tema);
 
   @override
   CadastrarObjEspecificos createState() => CadastrarObjEspecificos();
 }
 
 class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
-  TextEditingController objTexto = new TextEditingController();
-
-  FocusNode focusNodeObj;
+  TextEditingController _tecObjetivo = new TextEditingController();
+  FocusNode _fnObjetivo;
 
   @override
   void initState() {
     super.initState();
-    focusNodeObj = FocusNode();
+    _fnObjetivo = FocusNode();
   }
 
   @override
   void dispose() {
-    focusNodeObj.dispose();
+    _fnObjetivo.dispose();
     super.dispose();
   }
 
@@ -46,8 +45,8 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(15, 0, 5, 0),
                     child: TextField(
-                      focusNode: focusNodeObj,
-                      controller: objTexto,
+                      focusNode: _fnObjetivo,
+                      controller: _tecObjetivo,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Cadastrar Objetivo',
@@ -60,31 +59,26 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(5, 0, 15, 0),
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.green[500],
-                      textColor: Colors.white,
-                      child: Text("Cadastrar Objetivo"),
-                      onPressed: () {
-                        if (objTexto.text.isEmpty) {
-                          focusNodeObj.requestFocus();
-                        } else {
-                          cadastrarObjetivo();
-                        }
-                      },
-                    ),
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        color: Colors.green[500],
+                        textColor: Colors.white,
+                        child: Text("Cadastrar Objetivo"),
+                        onPressed: () {
+                          if (validaCampos()) cadastrarObjetivo();
+                        }),
                   ),
                 ),
               ],
             ),
             Flexible(
               child: ListView.builder(
-                  itemCount: widget._tema.getListaObjEspecifico().length,
+                  itemCount: widget.tema.getListaObjEspecifico().length,
                   itemBuilder: (context, index) {
                     return Container(
                       color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                       child: ListTile(
                         leading: Icon(Icons.bookmarks),
-                        title: Text(widget._tema.getObjEspecifico(index).getObjetivo()),
+                        title: Text(widget.tema.getObjEspecifico(index).getObjetivo()),
                         dense: true,
                         trailing: Wrap(
                           spacing: 12,
@@ -95,7 +89,7 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                               textColor: Colors.white,
                               child: Text("Cadastrar Roteiro"),
                               onPressed: () {
-                                chamaTelaCadastrarRoteiro(context, widget._tema.getObjEspecifico(index));
+                                chamaTelaCadastrarRoteiro(context, widget.tema.getObjEspecifico(index));
                               },
                             ),
                             IconButton(
@@ -114,20 +108,19 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                     );
                   }),
             ),
-            if (widget._tema.getListaObjEspecifico().length > 0 && widget._tema.getObjEspecifico(0).getRoteiro().getQtdAtividades() > 0)
-              Container(
-                alignment: Alignment.bottomRight,
-                padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
-                child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-                  color: Colors.green[500],
-                  textColor: Colors.white,
-                  child: Text("Finalizar Cadastro de Objetivos"),
-                  onPressed: () {
-                    chamaTelaCadastrarTema(context, widget._tema);
-                  },
-                ),
+            Container(
+              alignment: Alignment.bottomRight,
+              padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+              child: RaisedButton(
+                padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                color: Colors.green[500],
+                textColor: Colors.white,
+                child: Text("Finalizar Cadastro de Objetivos"),
+                onPressed: () {
+                  chamaTelaCadastrarTema(context, widget.tema);
+                },
               ),
+            ),
           ],
         ),
       ),
@@ -160,21 +153,30 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
 
   void excluirObjetivo(int index) {
     setState(() {
-      widget._tema.removeObjEspecifico(index);
+      widget.tema.removeObjEspecifico(index);
     });
   }
 
   void cadastrarObjetivo() {
     ObjEspecifico obj = new ObjEspecifico();
-    obj.setObjetivo(objTexto.text);
-    widget._tema.adicionaObjEspecifico(obj);
-    objTexto.clear();
+    obj.setObjetivo(_tecObjetivo.text);
+    widget.tema.adicionaObjEspecifico(obj);
+    _tecObjetivo.clear();
     setState(() {});
   }
 
   void chamaTelaCadastrarRoteiro(BuildContext context, ObjEspecifico objEspecifico) async {
-    objEspecifico = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiro(objEspecifico)));
+    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiro(objEspecifico)));
     setState(() {});
+  }
+
+  bool validaCampos() {
+    if (_tecObjetivo.text.isEmpty) {
+      _fnObjetivo.requestFocus();
+      return false;
+    }
+
+    return true;
   }
 }
 

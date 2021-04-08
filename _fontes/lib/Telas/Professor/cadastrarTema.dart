@@ -3,32 +3,32 @@ import 'package:TCC_II/Classes/Tema.dart';
 import 'cadastrarObjEspecificos.dart';
 
 class ClasseTema extends StatefulWidget {
-  Tema temaAtual = new Tema();
-  ClasseTema(this.temaAtual);
+  Tema tema = new Tema();
+  ClasseTema(this.tema);
 
   @override
   CadastrarTema createState() => CadastrarTema();
 }
 
 class CadastrarTema extends State<ClasseTema> {
-  TextEditingController temaTexto;
-  TextEditingController descricaoTexto;
-  FocusNode focusNodeTema;
-  FocusNode focusNodeDescricao;
+  TextEditingController _tecTema;
+  TextEditingController _tecDescricao;
+  FocusNode _fnTema;
+  FocusNode _fnDescricao;
 
   @override
   void initState() {
     super.initState();
-    temaTexto = new TextEditingController(text: widget.temaAtual.getTema());
-    descricaoTexto = new TextEditingController(text: widget.temaAtual.getDescricao());
-    focusNodeTema = FocusNode();
-    focusNodeDescricao = FocusNode();
+    _tecTema = new TextEditingController(text: widget.tema.getTema());
+    _tecDescricao = new TextEditingController(text: widget.tema.getDescricao());
+    _fnTema = FocusNode();
+    _fnDescricao = FocusNode();
   }
 
   @override
   void dispose() {
-    focusNodeTema.dispose();
-    focusNodeDescricao.dispose();
+    _fnTema.dispose();
+    _fnDescricao.dispose();
     super.dispose();
   }
 
@@ -45,24 +45,25 @@ class CadastrarTema extends State<ClasseTema> {
             Padding(
               padding: EdgeInsets.all(15),
               child: TextField(
-                focusNode: focusNodeTema,
-                controller: temaTexto,
+                focusNode: _fnTema,
+                controller: _tecTema,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Cadastrar Tema*',
-                  hintText: 'Digite um Tema*',
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
               child: TextField(
-                focusNode: focusNodeDescricao,
-                controller: descricaoTexto,
+                focusNode: _fnDescricao,
+                controller: _tecDescricao,
                 maxLength: 150,
                 maxLines: 7,
                 decoration: InputDecoration(
-                  hintText: 'Objetivo geral da atividade de campo*',
+                  labelText: 'Objetivo geral da atividade de campo*',
+                  hintText: 'Procurar árvore araucária',
+                  alignLabelWithHint: true,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     borderSide: BorderSide(color: Colors.grey),
@@ -91,12 +92,7 @@ class CadastrarTema extends State<ClasseTema> {
                           textAlign: TextAlign.center,
                         ),
                         onPressed: () {
-                          if (temaTexto.text.isEmpty)
-                            focusNodeTema.requestFocus();
-                          else if (descricaoTexto.text.isEmpty)
-                            focusNodeDescricao.requestFocus();
-                          else
-                            chamaTelaCadastrarObjetivosEspecificos(context, widget.temaAtual);
+                          if (validaCampos()) chamaTelaCadastrarObjetivosEspecificos(context, widget.tema);
                         },
                       ),
                     ),
@@ -112,12 +108,7 @@ class CadastrarTema extends State<ClasseTema> {
                           textAlign: TextAlign.center,
                         ),
                         onPressed: () {
-                          if (temaTexto.text.isEmpty)
-                            focusNodeTema.requestFocus();
-                          else if (descricaoTexto.text.isEmpty)
-                            focusNodeDescricao.requestFocus();
-                          else
-                            finalizarTemaGerarQRCode();
+                          if (validaCampos()) finalizarTemaGerarQRCode();
                         },
                       ),
                     ),
@@ -131,15 +122,27 @@ class CadastrarTema extends State<ClasseTema> {
     );
   }
 
-  void chamaTelaCadastrarObjetivosEspecificos(BuildContext context, Tema temaAtual) async {
-    widget.temaAtual = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseObjEspecifico(temaAtual)));
+  void chamaTelaCadastrarObjetivosEspecificos(BuildContext context, Tema tema) async {
+    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseObjEspecifico(tema)));
     setState(() {});
   }
 
   void finalizarTemaGerarQRCode() {
-    widget.temaAtual.setTema(temaTexto.text);
-    widget.temaAtual.setDescricao(descricaoTexto.text);
+    widget.tema.setTema(_tecTema.text);
+    widget.tema.setDescricao(_tecDescricao.text);
 
-    Navigator.pop(context, widget.temaAtual);
+    Navigator.pop(context, widget.tema);
+  }
+
+  bool validaCampos() {
+    if (_tecTema.text.isEmpty) {
+      _fnTema.requestFocus();
+      return false;
+    } else if (_tecDescricao.text.isEmpty) {
+      _fnDescricao.requestFocus();
+      return false;
+    }
+
+    return true;
   }
 }

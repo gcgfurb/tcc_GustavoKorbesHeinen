@@ -74,8 +74,9 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
     );
   }
 
-  void buscaAtividades(context, Atividade atividade) {
-    Util.escolheAtividadeCorreta(context, atividade);
+  void buscaAtividades(context, Atividade atividade) async {
+    await Util.escolheAtividadeCorreta(context, atividade);
+    setState(() {});
   }
 
   void chamaTelaObjEspecificos(BuildContext context) {

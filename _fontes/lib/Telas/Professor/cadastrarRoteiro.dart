@@ -1,4 +1,5 @@
 import 'package:TCC_II/Classes/Roteiro.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
@@ -6,8 +7,8 @@ import 'package:TCC_II/Telas/Professor/visualizaAtividade.dart';
 import 'cadastraNovaAtividade.dart';
 
 class ClasseRoteiro extends StatefulWidget {
-  ObjEspecifico _objEspecifico = new ObjEspecifico();
-  ClasseRoteiro(this._objEspecifico);
+  ObjEspecifico objEspecifico = new ObjEspecifico();
+  ClasseRoteiro(this.objEspecifico);
 
   @override
   CadastrarRoteiro createState() => CadastrarRoteiro();
@@ -51,9 +52,9 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                 Expanded(
                     flex: 6,
                     child: Text(
-                      'Objetivo: ' + widget._objEspecifico.getObjetivo(),
+                      'Objetivo: ' + widget.objEspecifico.getObjetivo(),
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 30),
+                      style: TextStyle(fontSize: 20),
                     )),
                 Expanded(
                   child: RaisedButton(
@@ -75,7 +76,7 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                     child: GridView.count(
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      crossAxisCount: 3,
+                      crossAxisCount: 4,
                       scrollDirection: Axis.vertical,
                       primary: false,
                       children: List.generate(_listCaracteristicas.length, (index) {
@@ -92,7 +93,7 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                             ],
                           ),
                           onPressed: () {
-                            chamaTelaCadastrarNovaAtividade(context, widget._objEspecifico.getRoteiro(), _listCaracteristicas[index]);
+                            chamaTelaCadastrarNovaAtividade(context, widget.objEspecifico.getRoteiro(), _listCaracteristicas[index]);
                           },
                         );
                       }),
@@ -123,10 +124,10 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                       title: Text("Este roteiro deve ser realizado na ordem proposta"),
                       secondary: Icon(Icons.account_box_outlined),
                       controlAffinity: ListTileControlAffinity.leading,
-                      value: widget._objEspecifico.getRoteiro().getOrdenado(),
+                      value: widget.objEspecifico.getRoteiro().getOrdenado(),
                       onChanged: (bool value) {
                         setState(() {
-                          widget._objEspecifico.getRoteiro().setOrdenado(value);
+                          widget.objEspecifico.getRoteiro().setOrdenado(value);
                         });
                       },
                       activeColor: Colors.white,
@@ -144,7 +145,7 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                         textAlign: TextAlign.justify,
                       ),
                       onPressed: () {
-                        chamaTelaCadastrarNovaAtividade(context, widget._objEspecifico.getRoteiro(), "");
+                        chamaTelaCadastrarNovaAtividade(context, widget.objEspecifico.getRoteiro(), "");
                       },
                     ),
                   ),
@@ -156,7 +157,7 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                       textColor: Colors.white,
                       child: Text("Finalizar atividade"),
                       onPressed: () {
-                        chamaTelaObjEspecificos(context, widget._objEspecifico);
+                        Navigator.pop(context, widget.objEspecifico);
                       },
                     ),
                   ),
@@ -169,9 +170,20 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
     );
   }
 
-  List<ListTile> getListItems() => widget._objEspecifico.getRoteiro().getListaAtividade().asMap().map((index, atividade) => MapEntry(index, geraLista(atividade, index))).values.toList();
+  List<ListTile> getListItems() => widget.objEspecifico.getRoteiro().getListaAtividade().asMap().map((index, atividade) => MapEntry(index, geraLista(atividade, index))).values.toList();
 
-  ListTile geraLista(Atividade atividade, int index) => ListTile(key: ValueKey(atividade), title: Text(atividade.getDescricao()), leading: Text("#${index + 1}"), dense: true);
+  ListTile geraLista(Atividade atividade, int index) => ListTile(
+        key: ValueKey(atividade),
+        title: Text("#${index + 1} - " + atividade.getNomeAtividade() + " - " + atividade.getDescricao()),
+        contentPadding: EdgeInsets.fromLTRB(15, 0, 5, 0),
+        dense: true,
+        trailing: TextButton(
+          child: Icon(Icons.edit),
+          onPressed: () async {
+            chamaDialogAlterarExcluir(context, atividade, index);
+          },
+        ),
+      );
 
   void onReorder(int oldIndex, int newIndex) {
     if (newIndex > oldIndex) {
@@ -179,24 +191,45 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
     }
 
     setState(() {
-      Atividade atividade = widget._objEspecifico.getRoteiro().getAtividade(oldIndex);
+      Atividade atividade = widget.objEspecifico.getRoteiro().getAtividade(oldIndex);
 
-      widget._objEspecifico.getRoteiro().getListaAtividade().removeAt(oldIndex);
-      widget._objEspecifico.getRoteiro().getListaAtividade().insert(newIndex, atividade);
+      widget.objEspecifico.getRoteiro().getListaAtividade().removeAt(oldIndex);
+      widget.objEspecifico.getRoteiro().getListaAtividade().insert(newIndex, atividade);
     });
   }
 
-  void chamaTelaObjEspecificos(BuildContext context, ObjEspecifico objEspecifico) {
-    Navigator.pop(context, objEspecifico);
+  void chamaDialogAlterarExcluir(BuildContext context, Atividade atividade, int idx) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text("Ação"),
+        content: Text("Deseja alterar ou excluir a atividade: " + atividade.getNomeAtividade()),
+        actions: <Widget>[
+          CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text("Alterar"),
+              onPressed: () async {
+                await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVisualizaAtividade(atividade)));
+                Navigator.pop(context);
+                setState(() {});
+              }),
+          CupertinoDialogAction(
+            child: Text("Excluir"),
+            onPressed: () {
+              setState(() {
+                widget.objEspecifico.getRoteiro().removeAtividade(idx);
+              });
+
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   void chamaTelaCadastrarNovaAtividade(BuildContext context, Roteiro roteiro, String _caracteristica) async {
     await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAtividade(roteiro, _caracteristica)));
     setState(() {});
   }
-
-  void chamaTelaVisualizarAtividade(BuildContext context, Roteiro roteiro, String _caracteristica) async {
-    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVisualizaAtividade(roteiro, _caracteristica)));
-    setState(() {});
-  } //Ninguem chamando esse método por enquanto, nem a classe
 }

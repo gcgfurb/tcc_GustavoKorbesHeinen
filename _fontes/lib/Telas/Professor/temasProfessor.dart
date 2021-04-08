@@ -11,7 +11,7 @@ class ClasseProfessor extends StatefulWidget {
 }
 
 class TemasProfessor extends State<ClasseProfessor> {
-  List<Tema> _aTemas = carregaTemas();
+  List<Tema> _aTemas = [];
   int _index = 0;
 
   @override
@@ -41,9 +41,7 @@ class TemasProfessor extends State<ClasseProfessor> {
                       ),
                       color: Colors.green[300],
                       onPressed: () {
-                        setState(() {
-                          chamaTelaCadastrarTema(context, _aTemas[_index]);
-                        });
+                        chamaTelaCadastrarTema(context, _aTemas[_index]);
                       },
                     ),
                 ],
@@ -64,9 +62,7 @@ class TemasProfessor extends State<ClasseProfessor> {
                         child: Text("Cadastrar Novo Tema"),
                         onPressed: () {
                           _aTemas.add(new Tema());
-                          setState(() {
-                            chamaTelaCadastrarTema(context, _aTemas[_aTemas.length - 1]);
-                          });
+                          chamaTelaCadastrarTema(context, _aTemas[_aTemas.length - 1]);
                         },
                       ),
                     ),
@@ -133,7 +129,7 @@ class TemasProfessor extends State<ClasseProfessor> {
   }
 
   void chamaTelaCadastrarTema(BuildContext context, Tema tema) async {
-    tema = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseTema(tema)));
+    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseTema(tema)));
     setState(() {});
   }
 
@@ -144,18 +140,4 @@ class TemasProfessor extends State<ClasseProfessor> {
   void chamaTelaInicial(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseTelaInicial()));
   }
-
-  void abreQRCode() {}
-}
-
-List<Tema> carregaTemas() {
-  List<Tema> temas = new List();
-/*
-  for (int idx = 0; idx < 5; idx++) {
-    Tema temaAtual = new Tema();
-    temaAtual.SetDescricao("Teste" + idx.toString());
-    temas.add(temaAtual);
-  }
-*/
-  return temas;
 }

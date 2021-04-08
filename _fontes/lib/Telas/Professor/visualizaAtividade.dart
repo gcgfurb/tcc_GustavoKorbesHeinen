@@ -4,23 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 
 class ClasseVisualizaAtividade extends StatefulWidget {
-  Roteiro roteiro;
-  String _caracteristica;
-  ClasseVisualizaAtividade(this.roteiro, this._caracteristica);
+  Atividade atividade;
+  ClasseVisualizaAtividade(this.atividade);
 
   @override
   VisualizaAtividade createState() => VisualizaAtividade();
 }
 
 class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
-  TextEditingController _atividadeTexto;
-  TextEditingController _descricaoTexto;
+  TextEditingController _tecAtividade;
+  TextEditingController _tecDescricao;
 
   @override
   void initState() {
     super.initState();
-    _atividadeTexto = new TextEditingController(text: widget._caracteristica);
-    _descricaoTexto = new TextEditingController(text: "");
+    _tecAtividade = new TextEditingController(text: widget.atividade.getNomeAtividade());
+    _tecDescricao = new TextEditingController(text: widget.atividade.getDescricao());
   }
 
   @override
@@ -35,8 +34,8 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
           children: <Widget>[
             Expanded(
               child: TextField(
-                //   enabled: widget._atividade.getId() < 0,
-                controller: _atividadeTexto,
+                enabled: widget.atividade.getId() < 0,
+                controller: _tecAtividade,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Cadastrar Atividade',
@@ -50,7 +49,7 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
                 autofocus: false,
                 maxLength: 150,
                 maxLines: 7,
-                controller: _descricaoTexto,
+                controller: _tecDescricao,
                 decoration: InputDecoration(
                   hintText: 'Objetivo geral da atividade de campo*',
                   enabledBorder: OutlineInputBorder(
@@ -78,7 +77,7 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
                       textColor: Colors.white,
                       child: Text("Cancelar atividade"),
                       onPressed: () {
-                        chamaTelaRoteiro(context);
+                        Navigator.pop(context);
                       },
                     ),
                   ),
@@ -92,9 +91,9 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
                       textColor: Colors.white,
                       child: Text("Cadastrar atividade"),
                       onPressed: () {
-                        //    widget._atividade.setNomeAtividade(_atividadeTexto.text);
-                        //    widget._atividade.setDescricao(_descricaoTexto.text);
-                        chamaTelaRoteiro(context);
+                        widget.atividade.setNomeAtividade(_tecAtividade.text);
+                        widget.atividade.setDescricao(_tecDescricao.text);
+                        Navigator.pop(context);
                       },
                     ),
                   ),
@@ -105,9 +104,5 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
         ),
       ),
     );
-  }
-
-  void chamaTelaRoteiro(BuildContext context) {
-    Navigator.pop(context);
   }
 }

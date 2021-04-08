@@ -69,6 +69,7 @@ class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
                 decoration: InputDecoration(
                   labelText: 'Resposta da sua pergunta*',
                   hintText: 'Azul, Preta, Marrom',
+                  alignLabelWithHint: true,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     borderSide: BorderSide(color: Colors.grey),

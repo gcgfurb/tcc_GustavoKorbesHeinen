@@ -31,7 +31,7 @@ class AprendaAUsar extends State<ClasseAprendaUsar> {
                 textColor: Colors.white,
                 child: Text("Voltar"),
                 onPressed: () {
-                  chamaTelaInicial(context);
+                  Navigator.pop(context);
                 },
               ),
             ),
@@ -40,8 +40,4 @@ class AprendaAUsar extends State<ClasseAprendaUsar> {
       ),
     );
   }
-}
-
-void chamaTelaInicial(BuildContext context) {
-  Navigator.pop(context);
 }

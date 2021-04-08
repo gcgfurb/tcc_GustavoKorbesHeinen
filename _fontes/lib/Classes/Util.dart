@@ -99,19 +99,19 @@ class Util {
       return -1;
   }
 
-  static Future<Atividade> escolheAtividadeCorreta(BuildContext context, Atividade atividade) async {
+  static void escolheAtividadeCorreta(BuildContext context, Atividade atividade) async {
     switch (atividade.getId()) {
       case 0:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
         break;
       case 2:
-        Atividade atividade2 = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSolo(atividade)));
-        return atividade2;
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSolo(atividade)));
+        break;
       case 3:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseInteracao(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseInteracao(atividade)));
         break;
       case 4:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
@@ -162,8 +162,8 @@ class Util {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
         break;
       default:
-        Atividade atividadeDefault = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseNovaPergunta(atividade)));
-        return atividadeDefault;
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseNovaPergunta(atividade)));
+        break;
     }
   }
 }

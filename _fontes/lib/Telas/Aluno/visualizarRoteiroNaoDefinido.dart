@@ -76,7 +76,7 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                     child: GridView.count(
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      crossAxisCount: 3,
+                      crossAxisCount: 4,
                       scrollDirection: Axis.vertical,
                       primary: false,
                       children: List.generate(_listCaracteristicas.length, (index) {
@@ -171,9 +171,8 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
   }
 
   void chamaTelaCadastrarNovaPergunta(BuildContext context, Atividade atividade) async {
-    Atividade perguntaNova = new Atividade();
-    perguntaNova = await Util.escolheAtividadeCorreta(context, atividade);
-    widget._objEspecifico.getRoteiro().adicionaAtividade(perguntaNova);
+    await Util.escolheAtividadeCorreta(context, atividade);
+    if (atividade.respostaAtividade != null) widget._objEspecifico.getRoteiro().adicionaAtividade(atividade);
     setState(() {});
   }
 }
