@@ -5,8 +5,11 @@ import 'package:TCC_II/Telas/Telas_Caracteristicas/Solo.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Interacao.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Util {
+  static GoogleSignInAccount account;
+
   static String idToString(int index) {
     switch (index) {
       case 0:

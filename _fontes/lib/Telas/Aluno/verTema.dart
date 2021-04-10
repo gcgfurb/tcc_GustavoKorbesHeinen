@@ -1,9 +1,12 @@
+import 'package:TCC_II/Classes/Util.dart';
+import 'package:TCC_II/GoogleAuthClient.dart';
 import 'package:TCC_II/Telas/Aluno/cadastrarObjEspecifico.dart';
 import 'package:TCC_II/Telas/Aluno/visualizarRoteiroDefinido.dart';
 import 'package:TCC_II/Telas/Aluno/visualizarRoteiroNaoDefinido.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
+import 'package:googleapis/drive/v3.dart' as drive;
 
 class ClasseVerTema extends StatefulWidget {
   Tema _tema = new Tema();
@@ -78,7 +81,9 @@ class VerTema extends State<ClasseVerTema> {
                     color: Colors.green[500],
                     textColor: Colors.white,
                     child: Text("Enviar respostas ao Professor"),
-                    onPressed: () {},
+                    onPressed: () {
+                      postFileToGoogleDrive();
+                    },
                   ),
                 ),
                 if (!widget._tema.getRoteiroDefinido())
@@ -115,5 +120,18 @@ class VerTema extends State<ClasseVerTema> {
   void chamaTelaNovoObjEspecifico(context, Tema _tema) async {
     await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseObjEspecifico(_tema)));
     setState(() {});
+  }
+
+  Future<void> postFileToGoogleDrive() async {
+    final authHeaders = await Util.account.authHeaders;
+    final authenticateClient = GoogleAuthClient(authHeaders);
+    final driveApi = drive.DriveApi(authenticateClient);
+
+    final Stream<List<int>> mediaStream = Future.value([104, 105]).asStream().asBroadcastStream();
+    var media = new drive.Media(mediaStream, 2);
+    var driveFile = new drive.File();
+    driveFile.name = "hello_world.txt";
+    final result = await driveApi.files.create(driveFile, uploadMedia: media);
+    print("Upload result: $result");
   }
 }

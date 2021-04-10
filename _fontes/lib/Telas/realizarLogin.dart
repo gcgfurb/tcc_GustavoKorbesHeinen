@@ -1,4 +1,7 @@
+import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/material.dart';
+import 'package:googleapis/drive/v3.dart' as drive;
+import 'package:google_sign_in/google_sign_in.dart' as signIn;
 import 'Aluno/carregarTema.dart';
 import 'Professor/temasProfessor.dart';
 
@@ -32,7 +35,12 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
                 textColor: Colors.white,
                 child: Text("Realizar login"),
                 onPressed: () {
-                  chamaAPIGoogle(context, widget.bProfessor);
+                  chamaAPIGoogle();
+                  if (widget.bProfessor) {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseProfessor()));
+                  } else {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseCarregarTema()));
+                  }
                 },
               ),
               padding: EdgeInsets.fromLTRB(0, 20, 0, 70),
@@ -45,10 +53,8 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
   }
 }
 
-void chamaAPIGoogle(BuildContext context, bool bProfessor) {
-  if (bProfessor) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseProfessor()));
-  } else {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseCarregarTema()));
-  }
+Future<void> chamaAPIGoogle() async {
+  final googleSignIn = signIn.GoogleSignIn.standard(scopes: [drive.DriveApi.driveScope]);
+  Util.account = await googleSignIn.signIn();
+  print("User account $Util.account");
 }

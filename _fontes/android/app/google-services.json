@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "825082203276",
+    "project_id": "centrociencias-tcc",
+    "storage_bucket": "centrociencias-tcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:825082203276:android:78217e40b6253ce323bfa9",
+        "android_client_info": {
+          "package_name": "com.example.TCC_II"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "825082203276-tdfftv8pvhdhhq15gq0frdh0epb1co85.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.TCC_II",
+            "certificate_hash": "06dfea5150a0e498f6a1b8d9e0dab820f0ca0b34"
+          }
+        },
+        {
+          "client_id": "825082203276-boq7dg0nsvdde03h6q75qpj4irc313nj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxMb0LJxS6onUejAuq15vpUBYn16x1dGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "825082203276-boq7dg0nsvdde03h6q75qpj4irc313nj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
