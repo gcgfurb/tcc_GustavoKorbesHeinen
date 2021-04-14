@@ -179,6 +179,9 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
         dense: true,
         trailing: TextButton(
           child: Icon(Icons.edit),
+          style: TextButton.styleFrom(
+            primary: Colors.black54,
+          ),
           onPressed: () async {
             chamaDialogAlterarExcluir(context, atividade, index);
           },

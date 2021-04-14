@@ -86,7 +86,7 @@ class VerTema extends State<ClasseVerTema> {
                     },
                   ),
                 ),
-                if (!widget._tema.getRoteiroDefinido())
+                if (!widget._tema.getObjDefinido())
                   Container(
                     alignment: Alignment.bottomLeft,
                     padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
@@ -126,6 +126,8 @@ class VerTema extends State<ClasseVerTema> {
     final authHeaders = await Util.account.authHeaders;
     final authenticateClient = GoogleAuthClient(authHeaders);
     final driveApi = drive.DriveApi(authenticateClient);
+
+    widget._tema;
 
     final Stream<List<int>> mediaStream = Future.value([104, 105]).asStream().asBroadcastStream();
     var media = new drive.Media(mediaStream, 2);

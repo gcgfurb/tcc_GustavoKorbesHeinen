@@ -56,5 +56,5 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
 Future<void> chamaAPIGoogle() async {
   final googleSignIn = signIn.GoogleSignIn.standard(scopes: [drive.DriveApi.driveScope]);
   Util.account = await googleSignIn.signIn();
-  print("User account $Util.account");
+  print("User account " + Util.account.email);
 }

@@ -36,7 +36,7 @@ class TemasProfessor extends State<ClasseProfessor> {
                     FlatButton(
                       child: QrImage(
                         backgroundColor: Colors.green[500],
-                        data: _aTemas[_index].getTema(),
+                        data: carregaInfo(),
                         size: 200,
                       ),
                       color: Colors.green[300],
@@ -139,5 +139,9 @@ class TemasProfessor extends State<ClasseProfessor> {
 
   void chamaTelaInicial(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseTelaInicial()));
+  }
+
+  String carregaInfo() {
+    return _aTemas[_index].getTema();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'cadastrarObjEspecificos.dart';
@@ -108,7 +109,9 @@ class CadastrarTema extends State<ClasseTema> {
                           textAlign: TextAlign.center,
                         ),
                         onPressed: () {
-                          if (validaCampos()) finalizarTemaGerarQRCode();
+                          if (validaCampos()) {
+                            finalizarTemaGerarQRCode();
+                          }
                         },
                       ),
                     ),
@@ -141,6 +144,19 @@ class CadastrarTema extends State<ClasseTema> {
     } else if (_tecDescricao.text.isEmpty) {
       _fnDescricao.requestFocus();
       return false;
+    }
+
+    if (widget.tema.getListaObjEspecifico().isNotEmpty) {
+      widget.tema.setObjDefinido(true);
+    }
+
+    if (widget.tema.getObjDefinido()) {
+      for (final it in widget.tema.getListaObjEspecifico()) {
+        if (it.getRoteiro().getQtdAtividades() > 0) {
+          widget.tema.setRoteiroDefinido(true);
+          break;
+        }
+      }
     }
 
     return true;
