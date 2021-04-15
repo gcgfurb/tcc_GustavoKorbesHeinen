@@ -1,8 +1,11 @@
+import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:TCC_II/Telas/aprendaUsar.dart';
 import '../telaInicial.dart';
 import 'cadastrarTema.dart';
+import '../../Classes/InfoTema.dart';
 import '../../Classes/Tema.dart';
 
 class ClasseProfessor extends StatefulWidget {
@@ -142,6 +145,31 @@ class TemasProfessor extends State<ClasseProfessor> {
   }
 
   String carregaInfo() {
-    return _aTemas[_index].getTema();
+    Tema temaAtual = _aTemas[_index];
+
+    List<String> info = [];
+
+    String infoAtual = temaAtual.getTema() + "¨§" + temaAtual.getDescricao() + "¨§" + temaAtual.getListaObjEspecifico().length.toString() + "¨§";
+
+    for (ObjEspecifico it in temaAtual.getListaObjEspecifico()) {
+      infoAtual += it.getObjetivo() + "¨§";
+      infoAtual += it.getRoteiro().getOrdenado().toString() + "¨§";
+      infoAtual += it.getRoteiro().getQtdAtividades().toString() + "¨§";
+
+      for (Atividade it in it.getRoteiro().getListaAtividade()) {
+        infoAtual += it.getId().toString() + "¨§" + it.getNomeAtividade() + "¨§" + it.getDescricao() + "¨§";
+
+        if (infoAtual.length > 2500) {
+          info.add(infoAtual);
+          infoAtual = "";
+        }
+      }
+    }
+
+    info.add(infoAtual);
+
+    InfoTema infoTema = new InfoTema(info);
+
+    return infoTema.getInfoEspecifica(0);
   }
 }
