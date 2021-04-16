@@ -153,16 +153,11 @@ class TemasProfessor extends State<ClasseProfessor> {
 
     for (ObjEspecifico it in temaAtual.getListaObjEspecifico()) {
       infoAtual += it.getObjetivo() + "¨§";
-      infoAtual += it.getRoteiro().getOrdenado().toString() + "¨§";
+      infoAtual += it.getRoteiro().getOrdenado().toString() == "true" ? "1" : "0" + "¨§";
       infoAtual += it.getRoteiro().getQtdAtividades().toString() + "¨§";
 
       for (Atividade it in it.getRoteiro().getListaAtividade()) {
         infoAtual += it.getId().toString() + "¨§" + it.getNomeAtividade() + "¨§" + it.getDescricao() + "¨§";
-
-        if (infoAtual.length > 2500) {
-          info.add(infoAtual);
-          infoAtual = "";
-        }
       }
     }
 

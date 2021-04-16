@@ -6,7 +6,10 @@ import 'package:TCC_II/Telas/Aluno/visualizarRoteiroNaoDefinido.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
-import 'package:googleapis/drive/v3.dart' as drive;
+import 'package:googleapis/drive/v3.dart' as v3;
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
 
 class ClasseVerTema extends StatefulWidget {
   Tema _tema = new Tema();
@@ -82,7 +85,7 @@ class VerTema extends State<ClasseVerTema> {
                     textColor: Colors.white,
                     child: Text("Enviar respostas ao Professor"),
                     onPressed: () {
-                      postFileToGoogleDrive();
+                      getFileFromGoogleDrive();
                     },
                   ),
                 ),
@@ -122,18 +125,45 @@ class VerTema extends State<ClasseVerTema> {
     setState(() {});
   }
 
-  Future<void> postFileToGoogleDrive() async {
+  Future<void> postFileToGoogleDrive(Tema tema) async {
+    // final authHeaders = await Util.account.authHeaders;
+    // final authenticateClient = GoogleAuthClient(authHeaders);
+    // final driveApi = v3.DriveApi(authenticateClient);
+
+    var file = File('file.txt');
+    file.writeAsString(tema.getTema());
+
+//    final Stream<List<int>> mediaStream = Future.value([104, 105]).asStream().asBroadcastStream();
+//    var media = new v3.Media(mediaStream, 2);
+//    var driveFile = new v3.File();
+//
+//    driveFile.name = "hello_world.txt";
+//    final result = await driveApi.files.create(driveFile, uploadMedia: media);
+//    print("Upload result: $result");
+  }
+
+  Future<void> getFileFromGoogleDrive() async {
     final authHeaders = await Util.account.authHeaders;
     final authenticateClient = GoogleAuthClient(authHeaders);
-    final driveApi = drive.DriveApi(authenticateClient);
+    final driveApi = v3.DriveApi(authenticateClient);
+    v3.FileList textFileList = await driveApi.files.list(q: "'root' in parents");
 
-    widget._tema;
+    v3.Media response = await driveApi.files.get("1zNCKXDbRu5mBXISf_FT2d5myPSnTIksb", downloadOptions: v3.DownloadOptions.fullMedia);
 
-    final Stream<List<int>> mediaStream = Future.value([104, 105]).asStream().asBroadcastStream();
-    var media = new drive.Media(mediaStream, 2);
-    var driveFile = new drive.File();
-    driveFile.name = "hello_world.txt";
-    final result = await driveApi.files.create(driveFile, uploadMedia: media);
-    print("Upload result: $result");
+    List<int> dataStore = [];
+    response.stream.listen((data) {
+      print("DataReceived: ${data.length}");
+      dataStore.insertAll(dataStore.length, data);
+    }, onDone: () async {
+      Directory tempDir = await getTemporaryDirectory(); //Get temp folder using Path Provider
+      String tempPath = tempDir.path; //Get path to that location
+      File file = File('$tempPath/test'); //Create a dummy file
+      await file.writeAsBytes(dataStore); //Write to that file from the datastore you created from the Media stream
+      String content = file.readAsStringSync(); // Read String from the file
+      print(content); //Finally you have your text
+      print("Task Done");
+    }, onError: (error) {
+      print("Some Error");
+    });
   }
 }

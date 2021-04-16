@@ -1,3 +1,7 @@
+import 'package:TCC_II/Classes/ObjEspecifico.dart';
+import 'package:TCC_II/Classes/Tema.dart';
+import 'package:TCC_II/Classes/Roteiro.dart';
+import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:TCC_II/Telas/Aluno/sozinhoGrupo.dart';
@@ -53,10 +57,71 @@ class CarregarTema extends State<ClasseCarregarTema> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         controller.stopCamera();
-        controller.dispose();
-        //qrText = scanData.code;
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSozinhoGrupo()));
+
+        qrText = scanData.code;
+
+        Tema tema = new Tema();
+        tema = stringToDados(qrText);
+
+        if (tema != null) {
+          controller.dispose();
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSozinhoGrupo(tema)));
+        } else {
+          controller.resumeCamera();
+        }
       });
     });
+  }
+
+  Tema stringToDados(String qrText) {
+    Tema tema = new Tema();
+
+    var dados = qrText.split("¨§");
+
+    try {
+      tema.setTema(dados[0]);
+      tema.setDescricao(dados[1]);
+
+      int qtdObj = int.parse(dados[2]);
+      tema.setObjDefinido(qtdObj > 0 ? true : false);
+
+      int posicao = 3;
+      for (int idxObjetivo = 0; idxObjetivo < qtdObj; ++idxObjetivo) {
+        ObjEspecifico objEspecifico = new ObjEspecifico();
+        objEspecifico.setObjetivo(dados[posicao++]);
+
+        Roteiro roteiro = new Roteiro();
+        roteiro.setOrdenado(dados[posicao++] == "true" ? true : false);
+
+        int qtdAtividades = int.parse(dados[posicao++]);
+        if (tema.getRoteiroDefinido() == false) {
+          tema.setRoteiroDefinido(qtdAtividades > 0 ? true : false);
+        }
+
+        for (int idxAtividade = 0; idxAtividade < qtdAtividades; ++idxAtividade) {
+          Atividade atividade = new Atividade();
+
+          atividade.setId(int.parse(dados[posicao++]));
+          atividade.setNomeAtividade(dados[posicao++]);
+          atividade.setDescricao(dados[posicao++]);
+
+          roteiro.adicionaAtividade(atividade);
+        }
+
+        objEspecifico.setRoteiro(roteiro);
+        tema.adicionaObjEspecifico(objEspecifico);
+
+        return tema;
+      }
+    } catch (error) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Alerta"),
+              content: Text("QRCode encontrado não condiz com informações do aplicativo"),
+            );
+          });
+    }
   }
 }

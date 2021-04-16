@@ -7,6 +7,9 @@ import 'cadastrarGrupo.dart';
 import 'verTema.dart';
 
 class ClasseSozinhoGrupo extends StatefulWidget {
+  Tema _tema = new Tema();
+  ClasseSozinhoGrupo(this._tema);
+
   @override
   SozinhoGrupo createState() => SozinhoGrupo();
 }
@@ -38,8 +41,7 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
                   textColor: Colors.white,
                   child: Text("Sozinho"),
                   onPressed: () {
-                    Tema _tema = criaTema();
-                    chamaTelaVerTema(context, _tema);
+                    chamaTelaVerTema(context, widget._tema);
                   },
                 ),
               ),
@@ -50,8 +52,7 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
                   textColor: Colors.white,
                   child: Text("Em grupo"),
                   onPressed: () {
-                    Tema _tema = new Tema(); //criaTema();
-                    chamaTelaEmGrupo(context, _tema);
+                    chamaTelaEmGrupo(context, widget._tema);
                   },
                 ),
               ),
@@ -60,54 +61,6 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
         ),
       ),
     );
-  }
-
-  Tema criaTema() {
-    Tema _tema = new Tema();
-    ObjEspecifico _objEspecifico = new ObjEspecifico();
-    Roteiro _roteiro = new Roteiro();
-
-    Atividade _atividade = new Atividade();
-    _atividade.setId(3);
-    _atividade.setNomeAtividade("Procurar formiga saúva");
-    _atividade.setDescricao("Essas formigas se encontram próximas as folhas");
-    _roteiro.adicionaAtividade(_atividade);
-
-    _atividade = new Atividade();
-    _atividade.setId(0);
-    _atividade.setNomeAtividade("Foto");
-    _atividade.setDescricao("Chegar próximo a elas e tirar uma foto");
-    _roteiro.adicionaAtividade(_atividade);
-    _roteiro.setOrdenado(true);
-
-    _objEspecifico.setRoteiro(_roteiro);
-    _objEspecifico.setObjetivo("Encontrar formigas");
-    _tema.adicionaObjEspecifico(_objEspecifico);
-
-    _roteiro = new Roteiro();
-    _objEspecifico = new ObjEspecifico();
-
-    _atividade = new Atividade();
-    _atividade.setId(2);
-    _atividade.setNomeAtividade("Solo - Procurar árvore de Araucária");
-    _atividade.setDescricao("Ir próximo a um lugar onde possui árvores de araucária");
-    _roteiro.adicionaAtividade(_atividade);
-
-    _atividade = new Atividade();
-    _atividade.setId(10);
-    _atividade.setNomeAtividade("Áudio");
-    _atividade.setDescricao("Gravar áudio do som da árvore");
-    _roteiro.adicionaAtividade(_atividade);
-    _roteiro.setOrdenado(false);
-
-    _objEspecifico.setRoteiro(_roteiro);
-    _objEspecifico.setObjetivo("Determinar idade da árvore");
-
-    _tema.adicionaObjEspecifico(_objEspecifico);
-    _tema.setTema("Andar na floresta");
-    _tema.setDescricao("Procurar formigas e árvore");
-
-    return _tema;
   }
 }
 
