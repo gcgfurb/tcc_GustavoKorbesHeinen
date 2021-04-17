@@ -85,7 +85,7 @@ class VerTema extends State<ClasseVerTema> {
                     textColor: Colors.white,
                     child: Text("Enviar respostas ao Professor"),
                     onPressed: () {
-                      getFileFromGoogleDrive();
+                      postFileToGoogleDrive(widget._tema);
                     },
                   ),
                 ),
@@ -126,12 +126,32 @@ class VerTema extends State<ClasseVerTema> {
   }
 
   Future<void> postFileToGoogleDrive(Tema tema) async {
-    // final authHeaders = await Util.account.authHeaders;
-    // final authenticateClient = GoogleAuthClient(authHeaders);
-    // final driveApi = v3.DriveApi(authenticateClient);
+    final authHeaders = await Util.account.authHeaders;
+    final authenticateClient = GoogleAuthClient(authHeaders);
+    final driveApi = v3.DriveApi(authenticateClient);
 
-    var file = File('file.txt');
-    file.writeAsString(tema.getTema());
+    //----- Criação do Folder -----//
+
+    v3.File folderType = new v3.File();
+    folderType.name = "Centro de Ciências";
+    folderType.mimeType = "application/vnd.google-apps.folder";
+
+    v3.File folder = await driveApi.files.create(folderType, $fields: "id");
+
+    //----- Criação do Folder -----//
+
+    //----- Criação do Arquivo -----//
+
+    v3.File fileType = new v3.File();
+    fileType.name = "tema.json";
+    fileType.mimeType = "application / vnd.google - apps.file";
+    fileType.parents = [folder.id];
+
+    v3.File file = await driveApi.files.create(fileType);
+    print("File ID: " + file.id);
+
+    //var file = File('file.txt');
+    //file.writeAsString(tema.getTema());
 
 //    final Stream<List<int>> mediaStream = Future.value([104, 105]).asStream().asBroadcastStream();
 //    var media = new v3.Media(mediaStream, 2);
