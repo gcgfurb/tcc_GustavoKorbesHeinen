@@ -43,14 +43,12 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
                         title: Text(widget._objEspecifico.getRoteiro().getAtividade(index).getNomeAtividade() + " - " + widget._objEspecifico.getRoteiro().getAtividade(index).getDescricao()),
                         dense: true,
                         trailing: RaisedButton(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          color: Colors.green[500],
-                          textColor: Colors.white,
-                          child: Text(widget._objEspecifico.getRoteiro().getAtividade(index).respostaAtividade != null ? "Ver Resposta" : "Responder"),
-                          onPressed: () {
-                            buscaAtividades(context, widget._objEspecifico.getRoteiro().getAtividade(index));
-                          },
-                        ),
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            color: Colors.green[500],
+                            disabledColor: Colors.grey[600],
+                            textColor: Colors.white,
+                            child: Text(widget._objEspecifico.getRoteiro().getAtividade(index).respostaAtividade != null ? "Ver Resposta" : "Responder"),
+                            onPressed: !podeHabilitarBotao(index) ? null : () => buscaAtividades(context, widget._objEspecifico.getRoteiro().getAtividade(index))),
                       ),
                     );
                   }),
@@ -74,9 +72,22 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
     );
   }
 
-  void buscaAtividades(context, Atividade atividade) async {
-    await Util.escolheAtividadeCorreta(context, atividade);
-    setState(() {});
+  bool podeHabilitarBotao(int index) {
+    if (index == 0) return true;
+
+    if (widget._objEspecifico.getRoteiro().getOrdenado()) {
+      if (widget._objEspecifico.getRoteiro().getAtividade(index - 1).respostaAtividade != null) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  void buscaAtividades(BuildContext context, Atividade atividade) async {
+    setState(() {
+      Util.escolheAtividadeCorreta(context, atividade);
+    });
   }
 
   void chamaTelaObjEspecificos(BuildContext context) {

@@ -1,16 +1,16 @@
-import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaAudio.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaAreaDesmatada.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 
-class ClasseAudio extends StatefulWidget {
+class ClasseAreaDesmatada extends StatefulWidget {
   Atividade _atividade = new Atividade();
-  ClasseAudio(this._atividade);
+  ClasseAreaDesmatada(this._atividade);
 
   @override
-  Audio createState() => Audio();
+  AreaDesmatada createState() => AreaDesmatada();
 }
 
-class Audio extends State<ClasseAudio> {
+class AreaDesmatada extends State<ClasseAreaDesmatada> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

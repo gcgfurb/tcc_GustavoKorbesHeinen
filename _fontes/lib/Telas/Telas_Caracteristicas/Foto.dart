@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaFoto.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:image_picker/image_picker.dart';
@@ -74,6 +75,22 @@ class Foto extends State<ClasseFoto> {
                               textColor: Colors.white,
                               child: Text("Gravar"),
                               onPressed: () {
+                                if (_imageFile == null) {
+                                  return showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) => CupertinoAlertDialog(
+                                      title: Text("Campo obrigatório"),
+                                      content: Text("É obrigatório adicionar uma imagem."),
+                                      actions: <Widget>[
+                                        CupertinoDialogAction(
+                                          isDefaultAction: true,
+                                          child: Text("OK"),
+                                          onPressed: () => Navigator.pop(context),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
                                 widget._atividade.adicionaResposta(CaracteristicaFoto(_imageFile, _textoDescricao.text));
                                 chamaTelaVisualizaRoteiro(context);
                               },

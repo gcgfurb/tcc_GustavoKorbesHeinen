@@ -2,6 +2,7 @@ import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/Roteiro.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:TCC_II/Telas/Aluno/sozinhoGrupo.dart';
@@ -110,14 +111,14 @@ class CarregarTema extends State<ClasseCarregarTema> {
 
         objEspecifico.setRoteiro(roteiro);
         tema.adicionaObjEspecifico(objEspecifico);
-
-        return tema;
       }
+
+      return tema;
     } catch (error) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
+            return CupertinoAlertDialog(
               title: Text("Alerta"),
               content: Text("QRCode encontrado não condiz com informações do aplicativo"),
             );
