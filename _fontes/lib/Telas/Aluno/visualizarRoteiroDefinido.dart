@@ -79,7 +79,8 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
       if (widget._objEspecifico.getRoteiro().getAtividade(index - 1).respostaAtividade != null) {
         return true;
       }
-    }
+    } else
+      return true;
 
     return false;
   }

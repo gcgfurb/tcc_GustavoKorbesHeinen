@@ -57,7 +57,7 @@ class Atividade {
         respostaAtividade = new CaracteristicaInteracao(object.getResposta1(), object.getResposta2());
         break;
       case 4:
-        respostaAtividade = new CaracteristicaAreaDesmatada();
+        respostaAtividade = new CaracteristicaAreaDesmatada(object.getImageFile(), object.getDescricao());
         break;
       case 5:
         //respostaAtividade = new CaracteristicaFoto();

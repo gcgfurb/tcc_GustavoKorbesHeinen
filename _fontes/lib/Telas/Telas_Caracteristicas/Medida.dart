@@ -11,11 +11,54 @@ class ClasseMedida extends StatefulWidget {
 }
 
 class Medida extends State<ClasseMedida> {
-  String dropdownValue = "peso";
-  String dropdownValue2 = "borracha";
-  String dropdownValue3 = "peso";
-  String dropdownValue4 = "borracha";
+  int ddVDimensao1;
+  int ddVDimensao2;
+  int ddVUnMed1;
+  int ddVUnMed2;
   bool _campoAdicional = false;
+
+  List<String> dimensoes = <String>["peso", "circunferência", "altura", "largura", "espessura", "raio"];
+  List<String> unMedPeso = <String>["mg", "g", "kg", "ton"];
+  List<String> unMedTam = <String>["mm", "cm", "m", "km"];
+  List<String> unMedAtual1 = [];
+  List<String> unMedAtual2 = [];
+
+  TextEditingController _tecValor1 = new TextEditingController();
+  TextEditingController _tecValor2 = new TextEditingController();
+  TextEditingController _tecCalculo = new TextEditingController();
+
+  FocusNode _fnValor1;
+  FocusNode _fnValor2;
+
+  void initState() {
+    super.initState();
+    dynamic medida = widget._atividade.respostaAtividade;
+
+    if (medida != null) {
+      ddVDimensao1 = medida.getDimensao1();
+      ddVDimensao2 = medida.getDimensao2();
+      ddVUnMed1 = medida.getUnMed1();
+      ddVUnMed2 = medida.getUnMed2();
+      _tecValor1.text = medida.getValor1().toString();
+      _tecValor2.text = medida.getValor2().toString();
+      _tecCalculo.text = medida.getCalculo();
+
+      ddVDimensao1 == 0 ? unMedAtual1 = unMedPeso : unMedAtual1 = unMedTam;
+      ddVDimensao2 == 0 ? unMedAtual2 = unMedPeso : unMedAtual2 = unMedTam;
+      if (ddVDimensao2 != null) _campoAdicional = true;
+    }
+
+    _fnValor1 = FocusNode();
+    _fnValor2 = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _fnValor1.dispose();
+    _fnValor2.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,185 +73,39 @@ class Medida extends State<ClasseMedida> {
             Container(
               alignment: Alignment.topLeft,
               padding: EdgeInsets.fromLTRB(20, 20, 0, 10),
-              child: Text("Medidas observadas:  "),
+              child: Text("Medidas observadas: "),
             ),
             Container(
               alignment: Alignment.topLeft,
               padding: EdgeInsets.fromLTRB(20, 10, 0, 20),
               child: Text(widget._atividade.getDescricao()),
             ),
+            criaCampos(false),
+            if (_campoAdicional) criaCampos(true),
             Row(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 5, 20),
-                  child: DropdownButton<String>(
-                    focusColor: Colors.green,
-                    value: dropdownValue,
-                    icon: const Icon(Icons.arrow_drop_down_circle),
-                    iconSize: 24,
-                    style: const TextStyle(color: Colors.purpleAccent),
-                    iconEnabledColor: Colors.blueGrey,
-                    underline: Container(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        dropdownValue = newValue;
-                      });
-                    },
-                    items: <String>["peso", "circunferência", "altura", "largura", "espessura", "raio"].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      );
-                    }).toList(),
-                  ),
+                  padding: EdgeInsets.only(left: 20),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5, 20, 5, 20),
-                  child: DropdownButton<String>(
-                    focusColor: Colors.green,
-                    value: dropdownValue2,
-                    icon: const Icon(Icons.arrow_drop_down_circle),
-                    iconSize: 24,
-                    style: const TextStyle(color: Colors.purpleAccent),
-                    iconEnabledColor: Colors.blueGrey,
-                    underline: Container(
-                      height: 2,
-                      color: Colors.black,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        dropdownValue2 = newValue;
-                      });
-                    },
-                    items: <String>["um", "borracha", "tres", "quatro"].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 20, 20, 20),
-                    child: TextField(
-                      decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Qual o valor obtido?*', hintText: '5'),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5, 20, 20, 20),
-                  child: TextButton.icon(
-                    label: Text(''),
-                    style: TextButton.styleFrom(
-                      primary: Colors.black54,
-                    ),
-                    icon: Icon(Icons.add_circle),
-                    onPressed: () {
-                      setState(() {
-                        _campoAdicional = true;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-            if (_campoAdicional)
-              Row(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20, 20, 5, 20),
-                    child: DropdownButton<String>(
-                      focusColor: Colors.green,
-                      value: dropdownValue3,
-                      icon: const Icon(Icons.arrow_drop_down_circle),
-                      iconSize: 24,
-                      style: const TextStyle(color: Colors.purpleAccent),
-                      iconEnabledColor: Colors.blueGrey,
-                      underline: Container(
-                        height: 2,
-                        color: Colors.black,
-                      ),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          dropdownValue3 = newValue;
-                        });
-                      },
-                      items: <String>["peso", "circunferência", "altura", "largura", "espessura", "raio"].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(5, 20, 5, 20),
-                    child: DropdownButton<String>(
-                      focusColor: Colors.green,
-                      value: dropdownValue4,
-                      icon: const Icon(Icons.arrow_drop_down_circle),
-                      iconSize: 24,
-                      style: const TextStyle(color: Colors.purpleAccent),
-                      iconEnabledColor: Colors.blueGrey,
-                      underline: Container(
-                        height: 2,
-                        color: Colors.black,
-                      ),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          dropdownValue4 = newValue;
-                        });
-                      },
-                      items: <String>["um", "borracha", "tres", "quatro"].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(5, 20, 20, 20),
-                      child: TextField(
-                        decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Qual o valor obtido?*', hintText: '5'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            Row(
-              children: <Widget>[
                 Expanded(
                   child: TextField(
-                    decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Essas medidas resultaram em algum cálculo?*', hintText: 'Sim, área, volume, fórmula...'),
+                    controller: _tecCalculo,
+                    decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Essas medidas resultaram em algum cálculo?', hintText: 'Sim, área, volume, fórmula...'),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(5, 20, 5, 20),
+                  padding: EdgeInsets.fromLTRB(20, 20, 5, 20),
                   child: ElevatedButton(
                     child: Text('Gravar'),
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.green,
                     ),
                     onPressed: () {
-                      print('Pressed');
+                      if (validaCampos()) {
+                        widget._atividade.adicionaResposta(
+                            CaracteristicaMedida(ddVDimensao1, ddVUnMed1, int.parse(_tecValor1.text), ddVDimensao2, ddVUnMed2, _campoAdicional ? int.parse(_tecValor2.text) : 0, _tecCalculo.text));
+                        Navigator.pop(context);
+                      }
                     },
                   ),
                 ),
@@ -229,6 +126,153 @@ class Medida extends State<ClasseMedida> {
           ],
         ),
       ),
+    );
+  }
+
+  bool validaCampos() {
+    if (ddVDimensao1 == null || ddVUnMed1 == null) return false;
+    if (_campoAdicional) if (ddVDimensao2 == null || ddVUnMed2 == null) return false;
+
+    if (_tecValor1.text.isEmpty) {
+      _fnValor1.requestFocus();
+      return false;
+    }
+    if (_campoAdicional && _tecValor2.text.isEmpty) {
+      _fnValor2.requestFocus();
+      return false;
+    }
+
+    return true;
+  }
+
+  Widget criaCampos(bool bRepetido) {
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 20),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(10, 4.5, 10, 4.5),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black45, width: 1),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: DropdownButton<String>(
+            dropdownColor: Colors.green,
+            hint: Text("Dimensão"),
+            value: bRepetido
+                ? ddVDimensao2 == null
+                    ? null
+                    : dimensoes[ddVDimensao2]
+                : ddVDimensao1 == null
+                    ? null
+                    : dimensoes[ddVDimensao1],
+            icon: const Icon(Icons.arrow_drop_down_circle),
+            iconSize: 24,
+            iconEnabledColor: Colors.black54,
+            underline: Container(
+              height: 2,
+              color: Colors.black,
+            ),
+            onChanged: (String newValue) {
+              if (bRepetido) {
+                ddVDimensao2 = dimensoes.indexOf(newValue);
+                if (ddVDimensao2 == 0)
+                  unMedAtual2 = unMedPeso;
+                else
+                  unMedAtual2 = unMedTam;
+              } else {
+                ddVDimensao1 = dimensoes.indexOf(newValue);
+                if (ddVDimensao1 == 0)
+                  unMedAtual1 = unMedPeso;
+                else
+                  unMedAtual1 = unMedTam;
+              }
+              setState(() {});
+            },
+            items: dimensoes.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style: TextStyle(color: Colors.black),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 5),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(10, 4.5, 10, 4.5),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black45, width: 1),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: DropdownButton<String>(
+            dropdownColor: Colors.green,
+            hint: Text("Un. Medida"),
+            value: bRepetido
+                ? ddVUnMed2 == null
+                    ? null
+                    : unMedAtual2[ddVUnMed2]
+                : ddVUnMed1 == null
+                    ? null
+                    : unMedAtual1[ddVUnMed1],
+            icon: const Icon(Icons.arrow_drop_down_circle),
+            iconSize: 24,
+            iconEnabledColor: Colors.black54,
+            underline: Container(
+              height: 2,
+              color: Colors.black,
+            ),
+            onChanged: (String newValue) {
+              setState(() {
+                if (bRepetido)
+                  ddVUnMed2 = unMedAtual2.indexOf(newValue);
+                else
+                  ddVUnMed1 = unMedAtual1.indexOf(newValue);
+              });
+            },
+            items: (bRepetido ? unMedAtual2 : unMedAtual1).map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style: TextStyle(color: Colors.black),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(5, 20, bRepetido ? 64 : 0, 20),
+            child: TextField(
+              controller: bRepetido ? _tecValor2 : _tecValor1,
+              focusNode: bRepetido ? _fnValor2 : _fnValor1,
+              decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Qual o valor obtido?*', hintText: '5'),
+            ),
+          ),
+        ),
+        if (!bRepetido)
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: TextButton.icon(
+              label: Text(''),
+              style: TextButton.styleFrom(
+                primary: Colors.black54,
+              ),
+              icon: Icon(Icons.add_circle),
+              onPressed: () {
+                setState(() {
+                  _campoAdicional = true;
+                });
+              },
+            ),
+          ),
+      ],
     );
   }
 }
