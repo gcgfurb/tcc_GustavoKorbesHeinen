@@ -1,10 +1,12 @@
 import 'Caracteristicas/CaracteristicaAreaDesmatada.dart';
+import 'Caracteristicas/CaracteristicaCaracteristica.dart';
 import 'Caracteristicas/CaracteristicaPersonalizada.dart';
 import 'Caracteristicas/CaracteristicaInteracao.dart';
 import 'Caracteristicas/CaracteristicaAudio.dart';
 import 'Caracteristicas/CaracteristicaFoto.dart';
 import 'Caracteristicas/CaracteristicaSolo.dart';
 import 'Caracteristicas/CaracteristicaMedida.dart';
+import 'Caracteristicas/CaracteristicaVideo.dart';
 import 'Resposta.dart';
 
 class Atividade {
@@ -60,10 +62,10 @@ class Atividade {
         respostaAtividade = new CaracteristicaAreaDesmatada(object.getImageFile(), object.getDescricao());
         break;
       case 5:
-        //respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaVideo(object.getVideoFile(), object.getDescricao());
         break;
       case 6:
-        //respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaCaracteristica(object.getResposta());
         break;
       case 7:
         //respostaAtividade = new CaracteristicaFoto();

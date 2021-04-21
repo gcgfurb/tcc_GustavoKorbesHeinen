@@ -28,6 +28,11 @@
 	<string>LaunchScreen</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Necessário uso de câmera neste aplicativo.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+  		<key>NSAllowsArbitraryLoads</key>
+  		<true/>
+	</dict>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>

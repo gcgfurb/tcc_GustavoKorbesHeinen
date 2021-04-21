@@ -1,10 +1,12 @@
 import 'package:TCC_II/Telas/Aluno/cadastrarNovaPergunta.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/AreaDesmatada.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Audio.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Caracteristica.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Foto.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Solo.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Interacao.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Medida.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Video.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -122,10 +124,10 @@ class Util {
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAreaDesmatada(atividade)));
         break;
       case 5:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVideo(atividade)));
         break;
       case 6:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseCaracteristica(atividade)));
         break;
       case 7:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
