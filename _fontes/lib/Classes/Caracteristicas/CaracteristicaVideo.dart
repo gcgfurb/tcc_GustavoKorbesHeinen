@@ -11,11 +11,11 @@ class CaracteristicaVideo extends Resposta {
     _descricao = descricao;
   }
 
-  VideoPlayerController getImageFile() {
+  VideoPlayerController getVideoFile() {
     return _videoFile;
   }
 
-  void setImageFile(VideoPlayerController videoFile) {
+  void setVideoFile(VideoPlayerController videoFile) {
     _videoFile = videoFile;
   }
 

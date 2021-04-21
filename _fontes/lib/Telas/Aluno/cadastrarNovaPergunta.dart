@@ -63,7 +63,6 @@ class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
               child: TextField(
                 focusNode: _fnResposta,
                 controller: _tecResposta,
-                autofocus: false,
                 maxLength: 150,
                 maxLines: 8,
                 decoration: InputDecoration(
