@@ -28,5 +28,19 @@ Já lê um QRCode e gera um QRCode.
 Atualizou a versão do Flutter para mais nova. Não deve dar problemas na minha máquina.
 Testou num aparelho de um amigo no Android.
 
+----------
+## 2021-04-15
+Conversamos sobre como gerar o APK.
+Falei sobre o TCC que usa o GoogleDrive.
 
+- rotina de QRCode
+- rotina de Google 
 
+----------
+## 2021-04-22
+Pegou o projeto e começou a trazer.<br>
+Tem algumas telas para ir fazendo.<br>
+
+#### Dalton
+Achar um exemplo usando Flutter que grave no GoogleDrive.<br>
+Emprestar um S6 (Android).<br>
