@@ -142,24 +142,26 @@ class VerTema extends State<ClasseVerTema> {
 
     //----- Criação do Arquivo -----//
 
-    v3.File fileType = new v3.File();
+    /*v3.File fileType = new v3.File();
     fileType.name = "tema.json";
     fileType.mimeType = "application / vnd.google - apps.file";
     fileType.parents = [folder.id];
 
     v3.File file = await driveApi.files.create(fileType);
-    print("File ID: " + file.id);
+    print("File ID: " + file.id);*/
 
     //var file = File('file.txt');
     //file.writeAsString(tema.getTema());
 
-//    final Stream<List<int>> mediaStream = Future.value([104, 105]).asStream().asBroadcastStream();
-//    var media = new v3.Media(mediaStream, 2);
-//    var driveFile = new v3.File();
-//
-//    driveFile.name = "hello_world.txt";
-//    final result = await driveApi.files.create(driveFile, uploadMedia: media);
-//    print("Upload result: $result");
+    final Stream<List<int>> mediaStream = Future.value([104, 105]).asStream().asBroadcastStream();
+    var media = new v3.Media(mediaStream, 2);
+
+    var driveFile = new v3.File();
+    driveFile.parents = [folder.id];
+    driveFile.name = "hello_world.txt";
+
+    final result = await driveApi.files.create(driveFile, uploadMedia: media);
+    print("Upload result: $result");
   }
 
   Future<void> getFileFromGoogleDrive() async {
