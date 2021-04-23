@@ -1,21 +1,22 @@
 import 'dart:io';
 
-import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaFoto.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaIntervencao.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ClasseFoto extends StatefulWidget {
+class ClasseProducaoDeMaterial extends StatefulWidget {
   Atividade _atividade = new Atividade();
-  ClasseFoto(this._atividade);
+  ClasseProducaoDeMaterial(this._atividade);
 
   @override
-  Foto createState() => Foto();
+  ProducaoDeMaterial createState() => ProducaoDeMaterial();
 }
 
-class Foto extends State<ClasseFoto> {
-  TextEditingController _textoDescricao = new TextEditingController();
+class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
+  TextEditingController _tecDescricao = new TextEditingController();
+  FocusNode _fnDescricao;
   PickedFile _imageFile;
 
   @override
@@ -35,11 +36,12 @@ class Foto extends State<ClasseFoto> {
                   children: <Widget>[
                     Container(
                       child: TextField(
-                        controller: _textoDescricao,
+                        controller: _tecDescricao,
+                        focusNode: _fnDescricao,
                         maxLength: 150,
                         maxLines: 7,
                         decoration: InputDecoration(
-                          hintText: 'Objetivo geral da atividade de campo',
+                          hintText: 'Qual intervenção humanda foi encontrada?*',
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.grey),
@@ -75,24 +77,10 @@ class Foto extends State<ClasseFoto> {
                               textColor: Colors.white,
                               child: Text("Gravar"),
                               onPressed: () {
-                                if (_imageFile == null) {
-                                  return showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) => CupertinoAlertDialog(
-                                      title: Text("Campo obrigatório"),
-                                      content: Text("É obrigatório adicionar uma imagem."),
-                                      actions: <Widget>[
-                                        CupertinoDialogAction(
-                                          isDefaultAction: true,
-                                          child: Text("OK"),
-                                          onPressed: () => Navigator.pop(context),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                if (validaCampos()) {
+                                  widget._atividade.adicionaResposta(CaracteristicaIntervencao(_imageFile, _tecDescricao.text));
+                                  Navigator.pop(context);
                                 }
-                                widget._atividade.adicionaResposta(CaracteristicaFoto(_imageFile, _textoDescricao.text));
-                                chamaTelaVisualizaRoteiro(context);
                               },
                             ),
                           ),
@@ -104,7 +92,7 @@ class Foto extends State<ClasseFoto> {
                               textColor: Colors.white,
                               child: Text("Cancelar"),
                               onPressed: () {
-                                chamaTelaVisualizaRoteiro(context);
+                                Navigator.pop(context);
                               },
                             ),
                           ),
@@ -121,20 +109,33 @@ class Foto extends State<ClasseFoto> {
     );
   }
 
+  bool validaCampos() {
+    if (_tecDescricao.text.isEmpty) return false;
+
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
     dynamic foto = widget._atividade.respostaAtividade;
 
     if (foto != null) {
-      _textoDescricao.text = foto.getDescricao();
+      _tecDescricao.text = foto.getDescricao();
       _imageFile = foto.getImageFile();
     }
+
+    _fnDescricao = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _fnDescricao.dispose();
+    super.dispose();
   }
 
   _openCamera(BuildContext context) async {
-    var ip = ImagePicker();
-    var picture = await ip.getImage(source: ImageSource.camera);
+    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
     this.setState(() {
       _imageFile = picture;
     });
@@ -156,8 +157,4 @@ class Foto extends State<ClasseFoto> {
       ));
     }
   }
-}
-
-chamaTelaVisualizaRoteiro(BuildContext context) {
-  Navigator.pop(context);
 }

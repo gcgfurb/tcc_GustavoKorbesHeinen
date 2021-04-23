@@ -1,21 +1,26 @@
+import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:TCC_II/Telas/Aluno/cadastrarNovaPergunta.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/AreaDesmatada.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Audio.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Caracteristica.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Desenho.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/FichaDeColeta_1.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Foto.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Interacao.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Intervencao.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Lixo.dart';
-import 'package:TCC_II/Telas/Telas_Caracteristicas/Solo.dart';
-import 'package:TCC_II/Telas/Telas_Caracteristicas/Interacao.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Localizacao.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Lupa.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Medida.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Mosquito.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Planta.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/ProducaoDeMaterial.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Solo.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/SonsDaNatureza.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Teste.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Video.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Vivencia.dart';
-import 'package:TCC_II/Telas/Telas_Caracteristicas/Mosquito.dart';
-import 'package:TCC_II/Telas/Telas_Caracteristicas/Planta.dart';
 import 'package:flutter/material.dart';
-import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Util {
@@ -137,7 +142,7 @@ class Util {
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseCaracteristica(atividade)));
         break;
       case 7:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseLupa(atividade)));
         break;
       case 8:
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVivencia(atividade)));
@@ -146,13 +151,13 @@ class Util {
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseMosquito(atividade)));
         break;
       case 10:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAudio(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAudio(atividade)));
         break;
       case 11:
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseTeste(atividade)));
         break;
       case 12:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseDesenho(atividade)));
         break;
       case 13:
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFichaDeColeta_1(atividade)));
@@ -161,13 +166,13 @@ class Util {
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseLixo(atividade)));
         break;
       case 15:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSonsDaNatureza(atividade)));
         break;
       case 16:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseLocalizacao(atividade)));
         break;
       case 17:
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseProducaoDeMaterial(atividade)));
         break;
       case 18:
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseIntervencao(atividade)));

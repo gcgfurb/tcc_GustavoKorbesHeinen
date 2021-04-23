@@ -1,15 +1,20 @@
 import 'Caracteristicas/CaracteristicaAreaDesmatada.dart';
 import 'Caracteristicas/CaracteristicaCaracteristica.dart';
+import 'Caracteristicas/CaracteristicaDesenho.dart';
 import 'Caracteristicas/CaracteristicaFichaDeColeta.dart';
 import 'Caracteristicas/CaracteristicaLixo.dart';
+import 'Caracteristicas/CaracteristicaLocalizacao.dart';
+import 'Caracteristicas/CaracteristicaLupa.dart';
 import 'Caracteristicas/CaracteristicaMosquito.dart';
 import 'Caracteristicas/CaracteristicaPersonalizada.dart';
 import 'Caracteristicas/CaracteristicaInteracao.dart';
 import 'Caracteristicas/CaracteristicaAudio.dart';
 import 'Caracteristicas/CaracteristicaFoto.dart';
 import 'Caracteristicas/CaracteristicaPlanta.dart';
+import 'Caracteristicas/CaracteristicaProducaoDeMaterial.dart';
 import 'Caracteristicas/CaracteristicaSolo.dart';
 import 'Caracteristicas/CaracteristicaMedida.dart';
+import 'Caracteristicas/CaracteristicaSonsDaNatureza.dart';
 import 'Caracteristicas/CaracteristicaTeste.dart';
 import 'Caracteristicas/CaracteristicaVideo.dart';
 import 'Caracteristicas/CaracteristicaVivencia.dart';
@@ -75,7 +80,7 @@ class Atividade {
         respostaAtividade = new CaracteristicaCaracteristica(object.getResposta());
         break;
       case 7:
-        //respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaLupa();
         break;
       case 8:
         respostaAtividade = new CaracteristicaVivencia(object.getResposta());
@@ -90,7 +95,7 @@ class Atividade {
         respostaAtividade = new CaracteristicaTeste(object.getResposta1(), object.getResposta2());
         break;
       case 12:
-        // respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaDesenho();
         break;
       case 13:
         respostaAtividade = new CaracteristicaFichaDeColeta(object.getNomePessoa(), object.getLocal(), object.getData(), object.getHora(), object.getAmbiente(), object.getNomePopularCientifico(),
@@ -100,13 +105,13 @@ class Atividade {
         respostaAtividade = new CaracteristicaLixo(object.getImageFile(), object.getDescricao());
         break;
       case 15:
-        // respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaSonsDaNatureza();
         break;
       case 16:
-        //respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaLocalizacao();
         break;
       case 17:
-        //respostaAtividade = new CaracteristicaFoto();
+        respostaAtividade = new CaracteristicaProducaoDeMaterial();
         break;
       case 18:
         respostaAtividade = new CaracteristicaIntervencao(object.getImageFile(), object.getDescricao());

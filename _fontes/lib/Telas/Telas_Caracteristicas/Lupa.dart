@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ClasseFoto extends StatefulWidget {
+class ClasseLupa extends StatefulWidget {
   Atividade _atividade = new Atividade();
-  ClasseFoto(this._atividade);
+  ClasseLupa(this._atividade);
 
   @override
-  Foto createState() => Foto();
+  Lupa createState() => Lupa();
 }
 
-class Foto extends State<ClasseFoto> {
+class Lupa extends State<ClasseLupa> {
   TextEditingController _textoDescricao = new TextEditingController();
   PickedFile _imageFile;
 
@@ -133,8 +133,7 @@ class Foto extends State<ClasseFoto> {
   }
 
   _openCamera(BuildContext context) async {
-    var ip = ImagePicker();
-    var picture = await ip.getImage(source: ImageSource.camera);
+    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
     this.setState(() {
       _imageFile = picture;
     });
