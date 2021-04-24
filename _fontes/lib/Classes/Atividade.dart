@@ -80,7 +80,7 @@ class Atividade {
         respostaAtividade = new CaracteristicaCaracteristica(object.getResposta());
         break;
       case 7:
-        respostaAtividade = new CaracteristicaLupa();
+        respostaAtividade = new CaracteristicaLupa(object.getImageFile(), object.getDescricao());
         break;
       case 8:
         respostaAtividade = new CaracteristicaVivencia(object.getResposta());
@@ -111,7 +111,7 @@ class Atividade {
         respostaAtividade = new CaracteristicaLocalizacao();
         break;
       case 17:
-        respostaAtividade = new CaracteristicaProducaoDeMaterial();
+        respostaAtividade = new CaracteristicaProducaoDeMaterial(object.getImageFile(), object.getDescricao());
         break;
       case 18:
         respostaAtividade = new CaracteristicaIntervencao(object.getImageFile(), object.getDescricao());

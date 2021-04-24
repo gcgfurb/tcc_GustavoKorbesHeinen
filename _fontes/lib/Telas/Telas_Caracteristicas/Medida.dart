@@ -11,10 +11,10 @@ class ClasseMedida extends StatefulWidget {
 }
 
 class Medida extends State<ClasseMedida> {
-  int ddVDimensao1 = 0;
-  int ddVDimensao2 = 0;
-  int ddVUnMed1 = 0;
-  int ddVUnMed2 = 0;
+  int ddVDimensao1;
+  int ddVDimensao2;
+  int ddVUnMed1;
+  int ddVUnMed2;
   bool _campoAdicional = false;
 
   List<String> dimensoes = <String>["peso", "circunferência", "altura", "largura", "espessura", "raio"];

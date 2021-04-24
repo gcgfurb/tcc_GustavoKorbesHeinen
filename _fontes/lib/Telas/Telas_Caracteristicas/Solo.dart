@@ -125,8 +125,10 @@ class Solo extends State<ClasseSolo> {
                       textColor: Colors.white,
                       child: Text("Gravar"),
                       onPressed: () {
-                        widget._atividade.adicionaResposta(CaracteristicaSolo(_tecResposta1.text, _tecResposta2.text, _tecResposta3.text, _tecResposta4.text));
-                        return Navigator.pop(context, widget._atividade);
+                        if (validaCampos()) {
+                          widget._atividade.adicionaResposta(CaracteristicaSolo(_tecResposta1.text, _tecResposta2.text, _tecResposta3.text, _tecResposta4.text));
+                          return Navigator.pop(context, widget._atividade);
+                        }
                       }),
                 ),
                 Container(
@@ -146,5 +148,29 @@ class Solo extends State<ClasseSolo> {
         ),
       ),
     );
+  }
+
+  bool validaCampos() {
+    if (_tecResposta1.text.isEmpty) {
+      _fnResposta1.requestFocus();
+      return false;
+    }
+
+    if (_tecResposta2.text.isEmpty) {
+      _fnResposta2.requestFocus();
+      return false;
+    }
+
+    if (_tecResposta3.text.isEmpty) {
+      _fnResposta3.requestFocus();
+      return false;
+    }
+
+    if (_tecResposta4.text.isEmpty) {
+      _fnResposta4.requestFocus();
+      return false;
+    }
+
+    return true;
   }
 }

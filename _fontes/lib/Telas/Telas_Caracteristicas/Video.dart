@@ -33,6 +33,8 @@ class Video extends State<ClasseVideo> {
     if (video != null) {
       _textoDescricao.text = video.getDescricao();
       _controller = video.getVideoFile();
+      _controller.setVolume(1);
+      _controller.play();
     }
   }
 
@@ -223,7 +225,7 @@ class Video extends State<ClasseVideo> {
     }
     if (_controller == null) {
       return const Text(
-        'You have not yet picked a video',
+        "Faça um vídeo sobre a atividade",
         textAlign: TextAlign.center,
       );
     }

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaFoto.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaLupa.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
@@ -91,8 +91,8 @@ class Lupa extends State<ClasseLupa> {
                                     ),
                                   );
                                 }
-                                widget._atividade.adicionaResposta(CaracteristicaFoto(_imageFile, _textoDescricao.text));
-                                chamaTelaVisualizaRoteiro(context);
+                                //widget._atividade.adicionaResposta(CaracteristicaLupa(_imageFile, _textoDescricao.text));
+                                Navigator.pop(context);
                               },
                             ),
                           ),
@@ -104,7 +104,7 @@ class Lupa extends State<ClasseLupa> {
                               textColor: Colors.white,
                               child: Text("Cancelar"),
                               onPressed: () {
-                                chamaTelaVisualizaRoteiro(context);
+                                Navigator.pop(context);
                               },
                             ),
                           ),
@@ -124,16 +124,17 @@ class Lupa extends State<ClasseLupa> {
   @override
   void initState() {
     super.initState();
-    dynamic foto = widget._atividade.respostaAtividade;
+    dynamic lupa = widget._atividade.respostaAtividade;
 
-    if (foto != null) {
-      _textoDescricao.text = foto.getDescricao();
-      _imageFile = foto.getImageFile();
+    if (lupa != null) {
+      _textoDescricao.text = lupa.getDescricao();
+      _imageFile = lupa.getImageFile();
     }
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    var ip = ImagePicker();
+    var picture = await ip.getImage(source: ImageSource.camera);
     this.setState(() {
       _imageFile = picture;
     });
@@ -150,8 +151,8 @@ class Lupa extends State<ClasseLupa> {
       return Expanded(
           child: Image.file(
         File(_imageFile.path),
-        width: 400,
-        height: 400,
+        width: 300,
+        height: 300,
       ));
     }
   }

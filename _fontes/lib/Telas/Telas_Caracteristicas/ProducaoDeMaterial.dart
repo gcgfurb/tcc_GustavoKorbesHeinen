@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaIntervencao.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaProducaoDeMaterial.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
@@ -41,7 +41,7 @@ class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
                         maxLength: 150,
                         maxLines: 7,
                         decoration: InputDecoration(
-                          hintText: 'Qual intervenção humanda foi encontrada?*',
+                          hintText: 'Descreva as etapas da confecção do material*',
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.grey),
@@ -78,7 +78,7 @@ class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
                               child: Text("Gravar"),
                               onPressed: () {
                                 if (validaCampos()) {
-                                  widget._atividade.adicionaResposta(CaracteristicaIntervencao(_imageFile, _tecDescricao.text));
+                                  widget._atividade.adicionaResposta(CaracteristicaProducaoDeMaterial(_imageFile, _tecDescricao.text));
                                   Navigator.pop(context);
                                 }
                               },
@@ -118,11 +118,11 @@ class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
   @override
   void initState() {
     super.initState();
-    dynamic foto = widget._atividade.respostaAtividade;
+    dynamic producaoMaterial = widget._atividade.respostaAtividade;
 
-    if (foto != null) {
-      _tecDescricao.text = foto.getDescricao();
-      _imageFile = foto.getImageFile();
+    if (producaoMaterial != null) {
+      _tecDescricao.text = producaoMaterial.getDescricao();
+      _imageFile = producaoMaterial.getImageFile();
     }
 
     _fnDescricao = FocusNode();
@@ -135,7 +135,8 @@ class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    var _picker = ImagePicker();
+    var picture = await _picker.getImage(source: ImageSource.camera);
     this.setState(() {
       _imageFile = picture;
     });

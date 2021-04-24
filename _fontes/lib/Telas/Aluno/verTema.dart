@@ -29,19 +29,17 @@ class VerTema extends State<ClasseVerTema> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.fromLTRB(5, 0, 0, 5),
-                child: Text(
-                  'Tema: ' + widget._tema.getTema(),
-                  style: TextStyle(fontSize: 25),
-                ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.fromLTRB(5, 0, 0, 5),
+              child: Text(
+                'Tema: ' + widget._tema.getTema(),
+                style: TextStyle(fontSize: 25),
               ),
             ),
-            Expanded(
+            Container(
               child: Container(
-                alignment: Alignment.topLeft,
+                alignment: Alignment.bottomLeft,
                 padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
                 child: Text(
                   'Descrição: ' + widget._tema.getDescricao(),

@@ -151,8 +151,8 @@ class Foto extends State<ClasseFoto> {
       return Expanded(
           child: Image.file(
         File(_imageFile.path),
-        width: 400,
-        height: 400,
+        width: 300,
+        height: 300,
       ));
     }
   }

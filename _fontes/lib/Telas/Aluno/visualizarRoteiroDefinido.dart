@@ -21,14 +21,12 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.fromLTRB(5, 0, 0, 5),
-                child: Text(
-                  'Objetivo: ' + widget._objEspecifico.getObjetivo(),
-                  style: TextStyle(fontSize: 25),
-                ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.fromLTRB(5, 0, 0, 5),
+              child: Text(
+                'Objetivo: ' + widget._objEspecifico.getObjetivo(),
+                style: TextStyle(fontSize: 25),
               ),
             ),
             SizedBox(
