@@ -58,7 +58,7 @@ class Planta extends State<ClassePlanta> {
                       child: TextField(
                         controller: _tecNomeCientifico,
                         decoration: InputDecoration(
-                          hintText: 'Qual o nome científico da planta?*',
+                          hintText: 'Qual o nome científico da planta?',
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.grey),
@@ -129,7 +129,10 @@ class Planta extends State<ClassePlanta> {
   }
 
   bool validaCampos() {
-    if (_tecNomePopular.text.isEmpty) return false;
+    if (_tecNomePopular.text.isEmpty) {
+      _fnNomePopular.requestFocus();
+      return false;
+    }
 
     return true;
   }

@@ -48,7 +48,7 @@ class VerTema extends State<ClasseVerTema> {
               ),
             ),
             SizedBox(
-              height: 250,
+              height: MediaQuery.of(context).size.height - 154, //250
               child: ListView.builder(
                   itemCount: widget._tema.getListaObjEspecifico().length,
                   itemBuilder: (context, index) {
@@ -75,7 +75,7 @@ class VerTema extends State<ClasseVerTema> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
-                  alignment: Alignment.bottomRight,
+                  alignment: Alignment.bottomLeft,
                   padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                   child: RaisedButton(
                     padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
@@ -89,7 +89,7 @@ class VerTema extends State<ClasseVerTema> {
                 ),
                 if (!widget._tema.getObjDefinido())
                   Container(
-                    alignment: Alignment.bottomLeft,
+                    alignment: Alignment.bottomRight,
                     padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                     child: RaisedButton(
                       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),

@@ -41,7 +41,7 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
                         maxLength: 150,
                         maxLines: 7,
                         decoration: InputDecoration(
-                          hintText: 'Como está o desmatamento na área?',
+                          hintText: 'Como está o desmatamento na área?*',
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),
                             borderSide: BorderSide(color: Colors.grey),
@@ -110,7 +110,10 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
   }
 
   bool validaCampos() {
-    if (_tecDescricao.text.isEmpty) return false;
+    if (_tecDescricao.text.isEmpty) {
+      _fnDescricao.requestFocus();
+      return false;
+    }
 
     return true;
   }

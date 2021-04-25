@@ -57,7 +57,7 @@ class Caracteristica extends State<ClasseCaracteristica> {
                 controller: _tecResposta,
                 focusNode: _fnResposta,
                 maxLength: 150,
-                maxLines: 7,
+                maxLines: 8,
                 decoration: InputDecoration(
                   labelText: 'Objetivo geral da atividade de campo*',
                   hintText: 'Procurar árvore araucária',
@@ -73,47 +73,47 @@ class Caracteristica extends State<ClasseCaracteristica> {
                 ),
               ),
             ),
-            Expanded(
-              child: IntrinsicWidth(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Container(
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    width: 200,
+                    height: 100,
+                    child: RaisedButton(
                       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      width: 250,
-                      child: RaisedButton(
+                      color: Colors.green,
+                      textColor: Colors.white,
+                      child: Text(
+                        "Gravar",
+                        textAlign: TextAlign.center,
+                      ),
+                      onPressed: () {
+                        if (validaCampos()) {
+                          widget._atividade.adicionaResposta(CaracteristicaCaracteristica(_tecResposta.text));
+                          Navigator.pop(context);
+                        }
+                      },
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    width: 200,
+                    height: 100,
+                    child: RaisedButton(
                         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                        color: Colors.green,
                         textColor: Colors.white,
+                        color: Colors.red,
                         child: Text(
-                          "Gravar",
+                          "Cancelar",
                           textAlign: TextAlign.center,
                         ),
                         onPressed: () {
-                          if (validaCampos()) {
-                            widget._atividade.adicionaResposta(CaracteristicaCaracteristica(_tecResposta.text));
-                            Navigator.pop(context);
-                          }
-                        },
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      width: 250,
-                      child: RaisedButton(
-                          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                          textColor: Colors.white,
-                          color: Colors.red,
-                          child: Text(
-                            "Cancelar",
-                            textAlign: TextAlign.center,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                    ),
-                  ],
-                ),
+                          Navigator.pop(context);
+                        }),
+                  ),
+                ],
               ),
             ),
           ],

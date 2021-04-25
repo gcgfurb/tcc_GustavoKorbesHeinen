@@ -28,6 +28,14 @@
 	<string>LaunchScreen</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Necessário uso de câmera neste aplicativo.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Necessário uso de GPS neste aplicativo.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Necessário uso de GPS neste aplicativo.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Necessário uso de GPS neste aplicativo.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Necessário uso de audio neste aplicativo</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
   		<key>NSAllowsArbitraryLoads</key>

@@ -110,7 +110,10 @@ class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
   }
 
   bool validaCampos() {
-    if (_tecDescricao.text.isEmpty) return false;
+    if (_tecDescricao.text.isEmpty) {
+      _fnDescricao.requestFocus();
+      return false;
+    }
 
     return true;
   }

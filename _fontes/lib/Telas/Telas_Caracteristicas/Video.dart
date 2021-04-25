@@ -127,7 +127,7 @@ class Video extends State<ClasseVideo> {
                             textColor: Colors.white,
                             child: Text("Gravar"),
                             onPressed: () {
-                              if (_controller.dataSource == null) {
+                              if (_controller == null) {
                                 return showDialog(
                                   context: context,
                                   builder: (BuildContext context) => CupertinoAlertDialog(
