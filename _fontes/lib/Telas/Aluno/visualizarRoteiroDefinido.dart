@@ -29,8 +29,7 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
                 style: TextStyle(fontSize: 25),
               ),
             ),
-            SizedBox(
-              height: 270,
+            Flexible(
               child: ListView.builder(
                   itemCount: widget._objEspecifico.getRoteiro().getQtdAtividades(),
                   itemBuilder: (context, index) {
@@ -41,12 +40,13 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
                         title: Text(widget._objEspecifico.getRoteiro().getAtividade(index).getNomeAtividade() + " - " + widget._objEspecifico.getRoteiro().getAtividade(index).getDescricao()),
                         dense: true,
                         trailing: RaisedButton(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            color: Colors.green[500],
-                            disabledColor: Colors.grey[600],
-                            textColor: Colors.white,
-                            child: Text(widget._objEspecifico.getRoteiro().getAtividade(index).respostaAtividade != null ? "Ver Resposta" : "Responder"),
-                            onPressed: !podeHabilitarBotao(index) ? null : () => buscaAtividades(context, widget._objEspecifico.getRoteiro().getAtividade(index))),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          color: Colors.green[500],
+                          disabledColor: Colors.grey[600],
+                          textColor: Colors.white,
+                          child: Text(widget._objEspecifico.getRoteiro().getAtividade(index).respostaAtividade != null ? "Ver Resposta" : "Responder"),
+                          onPressed: !podeHabilitarBotao(index) ? null : () => buscaAtividades(context, widget._objEspecifico.getRoteiro().getAtividade(index)),
+                        ),
                       ),
                     );
                   }),
@@ -84,9 +84,8 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
   }
 
   void buscaAtividades(BuildContext context, Atividade atividade) async {
-    setState(() {
-      Util.escolheAtividadeCorreta(context, atividade);
-    });
+    await Util.escolheAtividadeCorreta(context, atividade);
+    setState(() {});
   }
 
   void chamaTelaObjEspecificos(BuildContext context) {

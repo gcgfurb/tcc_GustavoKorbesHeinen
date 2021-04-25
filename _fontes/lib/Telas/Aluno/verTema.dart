@@ -47,8 +47,7 @@ class VerTema extends State<ClasseVerTema> {
                 ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height - 154, //250
+            Flexible(
               child: ListView.builder(
                   itemCount: widget._tema.getListaObjEspecifico().length,
                   itemBuilder: (context, index) {

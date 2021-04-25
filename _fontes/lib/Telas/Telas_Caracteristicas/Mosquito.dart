@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaMosquito.dart';
+import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ClasseMosquito extends StatefulWidget {
@@ -18,6 +20,7 @@ class Mosquito extends State<ClasseMosquito> {
   TextEditingController _tecDescricao = new TextEditingController();
   FocusNode _fnDescricao;
   PickedFile _imageFile;
+  String geolocator = "";
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +32,27 @@ class Mosquito extends State<ClasseMosquito> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Row(
           children: <Widget>[
-            _decideImageView(),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _decideImageView(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FloatingActionButton(
+                        backgroundColor: Colors.blue,
+                        onPressed: () {
+                          _openCamera(context);
+                        },
+                        heroTag: 'video1',
+                        child: const Icon(Icons.camera_alt),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: IntrinsicWidth(
                 child: Column(
@@ -55,15 +78,32 @@ class Mosquito extends State<ClasseMosquito> {
                     ),
                     Container(
                       width: 150,
-                      child: RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                        color: Colors.green[500],
-                        textColor: Colors.white,
-                        child: Text("Alterar imagem"),
-                        onPressed: () {
-                          _openCamera(context);
+                      child: FloatingActionButton.extended(
+                        heroTag: "btPosicao",
+                        label: Text("Posição atual"),
+                        icon: Icon(Icons.location_on),
+                        backgroundColor: Colors.green[500],
+                        onPressed: () async {
+                          await Geolocator.getCurrentPosition().then((value) => {geolocator = value.toString()});
+                          setState(() {});
                         },
                       ),
+                    ),
+                    TextButton(
+                      child: Text(
+                        geolocator,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          Util.abreGoogleMaps(geolocator);
+                        });
+                      },
                     ),
                     Expanded(
                       child: Row(
@@ -71,14 +111,13 @@ class Mosquito extends State<ClasseMosquito> {
                         children: <Widget>[
                           Container(
                             width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green,
-                              textColor: Colors.white,
-                              child: Text("Gravar"),
+                            child: FloatingActionButton.extended(
+                              heroTag: "btGravar",
+                              label: Text("Gravar"),
+                              backgroundColor: Colors.green,
                               onPressed: () {
                                 if (validaCampos()) {
-                                  widget._atividade.adicionaResposta(CaracteristicaMosquito(_imageFile, _tecDescricao.text));
+                                  widget._atividade.adicionaResposta(CaracteristicaMosquito(_imageFile, _tecDescricao.text, geolocator));
                                   Navigator.pop(context);
                                 }
                               },
@@ -86,11 +125,10 @@ class Mosquito extends State<ClasseMosquito> {
                           ),
                           Container(
                             width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.red,
-                              textColor: Colors.white,
-                              child: Text("Cancelar"),
+                            child: FloatingActionButton.extended(
+                              heroTag: "btCancelar",
+                              label: Text("Cancelar"),
+                              backgroundColor: Colors.red,
                               onPressed: () {
                                 Navigator.pop(context);
                               },
@@ -121,11 +159,12 @@ class Mosquito extends State<ClasseMosquito> {
   @override
   void initState() {
     super.initState();
-    dynamic foto = widget._atividade.respostaAtividade;
+    dynamic mosquito = widget._atividade.respostaAtividade;
 
-    if (foto != null) {
-      _tecDescricao.text = foto.getDescricao();
-      _imageFile = foto.getImageFile();
+    if (mosquito != null) {
+      _tecDescricao.text = mosquito.getDescricao();
+      _imageFile = mosquito.getImageFile();
+      geolocator = mosquito.getCoordenada();
     }
 
     _fnDescricao = FocusNode();
@@ -138,7 +177,8 @@ class Mosquito extends State<ClasseMosquito> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    var _picker = ImagePicker();
+    var picture = await _picker.getImage(source: ImageSource.camera);
     this.setState(() {
       _imageFile = picture;
     });

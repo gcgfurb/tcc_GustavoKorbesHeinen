@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaIntervencao.dart';
+import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ClasseIntervencao extends StatefulWidget {
@@ -18,6 +20,7 @@ class Intervencao extends State<ClasseIntervencao> {
   TextEditingController _tecDescricao = new TextEditingController();
   FocusNode _fnDescricao;
   PickedFile _imageFile;
+  String geolocator = "";
 
   @override
   Widget build(BuildContext context) {
@@ -29,78 +32,111 @@ class Intervencao extends State<ClasseIntervencao> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Row(
           children: <Widget>[
-            _decideImageView(),
             Expanded(
-              child: IntrinsicWidth(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: TextField(
-                        controller: _tecDescricao,
-                        focusNode: _fnDescricao,
-                        maxLength: 150,
-                        maxLines: 7,
-                        decoration: InputDecoration(
-                          hintText: 'Qual intervenção humanda foi encontrada?*',
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 150,
-                      child: RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                        color: Colors.green[500],
-                        textColor: Colors.white,
-                        child: Text("Alterar imagem"),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _decideImageView(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FloatingActionButton(
+                        backgroundColor: Colors.blue,
                         onPressed: () {
                           _openCamera(context);
                         },
+                        heroTag: 'video1',
+                        child: const Icon(Icons.camera_alt),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: TextField(
+                      controller: _tecDescricao,
+                      focusNode: _fnDescricao,
+                      maxLength: 150,
+                      maxLines: 7,
+                      decoration: InputDecoration(
+                        hintText: 'Qual intervenção humana foi encontrada?*',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
                       ),
                     ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Container(
-                            width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green[500],
-                              textColor: Colors.white,
-                              child: Text("Gravar"),
-                              onPressed: () {
-                                if (validaCampos()) {
-                                  widget._atividade.adicionaResposta(CaracteristicaIntervencao(_imageFile, _tecDescricao.text));
-                                  Navigator.pop(context);
-                                }
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green[500],
-                              textColor: Colors.white,
-                              child: Text("Cancelar"),
-                              onPressed: () {
+                  ),
+                  Container(
+                    width: 150,
+                    child: FloatingActionButton.extended(
+                      heroTag: "btPosicao",
+                      label: Text("Posição atual"),
+                      icon: Icon(Icons.location_on),
+                      backgroundColor: Colors.green[500],
+                      onPressed: () async {
+                        await Geolocator.getCurrentPosition().then((value) => {geolocator = value.toString()});
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                  TextButton(
+                    child: Text(
+                      geolocator,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        Util.abreGoogleMaps(geolocator);
+                      });
+                    },
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Container(
+                          width: 150,
+                          child: FloatingActionButton.extended(
+                            heroTag: "btGravar",
+                            label: Text("Gravar"),
+                            backgroundColor: Colors.green,
+                            onPressed: () {
+                              if (validaCampos()) {
+                                widget._atividade.adicionaResposta(CaracteristicaIntervencao(_imageFile, _tecDescricao.text));
                                 Navigator.pop(context);
-                              },
-                            ),
+                              }
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          width: 150,
+                          child: FloatingActionButton.extended(
+                            heroTag: "btCancelar",
+                            label: Text("Cancelar"),
+                            backgroundColor: Colors.red,
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -121,11 +157,11 @@ class Intervencao extends State<ClasseIntervencao> {
   @override
   void initState() {
     super.initState();
-    dynamic foto = widget._atividade.respostaAtividade;
+    dynamic intervencao = widget._atividade.respostaAtividade;
 
-    if (foto != null) {
-      _tecDescricao.text = foto.getDescricao();
-      _imageFile = foto.getImageFile();
+    if (intervencao != null) {
+      _tecDescricao.text = intervencao.getDescricao();
+      _imageFile = intervencao.getImageFile();
     }
 
     _fnDescricao = FocusNode();
@@ -138,7 +174,8 @@ class Intervencao extends State<ClasseIntervencao> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    var _picker = ImagePicker();
+    var picture = await _picker.getImage(source: ImageSource.camera);
     this.setState(() {
       _imageFile = picture;
     });

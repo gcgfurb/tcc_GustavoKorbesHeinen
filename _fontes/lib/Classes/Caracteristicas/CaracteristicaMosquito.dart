@@ -4,10 +4,12 @@ import '../Resposta.dart';
 class CaracteristicaMosquito extends Resposta {
   PickedFile _imageFile;
   String _descricao;
+  String _coordenada;
 
-  CaracteristicaMosquito(PickedFile imageFile, String descricao) {
+  CaracteristicaMosquito(PickedFile imageFile, String descricao, String coordenada) {
     _imageFile = imageFile;
     _descricao = descricao;
+    _coordenada = coordenada;
   }
 
   PickedFile getImageFile() {
@@ -24,5 +26,13 @@ class CaracteristicaMosquito extends Resposta {
 
   void setDescricao(String descricao) {
     _descricao = descricao;
+  }
+
+  String getCoordenada() {
+    return _coordenada;
+  }
+
+  void setCoordenada(String coordenada) {
+    _coordenada = coordenada;
   }
 }

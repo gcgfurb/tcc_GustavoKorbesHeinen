@@ -159,7 +159,7 @@ class Medida extends State<ClasseMedida> {
           ),
           child: DropdownButton<String>(
             dropdownColor: Colors.green,
-            hint: Text("Dimensão"),
+            hint: Text("Dimensão*"),
             value: bRepetido
                 ? ddVDimensao2 == null
                     ? null
@@ -212,7 +212,7 @@ class Medida extends State<ClasseMedida> {
           ),
           child: DropdownButton<String>(
             dropdownColor: Colors.green,
-            hint: Text("Un. Medida"),
+            hint: Text("Un. Medida*"),
             value: bRepetido
                 ? ddVUnMed2 == null
                     ? null

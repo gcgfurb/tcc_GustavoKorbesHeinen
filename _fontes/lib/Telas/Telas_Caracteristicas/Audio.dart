@@ -1,11 +1,180 @@
 import 'dart:async';
 
 import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaAudio.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
+
+class ClasseAudio extends StatefulWidget {
+  Atividade _atividade = new Atividade();
+  ClasseAudio(this._atividade);
+
+  @override
+  Audio createState() => Audio();
+}
+
+class Audio extends State<ClasseAudio> {
+  bool showPlayer = false;
+  String path;
+  AudioPlayer audioPlayer = AudioPlayer();
+  TextEditingController _tecDescricao = new TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    showPlayer = false;
+
+    dynamic audio = widget._atividade.respostaAtividade;
+
+    if (audio != null) {
+      _tecDescricao.text = audio.getDescricao();
+      audioPlayer = audio.getAudioPlayer();
+      showPlayer = true;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        color: Colors.green[300],
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        child: Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.fromLTRB(20, 20, 0, 10),
+              child: Text("Insira um áudio em seu roteiro:"),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.fromLTRB(20, 10, 0, 20),
+              child: Text(widget._atividade.getDescricao()),
+            ),
+            FutureBuilder<String>(
+              future: getPath(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (showPlayer) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: Icon(
+                          Icons.play_arrow,
+                          size: 50,
+                        ),
+                        onPressed: () {
+                          audioPlayer.play(path, isLocal: true);
+                        },
+                      ),
+                    );
+                  } else {
+                    return Container(
+                      child: AudioRecorder(
+                        path: snapshot.data,
+                        onStop: () {
+                          setState(() => showPlayer = true);
+                        },
+                      ),
+                    );
+                  }
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(20, 30, 20, 20),
+              child: TextField(
+                controller: _tecDescricao,
+                maxLength: 150,
+                maxLines: 7,
+                decoration: InputDecoration(
+                  hintText: 'Descreva um resumo do áudio',
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    width: 150,
+                    child: FloatingActionButton.extended(
+                      heroTag: "btGravar",
+                      label: Text("Gravar"),
+                      backgroundColor: Colors.green,
+                      onPressed: () {
+                        if (!validaCampos()) {
+                          return showDialog(
+                            context: context,
+                            builder: (BuildContext context) => CupertinoAlertDialog(
+                              title: Text("Campo obrigatório"),
+                              content: Text("É obrigatório adicionar um áudio."),
+                              actions: <Widget>[
+                                CupertinoDialogAction(
+                                  isDefaultAction: true,
+                                  child: Text("OK"),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        widget._atividade.adicionaResposta(CaracteristicaAudio(audioPlayer, _tecDescricao.text));
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 150,
+                    child: FloatingActionButton.extended(
+                      heroTag: "btCancelar",
+                      label: Text("Cancelar"),
+                      backgroundColor: Colors.red,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  bool validaCampos() {
+    if (audioPlayer == null) return false;
+
+    return true;
+  }
+
+  Future<String> getPath() async {
+    if (path == null) {
+      final dir = await getApplicationDocumentsDirectory();
+      path = dir.path + '/' + DateTime.now().millisecondsSinceEpoch.toString() + '.m4a';
+    }
+    return path;
+  }
+}
 
 class AudioRecorder extends StatefulWidget {
   final String path;
@@ -37,20 +206,19 @@ class _AudioRecorderState extends State<AudioRecorder> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _buildRecordStopControl(),
-              const SizedBox(width: 20),
-              _buildPauseResumeControl(),
-              const SizedBox(width: 20),
-              _buildText(),
-            ],
-          ),
-        ),
+    return Container(
+      color: Colors.green[300],
+      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          _buildRecordStopControl(),
+          const SizedBox(width: 20),
+          _buildPauseResumeControl(),
+          const SizedBox(width: 20),
+          _buildText(),
+        ],
       ),
     );
   }
@@ -116,7 +284,7 @@ class _AudioRecorderState extends State<AudioRecorder> {
       return _buildTimer();
     }
 
-    return Text("Waiting to record");
+    return Text("Aguardando áudio");
   }
 
   Widget _buildTimer() {
@@ -187,77 +355,5 @@ class _AudioRecorderState extends State<AudioRecorder> {
     _timer = Timer.periodic(tick, (Timer t) {
       setState(() => _recordDuration++);
     });
-  }
-}
-
-class ClasseAudio extends StatefulWidget {
-  Atividade _atividade = new Atividade();
-  ClasseAudio(this._atividade);
-
-  @override
-  Audio createState() => Audio();
-}
-
-class Audio extends State<ClasseAudio> {
-  bool showPlayer = false;
-  String path;
-  AudioPlayer audioPlayer = AudioPlayer();
-  AudioCache audioCache = AudioCache();
-
-  @override
-  void initState() {
-    showPlayer = false;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: FutureBuilder<String>(
-            future: getPath(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (showPlayer) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Icon(
-                        Icons.delete_forever,
-                        size: 50,
-                      ),
-                      onPressed: () {
-                        //audioCache.getAbsoluteUrl(path);
-                        //audioCache.load(path);
-                        audioPlayer.play("https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3");
-                      },
-                    ),
-                  );
-                } else {
-                  return AudioRecorder(
-                    path: snapshot.data,
-                    onStop: () {
-                      setState(() => showPlayer = true);
-                    },
-                  );
-                }
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<String> getPath() async {
-    if (path == null) {
-      final dir = await getApplicationDocumentsDirectory();
-      path = dir.path + '/' + DateTime.now().millisecondsSinceEpoch.toString() + '.m4a';
-    }
-    return path;
   }
 }

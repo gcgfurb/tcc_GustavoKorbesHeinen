@@ -118,10 +118,11 @@ class Solo extends State<ClasseSolo> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
+                  width: 150,
                   padding: EdgeInsets.fromLTRB(0, 25, 30, 0),
                   child: RaisedButton(
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.green[500],
+                      color: Colors.green,
                       textColor: Colors.white,
                       child: Text("Gravar"),
                       onPressed: () {
@@ -133,9 +134,10 @@ class Solo extends State<ClasseSolo> {
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(30, 25, 0, 0),
+                  width: 150,
                   child: RaisedButton(
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.green[500],
+                      color: Colors.red,
                       textColor: Colors.white,
                       child: Text("Cancelar"),
                       onPressed: () {

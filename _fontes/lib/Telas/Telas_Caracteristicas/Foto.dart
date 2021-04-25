@@ -28,7 +28,22 @@ class Foto extends State<ClasseFoto> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Row(
           children: <Widget>[
-            _decideImageView(),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _decideImageView(),
+                  FloatingActionButton(
+                    backgroundColor: Colors.blue,
+                    onPressed: () {
+                      _openCamera(context);
+                    },
+                    heroTag: 'video1',
+                    child: const Icon(Icons.camera_alt),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: IntrinsicWidth(
                 child: Column(
@@ -51,29 +66,16 @@ class Foto extends State<ClasseFoto> {
                         ),
                       ),
                     ),
-                    Container(
-                      width: 150,
-                      child: RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                        color: Colors.green[500],
-                        textColor: Colors.white,
-                        child: Text("Alterar imagem"),
-                        onPressed: () {
-                          _openCamera(context);
-                        },
-                      ),
-                    ),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Container(
                             width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green[500],
-                              textColor: Colors.white,
-                              child: Text("Gravar"),
+                            child: FloatingActionButton.extended(
+                              heroTag: "btGravar",
+                              label: Text("Gravar"),
+                              backgroundColor: Colors.green,
                               onPressed: () {
                                 if (_imageFile == null) {
                                   return showDialog(
@@ -92,19 +94,18 @@ class Foto extends State<ClasseFoto> {
                                   );
                                 }
                                 widget._atividade.adicionaResposta(CaracteristicaFoto(_imageFile, _textoDescricao.text));
-                                chamaTelaVisualizaRoteiro(context);
+                                Navigator.pop(context);
                               },
                             ),
                           ),
                           Container(
                             width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green[500],
-                              textColor: Colors.white,
-                              child: Text("Cancelar"),
+                            child: FloatingActionButton.extended(
+                              heroTag: "btCancelar",
+                              label: Text("Cancelar"),
+                              backgroundColor: Colors.red,
                               onPressed: () {
-                                chamaTelaVisualizaRoteiro(context);
+                                Navigator.pop(context);
                               },
                             ),
                           ),
@@ -151,13 +152,9 @@ class Foto extends State<ClasseFoto> {
       return Expanded(
           child: Image.file(
         File(_imageFile.path),
-        width: 300,
-        height: 300,
+        width: 400,
+        height: 400,
       ));
     }
   }
-}
-
-chamaTelaVisualizaRoteiro(BuildContext context) {
-  Navigator.pop(context);
 }

@@ -43,7 +43,8 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Column(
           children: <Widget>[
-            Expanded(
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 10, 20, 30),
               child: TextField(
                 enabled: _atividadeTexto.text.isEmpty,
                 focusNode: _focusNodeAtividade,
@@ -55,8 +56,8 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
                 ),
               ),
             ),
-            Expanded(
-              flex: 3,
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextField(
                 controller: _descricaoTexto,
                 focusNode: _focusNodeDescricao,

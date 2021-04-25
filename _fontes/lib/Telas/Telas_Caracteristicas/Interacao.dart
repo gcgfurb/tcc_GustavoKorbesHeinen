@@ -83,21 +83,25 @@ class Interacao extends State<ClasseInteracao> {
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                  width: 150,
                   child: RaisedButton(
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.green[500],
+                      color: Colors.green,
                       textColor: Colors.white,
                       child: Text("Gravar"),
                       onPressed: () {
-                        widget._atividade.adicionaResposta(CaracteristicaInteracao(_tecResposta1.text, _tecResposta2.text));
-                        Navigator.pop(context);
+                        if (validaCampos()) {
+                          widget._atividade.adicionaResposta(CaracteristicaInteracao(_tecResposta1.text, _tecResposta2.text));
+                          Navigator.pop(context);
+                        }
                       }),
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                  width: 150,
                   child: RaisedButton(
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.green[500],
+                      color: Colors.red,
                       textColor: Colors.white,
                       child: Text("Cancelar"),
                       onPressed: () {
@@ -110,5 +114,19 @@ class Interacao extends State<ClasseInteracao> {
         ),
       ),
     );
+  }
+
+  bool validaCampos() {
+    if (_tecResposta1.text.isEmpty) {
+      _fnResposta1.requestFocus();
+      return false;
+    }
+
+    if (_tecResposta2.text.isEmpty) {
+      _fnResposta2.requestFocus();
+      return false;
+    }
+
+    return true;
   }
 }

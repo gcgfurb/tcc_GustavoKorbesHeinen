@@ -30,7 +30,27 @@ class Planta extends State<ClassePlanta> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Row(
           children: <Widget>[
-            _decideImageView(),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _decideImageView(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FloatingActionButton(
+                        backgroundColor: Colors.blue,
+                        onPressed: () {
+                          _openCamera(context);
+                        },
+                        heroTag: 'video1',
+                        child: const Icon(Icons.camera_alt),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: IntrinsicWidth(
                 child: Column(
@@ -68,19 +88,6 @@ class Planta extends State<ClassePlanta> {
                             borderSide: BorderSide(color: Colors.grey),
                           ),
                         ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(right: 20),
-                      width: 150,
-                      child: RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                        color: Colors.green[500],
-                        textColor: Colors.white,
-                        child: Text("Alterar imagem"),
-                        onPressed: () {
-                          _openCamera(context);
-                        },
                       ),
                     ),
                     Expanded(
@@ -140,6 +147,7 @@ class Planta extends State<ClassePlanta> {
   @override
   void initState() {
     super.initState();
+
     dynamic planta = widget._atividade.respostaAtividade;
 
     if (planta != null) {
@@ -158,7 +166,8 @@ class Planta extends State<ClassePlanta> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    var _picker = ImagePicker();
+    var picture = await _picker.getImage(source: ImageSource.camera);
     this.setState(() {
       _imageFile = picture;
     });

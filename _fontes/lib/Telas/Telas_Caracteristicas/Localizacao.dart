@@ -1,6 +1,7 @@
-import 'dart:async';
-
 import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaLocalizacao.dart';
+import 'package:TCC_II/Classes/Util.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -13,169 +14,207 @@ class ClasseLocalizacao extends StatefulWidget {
 }
 
 class Localizacao extends State<ClasseLocalizacao> {
-  final List<_PositionItem> _positionItems = <_PositionItem>[];
-  StreamSubscription<Position> _positionStreamSubscription;
+  String geolocator = "";
+  bool bLink = false;
+  Position position;
+  Position positionInicial;
+  bool bTelaAlterar = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    dynamic localizacao = widget._atividade.respostaAtividade;
+
+    if (localizacao != null) {
+      position = localizacao.getCoordenada();
+      positionInicial = position;
+      geolocator = position.toString();
+      bLink = true;
+      bTelaAlterar = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: ListView.builder(
-        itemCount: _positionItems.length,
-        itemBuilder: (context, index) {
-          final positionItem = _positionItems[index];
-
-          if (positionItem.type == _PositionItemType.permission) {
-            return ListTile(
-              title: Text(positionItem.displayValue,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  )),
-            );
-          } else {
-            return Card(
-              child: ListTile(
-                tileColor: Colors.pink,
-                title: Text(
-                  positionItem.displayValue,
-                  style: TextStyle(color: Colors.white),
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        color: Colors.green[300],
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        child: Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.fromLTRB(20, 10, 0, 5),
+              child: Text('Registre a sua localização:'),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.fromLTRB(20, 5, 0, 10),
+              child: Text(widget._atividade.getDescricao()),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.fromLTRB(20, 5, 0, 10),
+              child: Text(
+                'Necessário estar com o GPS do celular ativado',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            );
-          }
-        },
-      ),
-      floatingActionButton: Stack(
-        children: <Widget>[
-          Positioned(
-            bottom: 10.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: () => setState(_positionItems.clear),
-              label: Text("clear"),
             ),
-          ),
-          Positioned(
-            bottom: 80.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: () async {
-                await Geolocator.getLastKnownPosition().then((value) => {_positionItems.add(_PositionItem(_PositionItemType.position, value.toString()))});
-
-                setState(
-                  () {},
-                );
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: 15,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(
+                    right: 10,
+                  ),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btPosicao",
+                    label: bTelaAlterar ? Text("Alterar posição") : Text("Posição atual"),
+                    icon: Icon(Icons.location_on),
+                    backgroundColor: Colors.green[500],
+                    onPressed: () async {
+                      await Geolocator.getCurrentPosition().then((value) => {position = value});
+                      geolocator = position.toString();
+                      bLink = true;
+                      setState(() {});
+                    },
+                  ),
+                ),
+                if (bTelaAlterar)
+                  Container(
+                    padding: EdgeInsets.only(
+                      left: 10,
+                    ),
+                    child: FloatingActionButton.extended(
+                      heroTag: "btChecarPosicao",
+                      label: Text("Checar posição"),
+                      icon: Icon(Icons.location_on),
+                      backgroundColor: Colors.green[500],
+                      onPressed: () async {
+                        geolocator = positionInicial.toString();
+                        bLink = true;
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                Container(
+                  padding: EdgeInsets.only(
+                    left: 10,
+                  ),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btPermissao",
+                    label: Text("Permissão"),
+                    icon: Icon(Icons.perm_device_info_rounded),
+                    backgroundColor: Colors.green[500],
+                    onPressed: () async {
+                      await Geolocator.requestPermission().then((value) => {geolocator = ptBR(value)});
+                      bLink = false;
+                      setState(() {});
+                    },
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 20),
+            ),
+            TextButton(
+              child: Text(
+                geolocator,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: bLink ? Colors.blue : Colors.black,
+                  decoration: bLink ? TextDecoration.underline : null,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  Util.abreGoogleMaps(geolocator);
+                });
               },
-              label: Text("Last Position"),
             ),
-          ),
-          Positioned(
-            bottom: 150.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-                onPressed: () async {
-                  await Geolocator.getCurrentPosition().then((value) => {_positionItems.add(_PositionItem(_PositionItemType.position, value.toString()))});
-
-                  setState(
-                    () {},
-                  );
-                },
-                label: Text("Current Position")),
-          ),
-          Positioned(
-            bottom: 220.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: _toggleListening,
-              label: Text(() {
-                if (_positionStreamSubscription == null) {
-                  return "Start stream";
-                } else {
-                  final buttonText = _positionStreamSubscription.isPaused ? "Resume" : "Pause";
-
-                  return "$buttonText stream";
-                }
-              }()),
-              backgroundColor: _determineButtonColor(),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    width: 150,
+                    child: FloatingActionButton.extended(
+                      heroTag: "btGravar",
+                      label: Text("Gravar"),
+                      backgroundColor: Colors.green,
+                      onPressed: () {
+                        if (!validaCampos()) {
+                          return showDialog(
+                            context: context,
+                            builder: (BuildContext context) => CupertinoAlertDialog(
+                              title: Text("Campo obrigatório"),
+                              content: Text("É obrigatório adicionar a sua localização."),
+                              actions: <Widget>[
+                                CupertinoDialogAction(
+                                  isDefaultAction: true,
+                                  child: Text("OK"),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        widget._atividade.adicionaResposta(CaracteristicaLocalizacao(position));
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 150,
+                    child: FloatingActionButton.extended(
+                      heroTag: "btCancelar",
+                      label: Text("Cancelar"),
+                      backgroundColor: Colors.red,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 290.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: () async {
-                await Geolocator.checkPermission().then((value) => {_positionItems.add(_PositionItem(_PositionItemType.permission, value.toString()))});
-                setState(() {});
-              },
-              label: Text("Check Permission"),
-            ),
-          ),
-          Positioned(
-            bottom: 360.0,
-            right: 10.0,
-            child: FloatingActionButton.extended(
-              onPressed: () async {
-                await Geolocator.requestPermission().then((value) => {_positionItems.add(_PositionItem(_PositionItemType.permission, value.toString()))});
-                setState(() {});
-              },
-              label: Text("Request Permission"),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  bool _isListening() => !(_positionStreamSubscription == null || _positionStreamSubscription.isPaused);
+  bool validaCampos() {
+    if (position == null) return false;
 
-  Color _determineButtonColor() {
-    return _isListening() ? Colors.green : Colors.red;
+    return true;
   }
 
-  void _toggleListening() {
-    if (_positionStreamSubscription == null) {
-      final positionStream = Geolocator.getPositionStream();
-      _positionStreamSubscription = positionStream.handleError((error) {
-        _positionStreamSubscription?.cancel();
-        _positionStreamSubscription = null;
-      }).listen((position) => setState(() => _positionItems.add(_PositionItem(_PositionItemType.position, position.toString()))));
-      _positionStreamSubscription?.pause();
+  String ptBR(LocationPermission permissao) {
+    switch (permissao) {
+      case LocationPermission.always:
+        return "Permitido utilizar sempre";
+      case LocationPermission.whileInUse:
+        return "Permitido utilizar apenas durante o uso";
+      case LocationPermission.denied:
+        return "Permissão bloqueada";
+      case LocationPermission.deniedForever:
+        return "Permissão bloqueada até reiniciar as configurações";
+      default:
+        return "Permissão não definida";
     }
-
-    setState(() {
-      if (_positionStreamSubscription == null) {
-        return;
-      }
-
-      if (_positionStreamSubscription.isPaused) {
-        _positionStreamSubscription.resume();
-      } else {
-        _positionStreamSubscription.pause();
-      }
-    });
   }
-
-  @override
-  void dispose() {
-    if (_positionStreamSubscription != null) {
-      _positionStreamSubscription.cancel();
-      _positionStreamSubscription = null;
-    }
-
-    super.dispose();
-  }
-}
-
-enum _PositionItemType {
-  permission,
-  position,
-}
-
-class _PositionItem {
-  _PositionItem(this.type, this.displayValue);
-
-  final _PositionItemType type;
-  final String displayValue;
 }

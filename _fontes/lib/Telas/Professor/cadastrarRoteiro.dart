@@ -48,15 +48,18 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
         child: Column(
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                    flex: 6,
+                Container(
+                    padding: EdgeInsets.fromLTRB(15, 5, 0, 5),
                     child: Text(
                       'Objetivo: ' + widget.objEspecifico.getObjetivo(),
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 20),
                     )),
-                Expanded(
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 15, 15, 5),
+                  alignment: Alignment.topRight,
                   child: RaisedButton(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                     color: Colors.green[500],
@@ -116,13 +119,13 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                 ],
               ),
             ),
-            Expanded(
+            Container(
               child: Row(
                 children: <Widget>[
-                  Flexible(
+                  Expanded(
                     child: CheckboxListTile(
+                      secondary: Icon(Icons.format_list_numbered),
                       title: Text("Este roteiro deve ser realizado na ordem proposta"),
-                      secondary: Icon(Icons.account_box_outlined),
                       controlAffinity: ListTileControlAffinity.leading,
                       value: widget.objEspecifico.getRoteiro().getOrdenado(),
                       onChanged: (bool value) {
@@ -135,8 +138,8 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                     ),
                   ),
                   Container(
-                    height: 100,
-                    padding: EdgeInsets.all(5),
+                    height: 70,
+                    padding: EdgeInsets.fromLTRB(5, 5, 15, 5),
                     child: RaisedButton(
                       color: Colors.green[500],
                       textColor: Colors.white,
@@ -150,8 +153,8 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                     ),
                   ),
                   Container(
-                    height: 100,
-                    padding: EdgeInsets.all(5),
+                    height: 70,
+                    padding: EdgeInsets.fromLTRB(5, 5, 15, 5),
                     child: RaisedButton(
                       color: Colors.green[500],
                       textColor: Colors.white,

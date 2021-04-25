@@ -40,6 +40,7 @@ dependencies:
   geolocator: ^7.0.3
   record: ^2.1.1
   audioplayers: ^0.18.3
+  url_launcher: ^6.0.3
 
 dev_dependencies:
   flutter_test:

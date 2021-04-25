@@ -29,78 +29,79 @@ class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Row(
           children: <Widget>[
-            _decideImageView(),
             Expanded(
-              child: IntrinsicWidth(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: TextField(
-                        controller: _tecDescricao,
-                        focusNode: _fnDescricao,
-                        maxLength: 150,
-                        maxLines: 7,
-                        decoration: InputDecoration(
-                          hintText: 'Descreva as etapas da confecção do material*',
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _decideImageView(),
+                  FloatingActionButton(
+                    backgroundColor: Colors.blue,
+                    onPressed: () {
+                      _openCamera(context);
+                    },
+                    heroTag: 'video1',
+                    child: const Icon(Icons.camera_alt),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: TextField(
+                      controller: _tecDescricao,
+                      focusNode: _fnDescricao,
+                      maxLength: 150,
+                      maxLines: 7,
+                      decoration: InputDecoration(
+                        hintText: 'Descreva as etapas da confecção do material*',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(color: Colors.grey),
                         ),
                       ),
                     ),
-                    Container(
-                      width: 150,
-                      child: RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                        color: Colors.green[500],
-                        textColor: Colors.white,
-                        child: Text("Alterar imagem"),
-                        onPressed: () {
-                          _openCamera(context);
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Container(
-                            width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green[500],
-                              textColor: Colors.white,
-                              child: Text("Gravar"),
-                              onPressed: () {
-                                if (validaCampos()) {
-                                  widget._atividade.adicionaResposta(CaracteristicaProducaoDeMaterial(_imageFile, _tecDescricao.text));
-                                  Navigator.pop(context);
-                                }
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green[500],
-                              textColor: Colors.white,
-                              child: Text("Cancelar"),
-                              onPressed: () {
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Container(
+                          width: 150,
+                          child: RaisedButton(
+                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                            color: Colors.green,
+                            textColor: Colors.white,
+                            child: Text("Gravar"),
+                            onPressed: () {
+                              if (validaCampos()) {
+                                widget._atividade.adicionaResposta(CaracteristicaProducaoDeMaterial(_imageFile, _tecDescricao.text));
                                 Navigator.pop(context);
-                              },
-                            ),
+                              }
+                            },
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          width: 150,
+                          child: RaisedButton(
+                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                            color: Colors.red,
+                            textColor: Colors.white,
+                            child: Text("Cancelar"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],

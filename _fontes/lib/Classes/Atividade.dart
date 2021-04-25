@@ -71,7 +71,7 @@ class Atividade {
         respostaAtividade = new CaracteristicaInteracao(object.getResposta1(), object.getResposta2());
         break;
       case 4:
-        respostaAtividade = new CaracteristicaAreaDesmatada(object.getImageFile(), object.getDescricao());
+        respostaAtividade = new CaracteristicaAreaDesmatada(object.getImageFile(), object.getDescricao(), object.getCoordenada());
         break;
       case 5:
         respostaAtividade = new CaracteristicaVideo(object.getVideoFile(), object.getDescricao());
@@ -86,10 +86,10 @@ class Atividade {
         respostaAtividade = new CaracteristicaVivencia(object.getResposta());
         break;
       case 9:
-        respostaAtividade = new CaracteristicaMosquito(object.getImageFile(), object.getDescricao());
+        respostaAtividade = new CaracteristicaMosquito(object.getImageFile(), object.getDescricao(), object.getCoordenada());
         break;
       case 10:
-        respostaAtividade = new CaracteristicaAudio(object.getDescricao());
+        respostaAtividade = new CaracteristicaAudio(object.getAudioPlayer(), object.getDescricao());
         break;
       case 11:
         respostaAtividade = new CaracteristicaTeste(object.getResposta1(), object.getResposta2());
@@ -102,13 +102,13 @@ class Atividade {
             object.getConservacao(), object.getObservacoes(), object.getImageFile());
         break;
       case 14:
-        respostaAtividade = new CaracteristicaLixo(object.getImageFile(), object.getDescricao());
+        respostaAtividade = new CaracteristicaLixo(object.getImageFile(), object.getDescricao(), object.getCoordenada());
         break;
       case 15:
-        respostaAtividade = new CaracteristicaSonsDaNatureza();
+        respostaAtividade = new CaracteristicaSonsDaNatureza(object.getAudioPlayer(), object.getDescricao());
         break;
       case 16:
-        respostaAtividade = new CaracteristicaLocalizacao();
+        respostaAtividade = new CaracteristicaLocalizacao(object.getCoordenada());
         break;
       case 17:
         respostaAtividade = new CaracteristicaProducaoDeMaterial(object.getImageFile(), object.getDescricao());

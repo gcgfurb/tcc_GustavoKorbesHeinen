@@ -22,6 +22,7 @@ import 'package:TCC_II/Telas/Telas_Caracteristicas/Video.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Vivencia.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Util {
   static GoogleSignInAccount account;
@@ -183,6 +184,20 @@ class Util {
       default:
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseNovaPergunta(atividade)));
         break;
+    }
+  }
+
+  static Future<void> abreGoogleMaps(String geolocator) async {
+    String lat;
+    String long;
+    List<String> coordenadas = geolocator.split(',');
+    lat = coordenadas[0].substring(coordenadas[0].indexOf(':') + 1, coordenadas[0].length);
+    long = coordenadas[1].substring(coordenadas[1].indexOf(':') + 1, coordenadas[1].length);
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$lat,$long';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Não conseguiu acessar o Google Maps.';
     }
   }
 }

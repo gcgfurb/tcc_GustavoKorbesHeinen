@@ -77,46 +77,46 @@ class CadastrarTema extends State<ClasseTema> {
               ),
             ),
             Expanded(
-              child: IntrinsicWidth(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    width: 300,
+                    height: 100,
+                    child: RaisedButton(
                       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      width: 300,
-                      child: RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                        color: Colors.green[500],
-                        textColor: Colors.white,
-                        child: Text(
-                          "Cadastrar Objetivos Específicos para o Tema (opcional)",
-                          textAlign: TextAlign.center,
-                        ),
-                        onPressed: () {
-                          if (validaCampos()) chamaTelaCadastrarObjetivosEspecificos(context, widget.tema);
-                        },
+                      color: Colors.green[500],
+                      textColor: Colors.white,
+                      child: Text(
+                        "Cadastrar Objetivos Específicos para o Tema (opcional)",
+                        textAlign: TextAlign.center,
                       ),
+                      onPressed: () {
+                        if (validaCampos()) chamaTelaCadastrarObjetivosEspecificos(context, widget.tema);
+                      },
                     ),
-                    Container(
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                    width: 300,
+                    height: 100,
+                    child: RaisedButton(
                       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      width: 300,
-                      child: RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                        textColor: Colors.white,
-                        color: Colors.green[500],
-                        child: Text(
-                          "Finalizar Tema e gerar QRCode",
-                          textAlign: TextAlign.center,
-                        ),
-                        onPressed: () {
-                          if (validaCampos()) {
-                            finalizarTemaGerarQRCode();
-                          }
-                        },
+                      textColor: Colors.white,
+                      color: Colors.green[500],
+                      child: Text(
+                        "Finalizar Tema e gerar QRCode",
+                        textAlign: TextAlign.center,
                       ),
+                      onPressed: () {
+                        if (validaCampos()) {
+                          finalizarTemaGerarQRCode();
+                        }
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
