@@ -37,7 +37,7 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
                       color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                       child: ListTile(
                         leading: Icon(Icons.bookmarks),
-                        title: Text(widget._objEspecifico.getRoteiro().getAtividade(index).getNomeAtividade() + " - " + widget._objEspecifico.getRoteiro().getAtividade(index).getDescricao()),
+                        title: getNomeAtividade(index),
                         dense: true,
                         trailing: RaisedButton(
                           padding: EdgeInsets.symmetric(horizontal: 10),
@@ -68,6 +68,16 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
         ),
       ),
     );
+  }
+
+  Widget getNomeAtividade(int index) {
+    String atividade = widget._objEspecifico.getRoteiro().getAtividade(index).getNomeAtividade();
+    String descricao = widget._objEspecifico.getRoteiro().getAtividade(index).getDescricao();
+
+    if (descricao.isEmpty)
+      return Text(atividade);
+    else
+      return Text(atividade + " - " + descricao);
   }
 
   bool podeHabilitarBotao(int index) {

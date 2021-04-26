@@ -22,6 +22,7 @@ class Audio extends State<ClasseAudio> {
   String path;
   AudioPlayer audioPlayer = AudioPlayer();
   TextEditingController _tecDescricao = new TextEditingController();
+  String pathAnterior = "";
 
   @override
   void initState() {
@@ -33,6 +34,7 @@ class Audio extends State<ClasseAudio> {
     if (audio != null) {
       _tecDescricao.text = audio.getDescricao();
       audioPlayer = audio.getAudioPlayer();
+      pathAnterior = audio.getPath();
       showPlayer = true;
     }
   }
@@ -71,6 +73,7 @@ class Audio extends State<ClasseAudio> {
                           size: 50,
                         ),
                         onPressed: () {
+                          if (pathAnterior.isNotEmpty) path = pathAnterior;
                           audioPlayer.play(path, isLocal: true);
                         },
                       ),
@@ -119,7 +122,7 @@ class Audio extends State<ClasseAudio> {
                       heroTag: "btGravar",
                       label: Text("Gravar"),
                       backgroundColor: Colors.green,
-                      onPressed: () {
+                      onPressed: () async {
                         if (!validaCampos()) {
                           return showDialog(
                             context: context,
@@ -136,7 +139,7 @@ class Audio extends State<ClasseAudio> {
                             ),
                           );
                         }
-                        widget._atividade.adicionaResposta(CaracteristicaAudio(audioPlayer, _tecDescricao.text));
+                        widget._atividade.adicionaResposta(CaracteristicaAudio(audioPlayer, _tecDescricao.text, path));
                         Navigator.pop(context);
                       },
                     ),

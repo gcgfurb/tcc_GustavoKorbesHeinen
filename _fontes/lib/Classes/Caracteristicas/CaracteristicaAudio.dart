@@ -5,10 +5,12 @@ import '../Resposta.dart';
 class CaracteristicaAudio extends Resposta {
   AudioPlayer _audioPlayer;
   String _descricao;
+  String _path;
 
-  CaracteristicaAudio(AudioPlayer audioPlayer, String descricao) {
+  CaracteristicaAudio(AudioPlayer audioPlayer, String descricao, String path) {
     _audioPlayer = audioPlayer;
     _descricao = descricao;
+    _path = path;
   }
 
   AudioPlayer getAudioPlayer() {
@@ -25,5 +27,13 @@ class CaracteristicaAudio extends Resposta {
 
   void setDescricao(String descricao) {
     _descricao = descricao;
+  }
+
+  String getPath() {
+    return _path;
+  }
+
+  void setPath(String path) {
+    _path = path;
   }
 }

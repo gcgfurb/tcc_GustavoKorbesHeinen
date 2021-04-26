@@ -86,7 +86,7 @@ class VerTema extends State<ClasseVerTema> {
                     },
                   ),
                 ),
-                if (!widget._tema.getObjDefinido())
+                if (!widget._tema.getObjDefinido() || !widget._tema.getRoteiroDefinido())
                   Container(
                     alignment: Alignment.bottomRight,
                     padding: EdgeInsets.fromLTRB(15, 10, 15, 0),

@@ -89,7 +89,7 @@ class Atividade {
         respostaAtividade = new CaracteristicaMosquito(object.getImageFile(), object.getDescricao(), object.getCoordenada());
         break;
       case 10:
-        respostaAtividade = new CaracteristicaAudio(object.getAudioPlayer(), object.getDescricao());
+        respostaAtividade = new CaracteristicaAudio(object.getAudioPlayer(), object.getDescricao(), object.getPath());
         break;
       case 11:
         respostaAtividade = new CaracteristicaTeste(object.getResposta1(), object.getResposta2());

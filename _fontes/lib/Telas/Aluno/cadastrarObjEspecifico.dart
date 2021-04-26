@@ -98,16 +98,17 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                                 chamaTelaCadastrarRoteiro(context, widget.temaAtual.getObjEspecifico(index));
                               },
                             ),
-                            IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                Icons.delete_forever,
-                                size: 50,
+                            if (!widget.temaAtual.getObjDefinido())
+                              IconButton(
+                                padding: EdgeInsets.zero,
+                                icon: Icon(
+                                  Icons.delete_forever,
+                                  size: 50,
+                                ),
+                                onPressed: () {
+                                  chamaDialogExcluirObjEspecifico(context, index);
+                                },
                               ),
-                              onPressed: () {
-                                chamaDialogExcluirObjEspecifico(context, index);
-                              },
-                            ),
                           ],
                         ),
                       ),
