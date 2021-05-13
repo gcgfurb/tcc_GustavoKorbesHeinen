@@ -44,3 +44,37 @@ Tem algumas telas para ir fazendo.<br>
 #### Dalton
 Achar um exemplo usando Flutter que grave no GoogleDrive.<br>
 Emprestar um S6 (Android).<br>
+
+## 2021-05-13
+Limitação
+  QRCode: agora passa aas tarefas aos alunos
+
+Fazer __
+  Conteúdo: botão ajuda .. qual é o Conteúdo
+  Técnica: Gravação usando o GoogleDrive
+    para poder salvar/compartilhar dados
+
+__ Teste:
+  Dalton e Lucas
+  Bruna
+
+__ Monografia (Gustavo)
+Capítulo 1
+Capítulo 2
+  Buscar Conteúdo
+  Computação <- Capítulo
+Capítulo
+---
+  Especificação (engenharia reversa, Flutter) -> UML
+    3x    
+  Implementação
+    rotinas (quadros)
+    Operacionalidade (manual do usuário)
+---
+  Resultados Discussões  ... metodologia (não profa. Simone )
+    positivo -> conclusão
+    negativo -> extensão
+
+Apêndice é teu
+Anexo é dos outros
+
