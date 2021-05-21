@@ -154,7 +154,7 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
   @override
   void initState() {
     super.initState();
-    dynamic areaDesmatada = widget._atividade.respostaAtividade;
+    dynamic areaDesmatada = widget._atividade.getRespostaAtividade();
 
     if (areaDesmatada != null) {
       _tecDescricao.text = areaDesmatada.getDescricao();

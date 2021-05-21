@@ -159,7 +159,7 @@ class Mosquito extends State<ClasseMosquito> {
   @override
   void initState() {
     super.initState();
-    dynamic mosquito = widget._atividade.respostaAtividade;
+    dynamic mosquito = widget._atividade.getRespostaAtividade();
 
     if (mosquito != null) {
       _tecDescricao.text = mosquito.getDescricao();

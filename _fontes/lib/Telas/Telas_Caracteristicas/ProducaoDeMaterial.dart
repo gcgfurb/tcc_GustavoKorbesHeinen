@@ -122,7 +122,7 @@ class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
   @override
   void initState() {
     super.initState();
-    dynamic producaoMaterial = widget._atividade.respostaAtividade;
+    dynamic producaoMaterial = widget._atividade.getRespostaAtividade();
 
     if (producaoMaterial != null) {
       _tecDescricao.text = producaoMaterial.getDescricao();

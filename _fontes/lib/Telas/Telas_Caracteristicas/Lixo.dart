@@ -159,7 +159,7 @@ class Lixo extends State<ClasseLixo> {
   @override
   void initState() {
     super.initState();
-    dynamic lixo = widget._atividade.respostaAtividade;
+    dynamic lixo = widget._atividade.getRespostaAtividade();
 
     if (lixo != null) {
       _tecDescricao.text = lixo.getDescricao();

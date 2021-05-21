@@ -19,7 +19,7 @@ class Interacao extends State<ClasseInteracao> {
 
   void initState() {
     super.initState();
-    dynamic interacao = widget._atividade.respostaAtividade;
+    dynamic interacao = widget._atividade.getRespostaAtividade();
 
     if (interacao != null) {
       _tecResposta1.text = interacao.getResposta1();

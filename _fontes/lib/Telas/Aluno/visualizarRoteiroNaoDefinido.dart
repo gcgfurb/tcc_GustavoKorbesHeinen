@@ -1,10 +1,7 @@
-import 'package:TCC_II/Classes/Roteiro.dart';
 import 'package:TCC_II/Classes/Util.dart';
-import 'package:TCC_II/Telas/Professor/cadastraNovaAtividade.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
-import 'package:TCC_II/Telas/Professor/visualizaAtividade.dart';
 
 class ClasseRoteiroNaoDefinido extends StatefulWidget {
   ObjEspecifico _objEspecifico = new ObjEspecifico();
@@ -172,7 +169,7 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
 
   void chamaTelaCadastrarNovaPergunta(BuildContext context, Atividade atividade) async {
     await Util.escolheAtividadeCorreta(context, atividade);
-    if (atividade.respostaAtividade != null) widget._objEspecifico.getRoteiro().adicionaAtividade(atividade);
+    if (atividade.getRespostaAtividade() != null) widget._objEspecifico.getRoteiro().adicionaAtividade(atividade);
     setState(() {});
   }
 }

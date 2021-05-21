@@ -18,7 +18,7 @@ class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
 
   void initState() {
     super.initState();
-    dynamic pergunta = widget._atividade.respostaAtividade;
+    dynamic pergunta = widget._atividade.getRespostaAtividade();
 
     if (pergunta != null) {
       _tecPergunta.text = pergunta.getPergunta();

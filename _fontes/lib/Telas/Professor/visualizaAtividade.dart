@@ -1,5 +1,3 @@
-import 'package:TCC_II/Classes/Roteiro.dart';
-import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 

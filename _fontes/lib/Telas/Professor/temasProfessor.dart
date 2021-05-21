@@ -36,13 +36,13 @@ class TemasProfessor extends State<ClasseProfessor> {
                       textAlign: TextAlign.justify,
                     ),
                   if (_aTemas.length > 0)
-                    FlatButton(
+                    TextButton(
                       child: QrImage(
                         backgroundColor: Colors.green[500],
                         data: carregaInfo(),
                         size: 200,
                       ),
-                      color: Colors.green[300],
+                      style: TextButton.styleFrom(primary: Colors.green[300]),
                       onPressed: () {
                         chamaTelaCadastrarTema(context, _aTemas[_index]);
                       },

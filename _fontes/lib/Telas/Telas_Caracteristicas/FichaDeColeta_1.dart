@@ -191,7 +191,7 @@ class FichaDeColeta_1 extends State<ClasseFichaDeColeta_1> {
 
   void initState() {
     super.initState();
-    dynamic fichaColeta = widget._atividade.respostaAtividade;
+    dynamic fichaColeta = widget._atividade.getRespostaAtividade();
 
     if (fichaColeta != null) {
       _tecNomePessoa.text = fichaColeta.getNomePessoa();

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaLupa.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
@@ -124,7 +123,7 @@ class Lupa extends State<ClasseLupa> {
   @override
   void initState() {
     super.initState();
-    dynamic lupa = widget._atividade.respostaAtividade;
+    dynamic lupa = widget._atividade.getRespostaAtividade();
 
     if (lupa != null) {
       _textoDescricao.text = lupa.getDescricao();

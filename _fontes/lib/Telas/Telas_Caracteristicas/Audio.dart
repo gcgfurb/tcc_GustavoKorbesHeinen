@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaAudio.dart';
-import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,7 @@ class Audio extends State<ClasseAudio> {
     super.initState();
     showPlayer = false;
 
-    dynamic audio = widget._atividade.respostaAtividade;
+    dynamic audio = widget._atividade.getRespostaAtividade();
 
     if (audio != null) {
       _tecDescricao.text = audio.getDescricao();

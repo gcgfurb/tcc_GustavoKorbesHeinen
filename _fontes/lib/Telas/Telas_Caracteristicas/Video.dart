@@ -28,7 +28,7 @@ class Video extends State<ClasseVideo> {
   @override
   void initState() {
     super.initState();
-    dynamic video = widget._atividade.respostaAtividade;
+    dynamic video = widget._atividade.getRespostaAtividade();
 
     if (video != null) {
       _textoDescricao.text = video.getDescricao();

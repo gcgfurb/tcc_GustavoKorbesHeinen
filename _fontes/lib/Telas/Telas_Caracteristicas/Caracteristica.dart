@@ -18,7 +18,7 @@ class Caracteristica extends State<ClasseCaracteristica> {
   void initState() {
     super.initState();
 
-    dynamic caracteristica = widget._atividade.respostaAtividade;
+    dynamic caracteristica = widget._atividade.getRespostaAtividade();
 
     if (caracteristica != null) {
       _tecResposta.text = caracteristica.getResposta();

@@ -1,3 +1,6 @@
+import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaFoto.dart';
+import 'package:TCC_II/Classes/Roteiro.dart';
 import 'package:TCC_II/Classes/Util.dart';
 import 'package:TCC_II/GoogleAuthClient.dart';
 import 'package:TCC_II/Telas/Aluno/cadastrarObjEspecifico.dart';
@@ -7,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:googleapis/drive/v3.dart' as v3;
+import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
@@ -19,7 +23,22 @@ class ClasseVerTema extends StatefulWidget {
   VerTema createState() => VerTema();
 }
 
-class VerTema extends State<ClasseVerTema> {
+class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
+  Animation _colorido;
+  AnimationController _animationController;
+
+  void initState() {
+    _animationController = AnimationController(duration: Duration(seconds: 1), vsync: this);
+    _colorido = _animationController.drive(ColorTween(begin: Colors.yellow, end: Colors.blue));
+    _animationController.repeat();
+    super.initState();
+  }
+
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,8 +100,18 @@ class VerTema extends State<ClasseVerTema> {
                     color: Colors.green[500],
                     textColor: Colors.white,
                     child: Text("Enviar respostas ao Professor"),
-                    onPressed: () {
-                      postFileToGoogleDrive(widget._tema);
+                    onPressed: () async {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) => Center(
+                                child: CircularProgressIndicator(
+                                  valueColor: _colorido,
+                                  strokeWidth: 5,
+                                ),
+                              ));
+                      await postFileToGoogleDrive(widget._tema);
+                      Navigator.pop(context);
                     },
                   ),
                 ),
@@ -127,47 +156,104 @@ class VerTema extends State<ClasseVerTema> {
     final authenticateClient = GoogleAuthClient(authHeaders);
     final driveApi = v3.DriveApi(authenticateClient);
 
-    //----- Criação do Folder -----//
+    v3.File folderTema = await criaTema(tema, driveApi);
 
+    int qtdObj = 1;
+
+    for (final objEspecifico in tema.getListaObjEspecifico()) {
+      v3.File folderAtual = await criaObjetivoEspecifico(objEspecifico, folderTema, qtdObj, driveApi);
+
+      folderAtual = await criaRoteiro(objEspecifico.getRoteiro(), folderAtual, driveApi);
+
+      int qtdAtividade = 1;
+      for (final atividade in objEspecifico.getRoteiro().getListaAtividade()) {
+        await criaAtividade(atividade, folderAtual, qtdAtividade, driveApi);
+        qtdAtividade++;
+      }
+
+      qtdObj++;
+    }
+  }
+
+  Future<v3.File> criaTema(Tema tema, v3.DriveApi driveApi) async {
     v3.File folderType = new v3.File();
-    folderType.name = "Centro de Ciências";
+    folderType.name = "Centro de Ciencias";
     folderType.mimeType = "application/vnd.google-apps.folder";
 
     v3.File folder = await driveApi.files.create(folderType, $fields: "id");
 
-    //----- Criação do Folder -----//
+    List<int> values = Util.leTema(tema);
 
-    //----- Criação do Arquivo -----//
+    await gravaDados(values, "tema.txt", folder, driveApi);
+    return folder;
+  }
 
-    /*v3.File fileType = new v3.File();
-    fileType.name = "tema.json";
-    fileType.mimeType = "application / vnd.google - apps.file";
-    fileType.parents = [folder.id];
+  Future<v3.File> criaObjetivoEspecifico(ObjEspecifico objEspecifico, v3.File folderAtual, int qtdObj, v3.DriveApi driveApi) async {
+    v3.File folderType = new v3.File();
+    folderType.name = "OE$qtdObj";
+    folderType.mimeType = "application/vnd.google-apps.folder";
+    folderType.parents = [folderAtual.id];
 
-    v3.File file = await driveApi.files.create(fileType);
-    print("File ID: " + file.id);*/
+    v3.File folder = await driveApi.files.create(folderType, $fields: "id");
 
-    //var file = File('file.txt');
-    //file.writeAsString(tema.getTema());
+    List<int> values = Util.leObjEspecifico(objEspecifico);
 
-    final Stream<List<int>> mediaStream = Future.value([104, 105]).asStream().asBroadcastStream();
-    var media = new v3.Media(mediaStream, 2);
+    await gravaDados(values, "objEspecifico.txt", folder, driveApi);
+    return folder;
+  }
+
+  Future<v3.File> criaRoteiro(Roteiro roteiro, v3.File folderAtual, v3.DriveApi driveApi) async {
+    v3.File folderType = new v3.File();
+    folderType.name = "Roteiro";
+    folderType.mimeType = "application/vnd.google-apps.folder";
+    folderType.parents = [folderAtual.id];
+
+    v3.File folder = await driveApi.files.create(folderType, $fields: "id");
+
+    List<int> values = Util.leRoteiro(roteiro);
+
+    await gravaDados(values, "roteiro.txt", folder, driveApi);
+    return folder;
+  }
+
+  Future<void> criaAtividade(Atividade atividade, v3.File folderAtual, int qtdAtividade, v3.DriveApi driveApi) async {
+    v3.File folderType = new v3.File();
+    folderType.name = "Atividade$qtdAtividade";
+    folderType.mimeType = "application/vnd.google-apps.folder";
+    folderType.parents = [folderAtual.id];
+
+    v3.File folder = await driveApi.files.create(folderType, $fields: "id");
+
+    List<int> values = Util.leAtividade(atividade);
+
+    await gravaDados(values, "atividade.txt", folder, driveApi);
+  }
+
+  Future<void> gravaDados(List<int> values, String nomeArquivo, v3.File folder, v3.DriveApi driveApi) async {
+    final Stream<List<int>> mediaStream = Future.value(values).asStream().asBroadcastStream();
+    var media = new v3.Media(mediaStream, values.length);
 
     var driveFile = new v3.File();
     driveFile.parents = [folder.id];
-    driveFile.name = "hello_world.txt";
+    driveFile.name = nomeArquivo;
 
-    final result = await driveApi.files.create(driveFile, uploadMedia: media);
-    print("Upload result: $result");
+    await driveApi.files.create(driveFile, uploadMedia: media);
   }
 
-  Future<void> getFileFromGoogleDrive() async {
+  Future<String> getFileFromGoogleDrive() async {
     final authHeaders = await Util.account.authHeaders;
     final authenticateClient = GoogleAuthClient(authHeaders);
     final driveApi = v3.DriveApi(authenticateClient);
-    v3.FileList textFileList = await driveApi.files.list(q: "'root' in parents");
+    v3.FileList textFileList = await driveApi.files.list();
 
-    v3.Media response = await driveApi.files.get("1zNCKXDbRu5mBXISf_FT2d5myPSnTIksb", downloadOptions: v3.DownloadOptions.fullMedia);
+    int idx = 0;
+    while (textFileList.files[idx].name != "Centro de Ciencias") {
+      idx++;
+    }
+
+    String content = "";
+
+    v3.Media response = await driveApi.files.get(textFileList.files[8].id, downloadOptions: v3.DownloadOptions.fullMedia);
 
     List<int> dataStore = [];
     response.stream.listen((data) {
@@ -178,11 +264,14 @@ class VerTema extends State<ClasseVerTema> {
       String tempPath = tempDir.path; //Get path to that location
       File file = File('$tempPath/test'); //Create a dummy file
       await file.writeAsBytes(dataStore); //Write to that file from the datastore you created from the Media stream
-      String content = file.readAsStringSync(); // Read String from the file
+      content = file.readAsStringSync(); // Read String from the file
       print(content); //Finally you have your text
       print("Task Done");
+      return content;
     }, onError: (error) {
       print("Some Error");
     });
+
+    return content;
   }
 }

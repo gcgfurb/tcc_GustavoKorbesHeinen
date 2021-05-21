@@ -23,7 +23,7 @@ class Solo extends State<ClasseSolo> {
 
   void initState() {
     super.initState();
-    dynamic solo = widget._atividade.respostaAtividade;
+    dynamic solo = widget._atividade.getRespostaAtividade();
 
     if (solo != null) {
       _tecResposta1.text = solo.getResposta1();

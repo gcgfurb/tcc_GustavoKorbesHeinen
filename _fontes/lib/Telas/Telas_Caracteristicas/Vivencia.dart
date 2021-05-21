@@ -18,7 +18,7 @@ class Vivencia extends State<ClasseVivencia> {
   void initState() {
     super.initState();
 
-    dynamic vivencia = widget._atividade.respostaAtividade;
+    dynamic vivencia = widget._atividade.getRespostaAtividade();
 
     if (vivencia != null) {
       _tecResposta.text = vivencia.getResposta();

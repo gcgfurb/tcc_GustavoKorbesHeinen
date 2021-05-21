@@ -32,7 +32,7 @@ class Medida extends State<ClasseMedida> {
 
   void initState() {
     super.initState();
-    dynamic medida = widget._atividade.respostaAtividade;
+    dynamic medida = widget._atividade.getRespostaAtividade();
 
     if (medida != null) {
       ddVDimensao1 = medida.getDimensao1();

@@ -157,7 +157,7 @@ class Intervencao extends State<ClasseIntervencao> {
   @override
   void initState() {
     super.initState();
-    dynamic intervencao = widget._atividade.respostaAtividade;
+    dynamic intervencao = widget._atividade.getRespostaAtividade();
 
     if (intervencao != null) {
       _tecDescricao.text = intervencao.getDescricao();

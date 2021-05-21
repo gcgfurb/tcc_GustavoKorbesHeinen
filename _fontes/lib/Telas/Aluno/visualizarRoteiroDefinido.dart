@@ -44,7 +44,7 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
                           color: Colors.green[500],
                           disabledColor: Colors.grey[600],
                           textColor: Colors.white,
-                          child: Text(widget._objEspecifico.getRoteiro().getAtividade(index).respostaAtividade != null ? "Ver Resposta" : "Responder"),
+                          child: Text(widget._objEspecifico.getRoteiro().getAtividade(index).getRespostaAtividade() != null ? "Ver Resposta" : "Responder"),
                           onPressed: !podeHabilitarBotao(index) ? null : () => buscaAtividades(context, widget._objEspecifico.getRoteiro().getAtividade(index)),
                         ),
                       ),
@@ -84,7 +84,7 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
     if (index == 0) return true;
 
     if (widget._objEspecifico.getRoteiro().getOrdenado()) {
-      if (widget._objEspecifico.getRoteiro().getAtividade(index - 1).respostaAtividade != null) {
+      if (widget._objEspecifico.getRoteiro().getAtividade(index - 1).getRespostaAtividade() != null) {
         return true;
       }
     } else

@@ -125,7 +125,7 @@ class Foto extends State<ClasseFoto> {
   @override
   void initState() {
     super.initState();
-    dynamic foto = widget._atividade.respostaAtividade;
+    dynamic foto = widget._atividade.getRespostaAtividade();
 
     if (foto != null) {
       _textoDescricao.text = foto.getDescricao();

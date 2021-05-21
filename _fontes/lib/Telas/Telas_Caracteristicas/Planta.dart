@@ -148,7 +148,7 @@ class Planta extends State<ClassePlanta> {
   void initState() {
     super.initState();
 
-    dynamic planta = widget._atividade.respostaAtividade;
+    dynamic planta = widget._atividade.getRespostaAtividade();
 
     if (planta != null) {
       _tecNomePopular.text = planta.getNomePopular();

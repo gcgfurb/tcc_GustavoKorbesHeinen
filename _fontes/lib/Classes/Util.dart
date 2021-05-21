@@ -1,4 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaFoto.dart';
+import 'package:TCC_II/Classes/ObjEspecifico.dart';
+import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Telas/Aluno/cadastrarNovaPergunta.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/AreaDesmatada.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Audio.dart';
@@ -23,6 +29,8 @@ import 'package:TCC_II/Telas/Telas_Caracteristicas/Vivencia.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'Roteiro.dart';
 
 class Util {
   static GoogleSignInAccount account;
@@ -198,6 +206,84 @@ class Util {
       await launch(googleUrl);
     } else {
       throw 'Não conseguiu acessar o Google Maps.';
+    }
+  }
+
+  static List<int> leTema(Tema tema) {
+    List<int> values = utf8.encode('Tema: ' + tema.getTema() + '\n');
+    values += utf8.encode('Descricao: ' + tema.getDescricao());
+
+    return values;
+  }
+
+  static List<int> leObjEspecifico(ObjEspecifico objEspecifico) {
+    return utf8.encode('Objetivo: ' + objEspecifico.getObjetivo());
+  }
+
+  static List<int> leRoteiro(Roteiro roteiro) {
+    return utf8.encode('Ordenado: ' + (roteiro.getOrdenado() ? "Sim" : "Não"));
+  }
+
+  static List<int> leAtividade(Atividade atividade) {
+    List<int> values = utf8.encode('Atividade: ' + atividade.getNomeAtividade() + '\n');
+    values += utf8.encode('Descricao: ' + atividade.getDescricao() + '\n');
+    values += adicionaResposta(atividade);
+
+    return values;
+  }
+
+  static List<int> adicionaResposta(Atividade atividade) {
+    List<int> values;
+
+    switch (atividade.getId()) {
+      case 0:
+        CaracteristicaFoto foto = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta descricao: ' + foto.getDescricao() + '\n');
+
+        final bytes = File(foto.getImageFile().path).readAsBytesSync();
+        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
+        return values;
+
+      /*case 1:
+        return "Medida";
+      case 2:
+        return "Solo";
+      case 3:
+        return "Interação";
+      case 4:
+        return "Área desmatada";
+      case 5:
+        return "Vídeo";
+      case 6:
+        return "Característica";
+      case 7:
+        return "Lupa";
+      case 8:
+        return "Vivência";
+      case 9:
+        return "Mosquito";
+      case 10:
+        return "Áudio";
+      case 11:
+        return "Teste";
+      case 12:
+        return "Desenhar";
+      case 13:
+        return "Ficha Coleta";
+      case 14:
+        return "Lixo";
+      case 15:
+        return "Sons da Natureza";
+      case 16:
+        return "Localização";
+      case 17:
+        return "Produção de Material";
+      case 18:
+        return "Outra intervenção";
+      case 19:
+        return "Plantar";
+      default:
+        return "";*/
     }
   }
 }

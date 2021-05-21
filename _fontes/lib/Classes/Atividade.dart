@@ -25,7 +25,7 @@ class Atividade {
   int _id;
   String _descricao;
   String _nomeAtividade;
-  Resposta respostaAtividade;
+  Resposta _respostaAtividade;
 
   Atividade() {
     _nomeAtividade = "";
@@ -56,71 +56,76 @@ class Atividade {
     return _descricao;
   }
 
+  Resposta getRespostaAtividade() {
+    return _respostaAtividade;
+  }
+
   void adicionaResposta(var object) {
     switch (this._id) {
       case 0:
-        respostaAtividade = new CaracteristicaFoto(object.getImageFile(), object.getDescricao());
+        _respostaAtividade = new CaracteristicaFoto(object.getImageFile(), object.getDescricao());
         break;
       case 1:
-        respostaAtividade = new CaracteristicaMedida(object.getDimensao1(), object.getUnMed1(), object.getValor1(), object.getDimensao2(), object.getUnMed2(), object.getValor2(), object.getCalculo());
+        _respostaAtividade =
+            new CaracteristicaMedida(object.getDimensao1(), object.getUnMed1(), object.getValor1(), object.getDimensao2(), object.getUnMed2(), object.getValor2(), object.getCalculo());
         break;
       case 2:
-        respostaAtividade = new CaracteristicaSolo(object.getResposta1(), object.getResposta2(), object.getResposta3(), object.getResposta4());
+        _respostaAtividade = new CaracteristicaSolo(object.getResposta1(), object.getResposta2(), object.getResposta3(), object.getResposta4());
         break;
       case 3:
-        respostaAtividade = new CaracteristicaInteracao(object.getResposta1(), object.getResposta2());
+        _respostaAtividade = new CaracteristicaInteracao(object.getResposta1(), object.getResposta2());
         break;
       case 4:
-        respostaAtividade = new CaracteristicaAreaDesmatada(object.getImageFile(), object.getDescricao(), object.getCoordenada());
+        _respostaAtividade = new CaracteristicaAreaDesmatada(object.getImageFile(), object.getDescricao(), object.getCoordenada());
         break;
       case 5:
-        respostaAtividade = new CaracteristicaVideo(object.getVideoFile(), object.getDescricao());
+        _respostaAtividade = new CaracteristicaVideo(object.getVideoFile(), object.getDescricao());
         break;
       case 6:
-        respostaAtividade = new CaracteristicaCaracteristica(object.getResposta());
+        _respostaAtividade = new CaracteristicaCaracteristica(object.getResposta());
         break;
       case 7:
-        respostaAtividade = new CaracteristicaLupa(object.getImageFile(), object.getDescricao());
+        _respostaAtividade = new CaracteristicaLupa(object.getImageFile(), object.getDescricao());
         break;
       case 8:
-        respostaAtividade = new CaracteristicaVivencia(object.getResposta());
+        _respostaAtividade = new CaracteristicaVivencia(object.getResposta());
         break;
       case 9:
-        respostaAtividade = new CaracteristicaMosquito(object.getImageFile(), object.getDescricao(), object.getCoordenada());
+        _respostaAtividade = new CaracteristicaMosquito(object.getImageFile(), object.getDescricao(), object.getCoordenada());
         break;
       case 10:
-        respostaAtividade = new CaracteristicaAudio(object.getAudioPlayer(), object.getDescricao(), object.getPath());
+        _respostaAtividade = new CaracteristicaAudio(object.getAudioPlayer(), object.getDescricao(), object.getPath());
         break;
       case 11:
-        respostaAtividade = new CaracteristicaTeste(object.getResposta1(), object.getResposta2());
+        _respostaAtividade = new CaracteristicaTeste(object.getResposta1(), object.getResposta2());
         break;
       case 12:
-        respostaAtividade = new CaracteristicaDesenho();
+        _respostaAtividade = new CaracteristicaDesenho();
         break;
       case 13:
-        respostaAtividade = new CaracteristicaFichaDeColeta(object.getNomePessoa(), object.getLocal(), object.getData(), object.getHora(), object.getAmbiente(), object.getNomePopularCientifico(),
+        _respostaAtividade = new CaracteristicaFichaDeColeta(object.getNomePessoa(), object.getLocal(), object.getData(), object.getHora(), object.getAmbiente(), object.getNomePopularCientifico(),
             object.getConservacao(), object.getObservacoes(), object.getImageFile());
         break;
       case 14:
-        respostaAtividade = new CaracteristicaLixo(object.getImageFile(), object.getDescricao(), object.getCoordenada());
+        _respostaAtividade = new CaracteristicaLixo(object.getImageFile(), object.getDescricao(), object.getCoordenada());
         break;
       case 15:
-        respostaAtividade = new CaracteristicaSonsDaNatureza(object.getAudioPlayer(), object.getDescricao());
+        _respostaAtividade = new CaracteristicaSonsDaNatureza(object.getAudioPlayer(), object.getDescricao());
         break;
       case 16:
-        respostaAtividade = new CaracteristicaLocalizacao(object.getCoordenada());
+        _respostaAtividade = new CaracteristicaLocalizacao(object.getCoordenada());
         break;
       case 17:
-        respostaAtividade = new CaracteristicaProducaoDeMaterial(object.getImageFile(), object.getDescricao());
+        _respostaAtividade = new CaracteristicaProducaoDeMaterial(object.getImageFile(), object.getDescricao());
         break;
       case 18:
-        respostaAtividade = new CaracteristicaIntervencao(object.getImageFile(), object.getDescricao());
+        _respostaAtividade = new CaracteristicaIntervencao(object.getImageFile(), object.getDescricao());
         break;
       case 19:
-        respostaAtividade = new CaracteristicaPlanta(object.getImageFile(), object.getNomePopular(), object.getNomeCientifico());
+        _respostaAtividade = new CaracteristicaPlanta(object.getImageFile(), object.getNomePopular(), object.getNomeCientifico());
         break;
       default:
-        respostaAtividade = new CaracteristicaPersonalizada(object.getPergunta(), object.getResposta());
+        _respostaAtividade = new CaracteristicaPersonalizada(object.getPergunta(), object.getResposta());
     }
   }
 }

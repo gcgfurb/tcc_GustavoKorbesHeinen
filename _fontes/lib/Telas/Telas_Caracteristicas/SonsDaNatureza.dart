@@ -27,7 +27,7 @@ class SonsDaNatureza extends State<ClasseSonsDaNatureza> {
     super.initState();
     showPlayer = false;
 
-    dynamic sonsDaNatureza = widget._atividade.respostaAtividade;
+    dynamic sonsDaNatureza = widget._atividade.getRespostaAtividade();
 
     if (sonsDaNatureza != null) {
       _tecDescricao.text = sonsDaNatureza.getDescricao();

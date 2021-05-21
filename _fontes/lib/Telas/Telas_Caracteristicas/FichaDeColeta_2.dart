@@ -141,7 +141,7 @@ class FichaDeColeta_2 extends State<ClasseFichaDeColeta_2> {
   @override
   void initState() {
     super.initState();
-    dynamic fichaDeColeta = widget._atividade.respostaAtividade;
+    dynamic fichaDeColeta = widget._atividade.getRespostaAtividade();
 
     if (fichaDeColeta != null) {
       _tecConservacao.text = fichaDeColeta.getConservacao();

@@ -21,7 +21,7 @@ class Teste extends State<ClasseTeste> {
 
   void initState() {
     super.initState();
-    dynamic teste = widget._atividade.respostaAtividade;
+    dynamic teste = widget._atividade.getRespostaAtividade();
 
     if (teste != null) {
       ddVOpcoes = teste.getResposta1();

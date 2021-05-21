@@ -24,7 +24,7 @@ class Localizacao extends State<ClasseLocalizacao> {
   void initState() {
     super.initState();
 
-    dynamic localizacao = widget._atividade.respostaAtividade;
+    dynamic localizacao = widget._atividade.getRespostaAtividade();
 
     if (localizacao != null) {
       position = localizacao.getCoordenada();
