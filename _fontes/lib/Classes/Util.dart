@@ -2,7 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:TCC_II/Classes/Atividade.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaAreaDesmatada.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaFichaDeColeta.dart';
 import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaFoto.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaIntervencao.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaLixo.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaProducaoDeMaterial.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaSonsDaNatureza.dart';
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaVivencia.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Telas/Aluno/cadastrarNovaPergunta.dart';
@@ -26,10 +33,23 @@ import 'package:TCC_II/Telas/Telas_Caracteristicas/SonsDaNatureza.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Teste.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Video.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Vivencia.dart';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'Caracteristicas/CaracteristicaAudio.dart';
+import 'Caracteristicas/CaracteristicaCaracteristica.dart';
+import 'Caracteristicas/CaracteristicaDesenho.dart';
+import 'Caracteristicas/CaracteristicaInteracao.dart';
+import 'Caracteristicas/CaracteristicaLocalizacao.dart';
+import 'Caracteristicas/CaracteristicaLupa.dart';
+import 'Caracteristicas/CaracteristicaMedida.dart';
+import 'Caracteristicas/CaracteristicaMosquito.dart';
+import 'Caracteristicas/CaracteristicaPersonalizada.dart';
+import 'Caracteristicas/CaracteristicaPlanta.dart';
+import 'Caracteristicas/CaracteristicaSolo.dart';
+import 'Caracteristicas/CaracteristicaTeste.dart';
 import 'Roteiro.dart';
 
 class Util {
@@ -244,46 +264,169 @@ class Util {
         values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
         return values;
 
-      /*case 1:
-        return "Medida";
+      case 1:
+        CaracteristicaMedida medida = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta dimensao1: ' + medida.getDimensao1().toString() + '\n');
+        values += utf8.encode('Resposta dimensao2: ' + medida.getDimensao2().toString() + '\n');
+
+        values += utf8.encode('Resposta unMed1: ' + medida.getUnMed1().toString() + '\n');
+        values += utf8.encode('Resposta unMed2: ' + medida.getUnMed2().toString() + '\n');
+
+        values += utf8.encode('Resposta valor1: ' + medida.getValor1().toString() + '\n');
+        values += utf8.encode('Resposta valor2: ' + medida.getValor2().toString() + '\n');
+
+        values += utf8.encode('Resposta calculo: ' + medida.getCalculo().toString());
+
+        return values;
+
       case 2:
-        return "Solo";
+        CaracteristicaSolo solo = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta 1: ' + solo.getResposta1() + '\n');
+        values += utf8.encode('Resposta 2: ' + solo.getResposta2() + '\n');
+        values += utf8.encode('Resposta 3: ' + solo.getResposta3() + '\n');
+        values += utf8.encode('Resposta 4: ' + solo.getResposta4());
+
+        return values;
+
       case 3:
-        return "Interação";
+        CaracteristicaInteracao interacao = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta 1: ' + interacao.getResposta1() + '\n');
+        values += utf8.encode('Resposta 2: ' + interacao.getResposta2());
+
+        return values;
+
       case 4:
-        return "Área desmatada";
-      case 5:
-        return "Vídeo";
+        CaracteristicaAreaDesmatada areaDesmatada = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta descricao: ' + areaDesmatada.getDescricao() + '\n');
+        values += utf8.encode('Resposta coordenada: ' + areaDesmatada.getCoordenada() + '\n');
+
+        final bytes = File(areaDesmatada.getImageFile().path).readAsBytesSync();
+        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
+        return values;
+
+      //case 5:
+      // return "Vídeo";
+
       case 6:
-        return "Característica";
+        CaracteristicaCaracteristica caracteristica = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta: ' + caracteristica.getResposta());
+
+        return values;
+
       case 7:
-        return "Lupa";
+        CaracteristicaLupa lupa = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta descricao: ' + lupa.getDescricao() + '\n');
+
+        final bytes = File(lupa.getImageFile().path).readAsBytesSync();
+        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
+        return values;
+
       case 8:
-        return "Vivência";
+        CaracteristicaVivencia vivencia = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta: ' + vivencia.getResposta());
+
+        return values;
+
       case 9:
-        return "Mosquito";
+        CaracteristicaMosquito mosquito = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta descricao: ' + mosquito.getDescricao() + '\n');
+        values += utf8.encode('Resposta coordenada: ' + mosquito.getCoordenada() + '\n');
+
+        final bytes = File(mosquito.getImageFile().path).readAsBytesSync();
+        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
+        return values;
+
       case 10:
-        return "Áudio";
+        CaracteristicaAudio audio = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta descricao: ' + audio.getDescricao() + '\n');
+        values += utf8.encode('Resposta path: ' + audio.getPath() + '\n');
+
+        //final bytes = File().readAsBytesSync();
+        //values += utf8.encode('Resposta audio: ' + base64Encode(bytes));
+        return values;
+
       case 11:
-        return "Teste";
+        CaracteristicaTeste teste = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta 1: ' + teste.getResposta1().toString() + '\n');
+        values += utf8.encode('Resposta 2: ' + teste.getResposta2().toString());
+
+        return values;
+
       case 12:
-        return "Desenhar";
+        CaracteristicaDesenho desenho = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta desenho: ');
+        return values;
+
       case 13:
-        return "Ficha Coleta";
+        CaracteristicaFichaDeColeta fichaDeColeta = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta nome: ' + fichaDeColeta.getNomePessoa() + '\n');
+        values += utf8.encode('Resposta local: ' + fichaDeColeta.getLocal() + '\n');
+        values += utf8.encode('Resposta data: ' + fichaDeColeta.getData() + '\n');
+        values += utf8.encode('Resposta hora: ' + fichaDeColeta.getHora() + '\n');
+        values += utf8.encode('Resposta ambiente: ' + fichaDeColeta.getAmbiente() + '\n');
+        values += utf8.encode('Resposta nome Popular ou Cientifico: ' + fichaDeColeta.getNomePopularCientifico() + '\n');
+
+        values += utf8.encode('Resposta conservacao: ' + fichaDeColeta.getConservacao() + '\n');
+        values += utf8.encode('Resposta observacoes: ' + fichaDeColeta.getObservacoes() + '\n');
+
+        final bytes = File(fichaDeColeta.getImageFile().path).readAsBytesSync();
+        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
+
+        return values;
       case 14:
-        return "Lixo";
+        CaracteristicaLixo lixo = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta descricao: ' + lixo.getDescricao() + '\n');
+        values += utf8.encode('Resposta coordenada: ' + lixo.getCoordenada() + '\n');
+
+        final bytes = File(lixo.getImageFile().path).readAsBytesSync();
+        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
+        return values;
+
       case 15:
-        return "Sons da Natureza";
+        CaracteristicaSonsDaNatureza sonsDaNatureza = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta descricao: ' + sonsDaNatureza.getDescricao() + '\n');
+        //values += utf8.encode('Resposta path: ' + sonsDaNatureza.getPath() + '\n');
+
+        //final bytes = File().readAsBytesSync();
+        //values += utf8.encode('Resposta audio: ' + base64Encode(bytes));
+        return values;
+
       case 16:
-        return "Localização";
+        CaracteristicaLocalizacao localizacao = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta localizacao: ' + localizacao.toString());
+        return values;
+
       case 17:
-        return "Produção de Material";
+        CaracteristicaProducaoDeMaterial producaoDeMaterial = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta descricao: ' + producaoDeMaterial.getDescricao() + '\n');
+
+        final bytes = File(producaoDeMaterial.getImageFile().path).readAsBytesSync();
+        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
+        return values;
+
       case 18:
-        return "Outra intervenção";
+        CaracteristicaIntervencao intervencao = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta descricao: ' + intervencao.getDescricao() + '\n');
+
+        final bytes = File(intervencao.getImageFile().path).readAsBytesSync();
+        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
+        return values;
+
       case 19:
-        return "Plantar";
+        CaracteristicaPlanta planta = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta nome popular: ' + planta.getNomePopular() + '\n');
+        values += utf8.encode('Resposta nome cientifico: ' + planta.getNomeCientifico() + '\n');
+
+        final bytes = File(planta.getImageFile().path).readAsBytesSync();
+        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
+        return values;
+
       default:
-        return "";*/
+        CaracteristicaPersonalizada personalizada = atividade.getRespostaAtividade();
+        values = utf8.encode('Pergunta: ' + personalizada.getPergunta() + '\n');
+        values += utf8.encode('Resposta: ' + personalizada.getResposta());
+
+        return values;
     }
   }
 }

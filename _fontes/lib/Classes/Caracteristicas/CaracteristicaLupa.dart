@@ -1,20 +1,20 @@
-import 'package:camera/camera.dart';
+import 'package:image_picker/image_picker.dart';
 import '../Resposta.dart';
 
 class CaracteristicaLupa extends Resposta {
-  CameraController _imageFile;
+  PickedFile _imageFile;
   String _descricao;
 
-  CaracteristicaLupa(CameraController imageFile, String descricao) {
+  CaracteristicaLupa(PickedFile imageFile, String descricao) {
     _imageFile = imageFile;
     _descricao = descricao;
   }
 
-  CameraController getImageFile() {
+  PickedFile getImageFile() {
     return _imageFile;
   }
 
-  void setImageFile(CameraController imageFile) {
+  void setImageFile(PickedFile imageFile) {
     _imageFile = imageFile;
   }
 

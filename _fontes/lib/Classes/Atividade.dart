@@ -110,7 +110,7 @@ class Atividade {
         _respostaAtividade = new CaracteristicaLixo(object.getImageFile(), object.getDescricao(), object.getCoordenada());
         break;
       case 15:
-        _respostaAtividade = new CaracteristicaSonsDaNatureza(object.getAudioPlayer(), object.getDescricao());
+        _respostaAtividade = new CaracteristicaSonsDaNatureza(object.getAudioPlayer(), object.getDescricao(), object.getPath());
         break;
       case 16:
         _respostaAtividade = new CaracteristicaLocalizacao(object.getCoordenada());

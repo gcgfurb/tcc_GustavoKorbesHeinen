@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaLupa.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
@@ -14,7 +15,8 @@ class ClasseLupa extends StatefulWidget {
 }
 
 class Lupa extends State<ClasseLupa> {
-  TextEditingController _textoDescricao = new TextEditingController();
+  TextEditingController _tecDescricao = new TextEditingController();
+  FocusNode _fnDescricao;
   PickedFile _imageFile;
 
   @override
@@ -27,14 +29,30 @@ class Lupa extends State<ClasseLupa> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Row(
           children: <Widget>[
-            _decideImageView(),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _decideImageView(),
+                  FloatingActionButton(
+                    backgroundColor: Colors.blue,
+                    onPressed: () {
+                      _openCamera(context);
+                    },
+                    heroTag: 'video1',
+                    child: const Icon(Icons.camera_alt),
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: IntrinsicWidth(
                 child: Column(
                   children: <Widget>[
                     Container(
                       child: TextField(
-                        controller: _textoDescricao,
+                        controller: _tecDescricao,
+                        focusNode: _fnDescricao,
                         maxLength: 150,
                         maxLines: 7,
                         decoration: InputDecoration(
@@ -50,58 +68,30 @@ class Lupa extends State<ClasseLupa> {
                         ),
                       ),
                     ),
-                    Container(
-                      width: 150,
-                      child: RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                        color: Colors.green[500],
-                        textColor: Colors.white,
-                        child: Text("Alterar imagem"),
-                        onPressed: () {
-                          _openCamera(context);
-                        },
-                      ),
-                    ),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Container(
                             width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green[500],
-                              textColor: Colors.white,
-                              child: Text("Gravar"),
+                            child: FloatingActionButton.extended(
+                              heroTag: "btGravar",
+                              label: Text("Gravar"),
+                              backgroundColor: Colors.green,
                               onPressed: () {
-                                if (_imageFile == null) {
-                                  return showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) => CupertinoAlertDialog(
-                                      title: Text("Campo obrigatório"),
-                                      content: Text("É obrigatório adicionar uma imagem."),
-                                      actions: <Widget>[
-                                        CupertinoDialogAction(
-                                          isDefaultAction: true,
-                                          child: Text("OK"),
-                                          onPressed: () => Navigator.pop(context),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                                if (validaCampos()) {
+                                  widget._atividade.adicionaResposta(CaracteristicaLupa(_imageFile, _tecDescricao.text));
+                                  Navigator.pop(context);
                                 }
-                                //widget._atividade.adicionaResposta(CaracteristicaLupa(_imageFile, _textoDescricao.text));
-                                Navigator.pop(context);
                               },
                             ),
                           ),
                           Container(
                             width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green[500],
-                              textColor: Colors.white,
-                              child: Text("Cancelar"),
+                            child: FloatingActionButton.extended(
+                              heroTag: "btCancelar",
+                              label: Text("Cancelar"),
+                              backgroundColor: Colors.red,
                               onPressed: () {
                                 Navigator.pop(context);
                               },
@@ -120,15 +110,51 @@ class Lupa extends State<ClasseLupa> {
     );
   }
 
+  bool validaCampos() {
+    if (_tecDescricao.text.isEmpty) {
+      _fnDescricao.requestFocus();
+      return false;
+    }
+
+    if (_imageFile == null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: Text("Campo obrigatório"),
+          content: Text("É obrigatório adicionar uma imagem."),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text("OK"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      );
+
+      return false;
+    }
+
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
     dynamic lupa = widget._atividade.getRespostaAtividade();
 
     if (lupa != null) {
-      _textoDescricao.text = lupa.getDescricao();
+      _tecDescricao.text = lupa.getDescricao();
       _imageFile = lupa.getImageFile();
     }
+
+    _fnDescricao = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _fnDescricao.dispose();
+    super.dispose();
   }
 
   _openCamera(BuildContext context) async {
@@ -150,13 +176,9 @@ class Lupa extends State<ClasseLupa> {
       return Expanded(
           child: Image.file(
         File(_imageFile.path),
-        width: 300,
-        height: 300,
+        width: 400,
+        height: 400,
       ));
     }
   }
-}
-
-chamaTelaVisualizaRoteiro(BuildContext context) {
-  Navigator.pop(context);
 }

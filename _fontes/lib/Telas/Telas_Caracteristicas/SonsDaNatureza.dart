@@ -21,6 +21,7 @@ class SonsDaNatureza extends State<ClasseSonsDaNatureza> {
   String path;
   AudioPlayer audioPlayer = AudioPlayer();
   TextEditingController _tecDescricao = new TextEditingController();
+  String pathAnterior = "";
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class SonsDaNatureza extends State<ClasseSonsDaNatureza> {
     if (sonsDaNatureza != null) {
       _tecDescricao.text = sonsDaNatureza.getDescricao();
       audioPlayer = sonsDaNatureza.getAudioPlayer();
+      pathAnterior = sonsDaNatureza.getPath();
       showPlayer = true;
     }
   }
@@ -70,6 +72,7 @@ class SonsDaNatureza extends State<ClasseSonsDaNatureza> {
                           size: 50,
                         ),
                         onPressed: () {
+                          if (pathAnterior.isNotEmpty) path = pathAnterior;
                           audioPlayer.play(path, isLocal: true);
                         },
                       ),
@@ -96,7 +99,7 @@ class SonsDaNatureza extends State<ClasseSonsDaNatureza> {
                 maxLength: 150,
                 maxLines: 7,
                 decoration: InputDecoration(
-                  hintText: 'Descreva um resumo do áudio que você registrou',
+                  hintText: 'Descreva um resumo do áudio',
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     borderSide: BorderSide(color: Colors.grey),
@@ -118,7 +121,7 @@ class SonsDaNatureza extends State<ClasseSonsDaNatureza> {
                       heroTag: "btGravar",
                       label: Text("Gravar"),
                       backgroundColor: Colors.green,
-                      onPressed: () {
+                      onPressed: () async {
                         if (!validaCampos()) {
                           return showDialog(
                             context: context,
@@ -135,7 +138,7 @@ class SonsDaNatureza extends State<ClasseSonsDaNatureza> {
                             ),
                           );
                         }
-                        widget._atividade.adicionaResposta(CaracteristicaSonsDaNatureza(audioPlayer, _tecDescricao.text));
+                        widget._atividade.adicionaResposta(CaracteristicaSonsDaNatureza(audioPlayer, _tecDescricao.text, path));
                         Navigator.pop(context);
                       },
                     ),

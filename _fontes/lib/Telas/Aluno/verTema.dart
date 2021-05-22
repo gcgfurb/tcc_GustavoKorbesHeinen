@@ -1,5 +1,4 @@
 import 'package:TCC_II/Classes/Atividade.dart';
-import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaFoto.dart';
 import 'package:TCC_II/Classes/Roteiro.dart';
 import 'package:TCC_II/Classes/Util.dart';
 import 'package:TCC_II/GoogleAuthClient.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:googleapis/drive/v3.dart' as v3;
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
@@ -102,14 +100,15 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                     child: Text("Enviar respostas ao Professor"),
                     onPressed: () async {
                       showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) => Center(
-                                child: CircularProgressIndicator(
-                                  valueColor: _colorido,
-                                  strokeWidth: 5,
-                                ),
-                              ));
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) => Center(
+                          child: CircularProgressIndicator(
+                            valueColor: _colorido,
+                            strokeWidth: 5,
+                          ),
+                        ),
+                      );
                       await postFileToGoogleDrive(widget._tema);
                       Navigator.pop(context);
                     },
