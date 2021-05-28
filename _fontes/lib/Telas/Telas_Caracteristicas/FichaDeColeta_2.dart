@@ -151,7 +151,8 @@ class FichaDeColeta_2 extends State<ClasseFichaDeColeta_2> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    var ip = ImagePicker();
+    var picture = await ip.getImage(source: ImageSource.camera);
     this.setState(() {
       _imageFile = picture;
     });

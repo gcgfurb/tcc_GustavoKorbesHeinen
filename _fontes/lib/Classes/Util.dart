@@ -33,7 +33,6 @@ import 'package:TCC_II/Telas/Telas_Caracteristicas/SonsDaNatureza.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Teste.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Video.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Vivencia.dart';
-import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -50,6 +49,7 @@ import 'Caracteristicas/CaracteristicaPersonalizada.dart';
 import 'Caracteristicas/CaracteristicaPlanta.dart';
 import 'Caracteristicas/CaracteristicaSolo.dart';
 import 'Caracteristicas/CaracteristicaTeste.dart';
+import 'Caracteristicas/CaracteristicaVideo.dart';
 import 'Roteiro.dart';
 
 class Util {
@@ -276,7 +276,6 @@ class Util {
         values += utf8.encode('Resposta valor2: ' + medida.getValor2().toString() + '\n');
 
         values += utf8.encode('Resposta calculo: ' + medida.getCalculo().toString());
-
         return values;
 
       case 2:
@@ -285,14 +284,12 @@ class Util {
         values += utf8.encode('Resposta 2: ' + solo.getResposta2() + '\n');
         values += utf8.encode('Resposta 3: ' + solo.getResposta3() + '\n');
         values += utf8.encode('Resposta 4: ' + solo.getResposta4());
-
         return values;
 
       case 3:
         CaracteristicaInteracao interacao = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta 1: ' + interacao.getResposta1() + '\n');
         values += utf8.encode('Resposta 2: ' + interacao.getResposta2());
-
         return values;
 
       case 4:
@@ -304,13 +301,17 @@ class Util {
         values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
         return values;
 
-      //case 5:
-      // return "Vídeo";
+      case 5:
+        CaracteristicaVideo video = atividade.getRespostaAtividade();
+        values = utf8.encode('Resposta descricao: ' + video.getDescricao() + '\n');
+
+        //final bytes = File(video.getVideoFile().dataSource).readAsBytesSync();
+        //values += utf8.encode('Resposta video: ' + base64Encode(bytes));
+        return values;
 
       case 6:
         CaracteristicaCaracteristica caracteristica = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta: ' + caracteristica.getResposta());
-
         return values;
 
       case 7:
@@ -324,7 +325,6 @@ class Util {
       case 8:
         CaracteristicaVivencia vivencia = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta: ' + vivencia.getResposta());
-
         return values;
 
       case 9:
@@ -349,12 +349,11 @@ class Util {
         CaracteristicaTeste teste = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta 1: ' + teste.getResposta1().toString() + '\n');
         values += utf8.encode('Resposta 2: ' + teste.getResposta2().toString());
-
         return values;
 
       case 12:
         CaracteristicaDesenho desenho = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta desenho: ');
+        values = utf8.encode('Resposta desenho: ' + desenho.toString());
         return values;
 
       case 13:
@@ -371,8 +370,8 @@ class Util {
 
         final bytes = File(fichaDeColeta.getImageFile().path).readAsBytesSync();
         values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
-
         return values;
+
       case 14:
         CaracteristicaLixo lixo = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + lixo.getDescricao() + '\n');
@@ -425,7 +424,6 @@ class Util {
         CaracteristicaPersonalizada personalizada = atividade.getRespostaAtividade();
         values = utf8.encode('Pergunta: ' + personalizada.getPergunta() + '\n');
         values += utf8.encode('Resposta: ' + personalizada.getResposta());
-
         return values;
     }
   }

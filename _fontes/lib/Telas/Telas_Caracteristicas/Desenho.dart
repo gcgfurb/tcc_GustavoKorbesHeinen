@@ -1,4 +1,3 @@
-import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaAudio.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 
@@ -19,6 +18,9 @@ class Desenho extends State<ClasseDesenho> {
         color: Colors.green[300],
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        child: Center(
+          child: Text("Implementação não realizada"),
+        ),
       ),
     );
   }

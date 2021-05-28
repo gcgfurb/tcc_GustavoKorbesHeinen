@@ -172,7 +172,8 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
   }
 
   _openCamera(BuildContext context) async {
-    var picture = await ImagePicker.platform.pickImage(source: ImageSource.camera);
+    var ip = ImagePicker();
+    var picture = await ip.getImage(source: ImageSource.camera);
     this.setState(() {
       _imageFile = picture;
     });

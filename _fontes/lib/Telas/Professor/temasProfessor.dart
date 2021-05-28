@@ -5,7 +5,6 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:TCC_II/Telas/aprendaUsar.dart';
 import '../telaInicial.dart';
 import 'cadastrarTema.dart';
-import '../../Classes/InfoTema.dart';
 import '../../Classes/Tema.dart';
 
 class ClasseProfessor extends StatefulWidget {
@@ -147,8 +146,6 @@ class TemasProfessor extends State<ClasseProfessor> {
   String carregaInfo() {
     Tema temaAtual = _aTemas[_index];
 
-    List<String> info = [];
-
     String infoAtual = temaAtual.getTema() + "¨§" + temaAtual.getDescricao() + "¨§" + temaAtual.getListaObjEspecifico().length.toString() + "¨§";
 
     for (ObjEspecifico it in temaAtual.getListaObjEspecifico()) {
@@ -161,10 +158,6 @@ class TemasProfessor extends State<ClasseProfessor> {
       }
     }
 
-    info.add(infoAtual);
-
-    InfoTema infoTema = new InfoTema(info);
-
-    return infoTema.getInfoEspecifica(0);
+    return infoAtual;
   }
 }
