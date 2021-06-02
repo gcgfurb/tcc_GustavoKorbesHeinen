@@ -47,7 +47,7 @@ class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
+              padding: EdgeInsets.fromLTRB(10, 15, 10, 5),
               child: TextField(
                 focusNode: _fnPergunta,
                 controller: _tecPergunta,

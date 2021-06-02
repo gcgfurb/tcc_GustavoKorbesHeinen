@@ -44,7 +44,7 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 10, 20, 30),
+              padding: EdgeInsets.fromLTRB(20, 15, 20, 30),
               child: TextField(
                 enabled: _atividadeTexto.text.isEmpty,
                 focusNode: _focusNodeAtividade,
@@ -63,7 +63,7 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
                 focusNode: _focusNodeDescricao,
                 autofocus: false,
                 maxLength: 150,
-                maxLines: 10,
+                maxLines: 6,
                 decoration: InputDecoration(
                   hintText: 'Objetivo geral da atividade de campo*',
                   enabledBorder: OutlineInputBorder(
@@ -77,7 +77,7 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
                 ),
               ),
             ),
-            Expanded(
+            Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[

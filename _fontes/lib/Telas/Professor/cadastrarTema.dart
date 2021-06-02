@@ -60,7 +60,7 @@ class CadastrarTema extends State<ClasseTema> {
                 focusNode: _fnDescricao,
                 controller: _tecDescricao,
                 maxLength: 150,
-                maxLines: 7,
+                maxLines: 6,
                 decoration: InputDecoration(
                   labelText: 'Objetivo geral da atividade de campo*',
                   hintText: 'Procurar árvore araucária',
@@ -76,7 +76,7 @@ class CadastrarTema extends State<ClasseTema> {
                 ),
               ),
             ),
-            Expanded(
+            Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

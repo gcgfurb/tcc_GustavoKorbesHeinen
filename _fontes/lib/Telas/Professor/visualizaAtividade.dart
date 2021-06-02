@@ -30,7 +30,8 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Column(
           children: <Widget>[
-            Expanded(
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 15, 20, 30),
               child: TextField(
                 enabled: widget.atividade.getId() < 0,
                 controller: _tecAtividade,
@@ -41,12 +42,12 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
                 ),
               ),
             ),
-            Expanded(
-              flex: 3,
+            Padding(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: TextField(
                 autofocus: false,
                 maxLength: 150,
-                maxLines: 7,
+                maxLines: 6,
                 controller: _tecDescricao,
                 decoration: InputDecoration(
                   hintText: 'Objetivo geral da atividade de campo*',
@@ -61,7 +62,7 @@ class VisualizaAtividade extends State<ClasseVisualizaAtividade> {
                 ),
               ),
             ),
-            Expanded(
+            Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[

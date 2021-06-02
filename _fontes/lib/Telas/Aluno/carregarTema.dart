@@ -26,8 +26,8 @@ class CarregarTema extends State<ClasseCarregarTema> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Expanded(
-              flex: 1,
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 15, 0, 10),
               child: Text(
                 "Aponte a câmera do seu celular para o QRCode",
                 style: TextStyle(fontSize: 30),

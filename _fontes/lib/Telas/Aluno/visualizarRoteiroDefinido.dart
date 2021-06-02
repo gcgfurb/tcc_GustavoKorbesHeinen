@@ -23,7 +23,7 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
           children: <Widget>[
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(5, 0, 0, 5),
+              padding: EdgeInsets.fromLTRB(5, 15, 0, 5),
               child: Text(
                 'Objetivo: ' + widget._objEspecifico.getObjetivo(),
                 style: TextStyle(fontSize: 25),

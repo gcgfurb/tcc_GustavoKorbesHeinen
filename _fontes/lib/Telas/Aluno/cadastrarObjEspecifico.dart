@@ -44,7 +44,7 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                 Expanded(
                   flex: 2,
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(15, 0, 5, 0),
+                    padding: EdgeInsets.fromLTRB(15, 15, 5, 0),
                     child: TextField(
                       focusNode: focusNodeObj,
                       controller: objTexto,

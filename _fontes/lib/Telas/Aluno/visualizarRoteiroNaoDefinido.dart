@@ -45,15 +45,18 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
         child: Column(
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                    flex: 6,
+                Container(
+                    padding: EdgeInsets.fromLTRB(15, 15, 0, 5),
                     child: Text(
                       'Objetivo: ' + widget._objEspecifico.getObjetivo(),
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 30),
+                      style: TextStyle(fontSize: 20),
                     )),
-                Expanded(
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 15, 15, 5),
+                  alignment: Alignment.topRight,
                   child: RaisedButton(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                     color: Colors.green[500],

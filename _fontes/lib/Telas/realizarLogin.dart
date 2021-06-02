@@ -34,8 +34,8 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
                 color: Colors.green[500],
                 textColor: Colors.white,
                 child: Text("Realizar login"),
-                onPressed: () {
-                  chamaAPIGoogle();
+                onPressed: () async {
+                  await chamaAPIGoogle();
                   if (widget.bProfessor) {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseProfessor()));
                   } else {

@@ -43,7 +43,7 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                 Expanded(
                   flex: 2,
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(15, 0, 5, 0),
+                    padding: EdgeInsets.fromLTRB(15, 15, 5, 0),
                     child: TextField(
                       focusNode: _fnObjetivo,
                       controller: _tecObjetivo,
@@ -57,7 +57,7 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 0, 15, 0),
+                    padding: EdgeInsets.fromLTRB(5, 15, 15, 0),
                     child: RaisedButton(
                         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                         color: Colors.green[500],

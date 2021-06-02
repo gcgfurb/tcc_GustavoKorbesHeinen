@@ -1,3 +1,4 @@
+import 'package:TCC_II/Telas/sobre.dart';
 import 'package:flutter/material.dart';
 import 'realizarLogin.dart';
 
@@ -52,18 +53,10 @@ class TelaInicial extends State<ClasseTelaInicial> {
                   padding: EdgeInsets.symmetric(horizontal: 90, vertical: 30),
                   textColor: Colors.white,
                   color: Colors.green[500],
-                  child: Text("Configurações"),
-                  onPressed: () {},
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
-                child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal: 90, vertical: 30),
-                  textColor: Colors.white,
-                  color: Colors.green[500],
-                  child: Text("Sair"),
-                  onPressed: () {},
+                  child: Text("Sobre"),
+                  onPressed: () {
+                    chamaTelaSobre(context);
+                  },
                 ),
               ),
             ],
@@ -75,5 +68,9 @@ class TelaInicial extends State<ClasseTelaInicial> {
 
   void chamaTelaLogin(BuildContext context, bool bProfessor) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRealizarLogin(bProfessor)));
+  }
+
+  void chamaTelaSobre(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSobre()));
   }
 }
