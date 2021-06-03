@@ -1,4 +1,3 @@
-import 'package:TCC_II/Telas/sobre.dart';
 import 'package:flutter/material.dart';
 import 'realizarLogin.dart';
 
@@ -55,7 +54,11 @@ class TelaInicial extends State<ClasseTelaInicial> {
                   color: Colors.green[500],
                   child: Text("Sobre"),
                   onPressed: () {
-                    chamaTelaSobre(context);
+                    showAboutDialog(
+                      context: context,
+                      applicationVersion: '2.0.1',
+                      applicationLegalese: 'Desenvolvido por: Gustavo Korbes Heinen',
+                    );
                   },
                 ),
               ),
@@ -68,9 +71,5 @@ class TelaInicial extends State<ClasseTelaInicial> {
 
   void chamaTelaLogin(BuildContext context, bool bProfessor) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRealizarLogin(bProfessor)));
-  }
-
-  void chamaTelaSobre(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseSobre()));
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:googleapis/drive/v3.dart' as v3;
 
 import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaAreaDesmatada.dart';
@@ -426,5 +427,16 @@ class Util {
         values += utf8.encode('Resposta: ' + personalizada.getResposta());
         return values;
     }
+  }
+
+  static Future<void> gravaDados(List<int> values, String nomeArquivo, v3.File folder, v3.DriveApi driveApi) async {
+    final Stream<List<int>> mediaStream = Future.value(values).asStream().asBroadcastStream();
+    var media = new v3.Media(mediaStream, values.length);
+
+    var driveFile = new v3.File();
+    driveFile.parents = [folder.id];
+    driveFile.name = nomeArquivo;
+
+    await driveApi.files.create(driveFile, uploadMedia: media);
   }
 }

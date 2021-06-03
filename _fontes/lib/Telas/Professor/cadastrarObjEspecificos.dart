@@ -64,7 +64,10 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                         textColor: Colors.white,
                         child: Text("Cadastrar Objetivo"),
                         onPressed: () {
-                          if (validaCampos()) cadastrarObjetivo();
+                          if (validaCampos()) {
+                            FocusManager.instance.primaryFocus.unfocus();
+                            cadastrarObjetivo();
+                          }
                         }),
                   ),
                 ),

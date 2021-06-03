@@ -85,7 +85,6 @@ class CadastrarTema extends State<ClasseTema> {
                     width: 300,
                     height: 100,
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                       color: Colors.green[500],
                       textColor: Colors.white,
                       child: Text(
@@ -93,7 +92,10 @@ class CadastrarTema extends State<ClasseTema> {
                         textAlign: TextAlign.center,
                       ),
                       onPressed: () {
-                        if (validaCampos()) chamaTelaCadastrarObjetivosEspecificos(context, widget.tema);
+                        if (validaCampos()) {
+                          FocusManager.instance.primaryFocus.unfocus();
+                          chamaTelaCadastrarObjetivosEspecificos(context, widget.tema);
+                        }
                       },
                     ),
                   ),
@@ -102,7 +104,6 @@ class CadastrarTema extends State<ClasseTema> {
                     width: 300,
                     height: 100,
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                       textColor: Colors.white,
                       color: Colors.green[500],
                       child: Text(

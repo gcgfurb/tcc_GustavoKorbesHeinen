@@ -2,9 +2,11 @@ import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:TCC_II/Classes/Roteiro.dart';
 import 'package:TCC_II/Classes/Util.dart';
 import 'package:TCC_II/GoogleAuthClient.dart';
+import 'package:TCC_II/Telas/Aluno/shareFolder.dart';
 import 'package:TCC_II/Telas/Aluno/cadastrarObjEspecifico.dart';
 import 'package:TCC_II/Telas/Aluno/visualizarRoteiroDefinido.dart';
 import 'package:TCC_II/Telas/Aluno/visualizarRoteiroNaoDefinido.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
@@ -99,18 +101,10 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                     textColor: Colors.white,
                     child: Text("Enviar respostas ao Professor"),
                     onPressed: () async {
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) => Center(
-                          child: CircularProgressIndicator(
-                            valueColor: _colorido,
-                            strokeWidth: 5,
-                          ),
-                        ),
-                      );
-                      await postFileToGoogleDrive(widget._tema);
+                      showLoadingDialog();
+                      v3.File folderTema = await postFileToGoogleDrive(widget._tema);
                       Navigator.pop(context);
+                      shareFolder(folderTema);
                     },
                   ),
                 ),
@@ -138,7 +132,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
   void chamaTelaRealizarAtividades(context, ObjEspecifico _objEspecifico) async {
     if (_objEspecifico.getRoteiro().getQtdAtividades() > 0) {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroDefinido(_objEspecifico)));
+      await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroDefinido(_objEspecifico)));
     } else {
       await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroNaoDefinido(_objEspecifico)));
       setState(() {});
@@ -150,7 +144,32 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
     setState(() {});
   }
 
-  Future<void> postFileToGoogleDrive(Tema tema) async {
+  Future<void> shareFolder(v3.File folderTema) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text("Compartilhar tema"),
+        content: Text("Deseja compartilhar o conteúdo no Google Drive?"),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            child: Text("Não"),
+            onPressed: () => Navigator.pop(context),
+          ),
+          CupertinoDialogAction(
+            child: Text("Sim"),
+            onPressed: () async {
+              Navigator.pop(context);
+              await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseShareFolder(folderTema)));
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<v3.File> postFileToGoogleDrive(Tema tema) async {
     final authHeaders = await Util.account.authHeaders;
     final authenticateClient = GoogleAuthClient(authHeaders);
     final driveApi = v3.DriveApi(authenticateClient);
@@ -172,18 +191,20 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
       qtdObj++;
     }
+
+    return folderTema;
   }
 
   Future<v3.File> criaTema(Tema tema, v3.DriveApi driveApi) async {
     v3.File folderType = new v3.File();
-    folderType.name = "Centro de Ciencias";
+    folderType.name = "Clube de Ciencias - ${tema.getTema()}";
     folderType.mimeType = "application/vnd.google-apps.folder";
 
     v3.File folder = await driveApi.files.create(folderType, $fields: "id");
 
     List<int> values = Util.leTema(tema);
 
-    await gravaDados(values, "tema.txt", folder, driveApi);
+    await Util.gravaDados(values, "tema.txt", folder, driveApi);
     return folder;
   }
 
@@ -197,7 +218,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     List<int> values = Util.leObjEspecifico(objEspecifico);
 
-    await gravaDados(values, "objEspecifico.txt", folder, driveApi);
+    await Util.gravaDados(values, "objEspecifico.txt", folder, driveApi);
     return folder;
   }
 
@@ -211,7 +232,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     List<int> values = Util.leRoteiro(roteiro);
 
-    await gravaDados(values, "roteiro.txt", folder, driveApi);
+    await Util.gravaDados(values, "roteiro.txt", folder, driveApi);
     return folder;
   }
 
@@ -225,18 +246,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     List<int> values = Util.leAtividade(atividade);
 
-    await gravaDados(values, "atividade.txt", folder, driveApi);
-  }
-
-  Future<void> gravaDados(List<int> values, String nomeArquivo, v3.File folder, v3.DriveApi driveApi) async {
-    final Stream<List<int>> mediaStream = Future.value(values).asStream().asBroadcastStream();
-    var media = new v3.Media(mediaStream, values.length);
-
-    var driveFile = new v3.File();
-    driveFile.parents = [folder.id];
-    driveFile.name = nomeArquivo;
-
-    await driveApi.files.create(driveFile, uploadMedia: media);
+    await Util.gravaDados(values, "atividade.txt", folder, driveApi);
   }
 
   Future<String> getFileFromGoogleDrive() async {
@@ -272,5 +282,32 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
     });
 
     return content;
+  }
+
+  void showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: CircularProgressIndicator(
+              valueColor: _colorido,
+              strokeWidth: 5,
+            ),
+          ),
+          Material(
+            type: MaterialType.transparency,
+            child: Text(
+              'Gravando dados no Google Drive...',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

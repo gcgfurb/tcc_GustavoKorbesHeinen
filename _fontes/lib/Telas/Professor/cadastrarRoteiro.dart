@@ -79,7 +79,7 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                     child: GridView.count(
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      crossAxisCount: 4,
+                      crossAxisCount: 5,
                       scrollDirection: Axis.vertical,
                       primary: false,
                       children: List.generate(_listCaracteristicas.length, (index) {
@@ -92,6 +92,9 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                               Text(
                                 _listCaracteristicas[index],
                                 textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                ),
                               ),
                             ],
                           ),
@@ -177,7 +180,10 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
 
   ListTile geraLista(Atividade atividade, int index) => ListTile(
         key: ValueKey(atividade),
-        title: Text("#${index + 1} - " + atividade.getNomeAtividade() + " - " + atividade.getDescricao()),
+        title: Text(
+          "#${index + 1} - " + atividade.getNomeAtividade() + " - " + atividade.getDescricao(),
+          style: TextStyle(fontSize: 18),
+        ),
         contentPadding: EdgeInsets.fromLTRB(15, 0, 5, 0),
         dense: true,
         trailing: TextButton(
