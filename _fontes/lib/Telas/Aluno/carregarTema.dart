@@ -77,7 +77,7 @@ class CarregarTema extends State<ClasseCarregarTema> {
   Tema stringToDados(String qrText) {
     Tema tema = new Tema();
 
-    var dados = qrText.split("¨§");
+    List<String> dados = qrText.split("¨§");
 
     try {
       tema.setTema(dados[0]);
@@ -92,7 +92,7 @@ class CarregarTema extends State<ClasseCarregarTema> {
         objEspecifico.setObjetivo(dados[posicao++]);
 
         Roteiro roteiro = new Roteiro();
-        roteiro.setOrdenado(dados[posicao++] == "true" ? true : false);
+        roteiro.setOrdenado(dados[posicao++] == "1" ? true : false);
 
         int qtdAtividades = int.parse(dados[posicao++]);
         if (tema.getRoteiroDefinido() == false) {

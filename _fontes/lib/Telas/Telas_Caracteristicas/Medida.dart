@@ -252,6 +252,7 @@ class Medida extends State<ClasseMedida> {
             child: TextField(
               controller: bRepetido ? _tecValor2 : _tecValor1,
               focusNode: bRepetido ? _fnValor2 : _fnValor1,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Qual o valor obtido?*', hintText: '5'),
             ),
           ),

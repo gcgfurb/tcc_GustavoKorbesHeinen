@@ -58,6 +58,15 @@ class Video extends State<ClasseVideo> {
                     children: <Widget>[
                       FloatingActionButton(
                         mini: true,
+                        backgroundColor: Colors.red,
+                        onPressed: () {
+                          _onVideoButtonPressed(ImageSource.camera);
+                        },
+                        heroTag: 'video1',
+                        child: const Icon(Icons.videocam),
+                      ),
+                      FloatingActionButton(
+                        mini: true,
                         onPressed: () {
                           if (_controller != null) {
                             if (_controller.value.isPlaying) {
@@ -74,15 +83,6 @@ class Video extends State<ClasseVideo> {
                                   : Icons.play_arrow
                               : Icons.play_arrow,
                         ),
-                      ),
-                      FloatingActionButton(
-                        mini: true,
-                        backgroundColor: Colors.red,
-                        onPressed: () {
-                          _onVideoButtonPressed(ImageSource.camera);
-                        },
-                        heroTag: 'video1',
-                        child: const Icon(Icons.videocam),
                       ),
                     ],
                   ),

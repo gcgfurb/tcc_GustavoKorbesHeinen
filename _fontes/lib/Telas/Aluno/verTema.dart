@@ -246,38 +246,6 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
     await Util.gravaDados(values, Constantes.ARQUIVO_ATIVIDADE, folder, driveApi);
   }
 
-  Future<String> getFileFromGoogleDrive() async {
-    v3.FileList textFileList = await Util.driveApi.files.list();
-
-    int idx = 0;
-    while (textFileList.files[idx].name != "Centro de Ciencias") {
-      idx++;
-    }
-
-    String content = "";
-
-    v3.Media response = await Util.driveApi.files.get(textFileList.files[8].id, downloadOptions: v3.DownloadOptions.fullMedia);
-
-    List<int> dataStore = [];
-    response.stream.listen((data) {
-      print("DataReceived: ${data.length}");
-      dataStore.insertAll(dataStore.length, data);
-    }, onDone: () async {
-      Directory tempDir = await getTemporaryDirectory(); //Get temp folder using Path Provider
-      String tempPath = tempDir.path; //Get path to that location
-      File file = File('$tempPath/test'); //Create a dummy file
-      await file.writeAsBytes(dataStore); //Write to that file from the datastore you created from the Media stream
-      content = file.readAsStringSync(); // Read String from the file
-      print(content); //Finally you have your text
-      print("Task Done");
-      return content;
-    }, onError: (error) {
-      print("Some Error");
-    });
-
-    return content;
-  }
-
   void showLoadingDialog() {
     showDialog(
       context: context,

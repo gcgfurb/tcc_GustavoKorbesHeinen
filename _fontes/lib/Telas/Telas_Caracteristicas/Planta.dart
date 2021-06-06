@@ -114,7 +114,7 @@ class Planta extends State<ClassePlanta> {
                             width: 150,
                             child: RaisedButton(
                               padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green[500],
+                              color: Colors.red,
                               textColor: Colors.white,
                               child: Text("Cancelar"),
                               onPressed: () {
