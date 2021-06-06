@@ -48,7 +48,8 @@ class Foto extends State<ClasseFoto> {
               child: IntrinsicWidth(
                 child: Column(
                   children: <Widget>[
-                    Container(
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                       child: TextField(
                         controller: _textoDescricao,
                         maxLength: 150,

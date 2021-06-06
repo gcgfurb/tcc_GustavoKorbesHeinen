@@ -7,11 +7,11 @@ import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:TCC_II/Telas/aprendaUsar.dart';
-import '../../GoogleAuthClient.dart';
 import '../telaInicial.dart';
 import 'cadastrarTema.dart';
 import '../../Classes/Tema.dart';
 import 'package:googleapis/drive/v3.dart' as v3;
+import '../../Classes/Constantes.dart' as Constantes;
 
 class ClasseProfessor extends StatefulWidget {
   @override
@@ -19,8 +19,10 @@ class ClasseProfessor extends StatefulWidget {
 }
 
 class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderStateMixin {
-  List<Tema> _aTemas = [];
+  List<Tema> _temas = [];
   int _index = 0;
+  List<Tema> _temasGoogleDrive = [];
+  int idxObjEspGD = 0;
 
   Animation _colorido;
   AnimationController _animationController;
@@ -49,13 +51,13 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  if (_aTemas.length > 0)
+                  if (_temas.length > 0)
                     Text(
-                      _aTemas[_index].getTema(),
+                      _temas[_index].getTema(),
                       style: TextStyle(fontSize: 20),
                       textAlign: TextAlign.justify,
                     ),
-                  if (_aTemas.length > 0)
+                  if (_temas.length > 0)
                     TextButton(
                       child: QrImage(
                         backgroundColor: Colors.green[500],
@@ -64,13 +66,36 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                       ),
                       style: TextButton.styleFrom(primary: Colors.green[300]),
                       onPressed: () {
-                        chamaTelaCadastrarTema(context, _aTemas[_index]);
+                        chamaTelaCadastrarTema(context, _temas[_index]);
                       },
                     ),
-                  if (_aTemas.length > 0)
-                    ElevatedButton(
+                  if (_temas.length > 0)
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                      child: ElevatedButton(
+                        child: Text(
+                          'Sincronizar tema com o Google Drive',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 20,
+                          ),
+                        ),
+                        onPressed: () async {
+                          showLoadingDialog("Gravando dados no Google Drive...");
+                          await postFileToGoogleDrive(_temas[_index]);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                    child: ElevatedButton(
                       child: Text(
-                        'Sincronizar tema com o Google Drive',
+                        'Escolher Tema no Google Drive',
                         style: TextStyle(fontSize: 20),
                       ),
                       style: TextButton.styleFrom(
@@ -81,11 +106,23 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                         ),
                       ),
                       onPressed: () async {
-                        showLoadingDialog();
-                        await postFileToGoogleDrive(_aTemas[_index]);
+                        _temasGoogleDrive.clear();
+                        showLoadingDialog("Buscando temas do Google Drive");
+                        await getFileFromGoogleDrive();
                         Navigator.pop(context);
+
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Temas encontrados'),
+                              content: mostraTema(_temasGoogleDrive),
+                            );
+                          },
+                        );
                       },
                     ),
+                  ),
                 ],
               ),
             ),
@@ -108,8 +145,8 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                         ),
                       ),
                       onPressed: () {
-                        _aTemas.add(new Tema());
-                        chamaTelaCadastrarTema(context, _aTemas[_aTemas.length - 1]);
+                        _temas.add(new Tema());
+                        chamaTelaCadastrarTema(context, _temas[_temas.length - 1]);
                       },
                     ),
                   ),
@@ -128,7 +165,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                       ),
                       onPressed: () {
                         setState(() {
-                          _index == _aTemas.length - 1 ? _index = 0 : _index++;
+                          _index == _temas.length - 1 ? _index = 0 : _index++;
                         });
                       },
                     ),
@@ -148,7 +185,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                       ),
                       onPressed: () {
                         setState(() {
-                          _index == 0 ? _index = _aTemas.length - 1 : _index--;
+                          _index == 0 ? _index = _temas.length - 1 : _index--;
                         });
                       },
                     ),
@@ -204,7 +241,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
   }
 
   String carregaInfo() {
-    Tema temaAtual = _aTemas[_index];
+    Tema temaAtual = _temas[_index];
 
     String infoAtual = temaAtual.getTema() + "¨§" + temaAtual.getDescricao() + "¨§" + temaAtual.getListaObjEspecifico().length.toString() + "¨§";
 
@@ -222,22 +259,18 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
   }
 
   Future<void> postFileToGoogleDrive(Tema tema) async {
-    final authHeaders = await Util.account.authHeaders;
-    final authenticateClient = GoogleAuthClient(authHeaders);
-    final driveApi = v3.DriveApi(authenticateClient);
-
-    v3.File folderTema = await criaTema(tema, driveApi);
+    v3.File folderTema = await criaTema(tema, Util.driveApi);
 
     int qtdObj = 1;
 
     for (final objEspecifico in tema.getListaObjEspecifico()) {
-      v3.File folderAtual = await criaObjetivoEspecifico(objEspecifico, folderTema, qtdObj, driveApi);
+      v3.File folderAtual = await criaObjetivoEspecifico(objEspecifico, folderTema, qtdObj, Util.driveApi);
 
-      folderAtual = await criaRoteiro(objEspecifico.getRoteiro(), folderAtual, driveApi);
+      folderAtual = await criaRoteiro(objEspecifico.getRoteiro(), folderAtual, Util.driveApi);
 
       int qtdAtividade = 1;
       for (final atividade in objEspecifico.getRoteiro().getListaAtividade()) {
-        await criaAtividade(atividade, folderAtual, qtdAtividade, driveApi);
+        await criaAtividade(atividade, folderAtual, qtdAtividade, Util.driveApi);
         qtdAtividade++;
       }
 
@@ -254,7 +287,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
 
     List<int> values = Util.leTema(tema);
 
-    await Util.gravaDados(values, "tema.txt", folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_TEMA, folder, driveApi);
     return folder;
   }
 
@@ -268,7 +301,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
 
     List<int> values = Util.leObjEspecifico(objEspecifico);
 
-    await Util.gravaDados(values, "objEspecifico.txt", folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_OBJETIVO_ESPECIFICO, folder, driveApi);
     return folder;
   }
 
@@ -282,7 +315,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
 
     List<int> values = Util.leRoteiro(roteiro);
 
-    await Util.gravaDados(values, "roteiro.txt", folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_ROTEIRO, folder, driveApi);
     return folder;
   }
 
@@ -297,10 +330,116 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
     List<int> values = utf8.encode('Atividade: ' + atividade.getNomeAtividade() + '\n');
     values += utf8.encode('Descricao: ' + atividade.getDescricao());
 
-    await Util.gravaDados(values, "atividade.txt", folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_ATIVIDADE, folder, driveApi);
   }
 
-  void showLoadingDialog() {
+  Widget mostraTema(List<Tema> tema) {
+    return Container(
+      height: 300.0,
+      width: 300.0,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: tema.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ElevatedButton(
+            style: TextButton.styleFrom(backgroundColor: (index % 2 == 0) ? Colors.green[100] : Colors.green[200]),
+            onPressed: () {
+              _temas.add(_temasGoogleDrive[index]);
+              setState(() {});
+            },
+            child: ListTile(
+              title: Text(tema[index].getTema()),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> getFileFromGoogleDrive() async {
+    v3.FileList temasDriveProfessor = await Util.driveApi.files.list(q: "mimeType = 'application/vnd.google-apps.folder' and name contains 'Professor - ' and trashed = false");
+
+    for (int idxTemas = 0; idxTemas < temasDriveProfessor.files.length; ++idxTemas) {
+      _temasGoogleDrive.add(new Tema());
+      idxObjEspGD = 0;
+      await getRecursaoTema(temasDriveProfessor.files[idxTemas], idxTemas);
+    }
+  }
+
+  Future<void> getRecursaoTema(v3.File file, int idxTemaGD) async {
+    v3.FileList temaDrive = await Util.driveApi.files.list(q: "parents in '${file.id}'");
+
+    for (int idxFile = 0; idxFile < temaDrive.files.length; ++idxFile) {
+      if (temaDrive.files[idxFile].mimeType == "text/plain") {
+        v3.Media content = await Util.driveApi.files.get(temaDrive.files[idxFile].id, downloadOptions: v3.DownloadOptions.fullMedia);
+
+        String texto = await getTexto(content);
+
+        switch (temaDrive.files[idxFile].name) {
+          case Constantes.ARQUIVO_TEMA:
+            int iPos = texto.indexOf("Descricao: ");
+            _temasGoogleDrive[idxTemaGD].setTema(texto.substring(6, iPos - 1));
+            _temasGoogleDrive[idxTemaGD].setDescricao(texto.substring(iPos + 11, texto.length));
+
+            break;
+          case Constantes.ARQUIVO_OBJETIVO_ESPECIFICO:
+            if (_temasGoogleDrive[idxTemaGD].getObjEspecifico(idxObjEspGD - 1).getObjetivo().isEmpty) {
+              _temasGoogleDrive[idxTemaGD].getObjEspecifico(idxObjEspGD - 1).setObjetivo(texto.substring(10, texto.length));
+            } else {
+              ObjEspecifico objEspecifico = new ObjEspecifico();
+              objEspecifico.setObjetivo(texto.substring(10, texto.length));
+
+              _temasGoogleDrive[idxTemaGD].adicionaObjEspecifico(objEspecifico);
+            }
+
+            break;
+          case Constantes.ARQUIVO_ROTEIRO:
+            if (_temasGoogleDrive[idxTemaGD].getListaObjEspecifico().length <= idxObjEspGD) {
+              _temasGoogleDrive[idxTemaGD].adicionaObjEspecifico(new ObjEspecifico());
+              _temasGoogleDrive[idxTemaGD].getObjEspecifico(idxObjEspGD).setRoteiro(new Roteiro());
+            }
+
+            String ordenado = texto.substring(10, texto.length);
+            _temasGoogleDrive[idxTemaGD].getObjEspecifico(idxObjEspGD).getRoteiro().setOrdenado(ordenado == "Sim" ? true : false);
+
+            idxObjEspGD++;
+
+            break;
+          case Constantes.ARQUIVO_ATIVIDADE:
+            if (_temasGoogleDrive[idxTemaGD].getListaObjEspecifico().length <= idxObjEspGD) {
+              _temasGoogleDrive[idxTemaGD].adicionaObjEspecifico(new ObjEspecifico());
+              _temasGoogleDrive[idxTemaGD].getObjEspecifico(idxObjEspGD).setRoteiro(new Roteiro());
+            }
+
+            Atividade atividade = new Atividade();
+
+            int iPos = texto.indexOf("Descricao: ");
+            atividade.setNomeAtividade(texto.substring(11, iPos - 1));
+            atividade.setDescricao(texto.substring(iPos + 11, texto.length));
+            atividade.setId(Util.stringToId(atividade.getNomeAtividade()));
+
+            _temasGoogleDrive[idxTemaGD].getObjEspecifico(idxObjEspGD).getRoteiro().adicionaAtividade(atividade);
+
+            break;
+        }
+      } else {
+        await getRecursaoTema(temaDrive.files[idxFile], idxTemaGD);
+      }
+    }
+  }
+
+  Future<String> getTexto(v3.Media content) async {
+    List<int> dataStore = [];
+
+    Stream<List<int>> stream = content.stream;
+    await for (var data in stream) {
+      dataStore += data;
+    }
+
+    return utf8.decode(dataStore);
+  }
+
+  void showLoadingDialog(String mensagem) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -316,7 +455,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
           Material(
             type: MaterialType.transparency,
             child: Text(
-              'Gravando dados no Google Drive...',
+              mensagem,
               style: TextStyle(
                 fontSize: 20,
               ),

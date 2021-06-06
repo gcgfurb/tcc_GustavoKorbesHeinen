@@ -75,41 +75,42 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
             ),
             Flexible(
               child: ListView.builder(
-                  itemCount: widget.tema.getListaObjEspecifico().length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
-                      child: ListTile(
-                        leading: Icon(Icons.bookmarks),
-                        title: Text(widget.tema.getObjEspecifico(index).getObjetivo()),
-                        dense: true,
-                        trailing: Wrap(
-                          spacing: 12,
-                          children: <Widget>[
-                            RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              color: Colors.green[500],
-                              textColor: Colors.white,
-                              child: Text("Cadastrar Roteiro"),
-                              onPressed: () {
-                                chamaTelaCadastrarRoteiro(context, widget.tema.getObjEspecifico(index));
-                              },
+                itemCount: widget.tema.getListaObjEspecifico().length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
+                    child: ListTile(
+                      leading: Icon(Icons.bookmarks),
+                      title: Text(widget.tema.getObjEspecifico(index).getObjetivo()),
+                      dense: true,
+                      trailing: Wrap(
+                        spacing: 12,
+                        children: <Widget>[
+                          RaisedButton(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            color: Colors.green[500],
+                            textColor: Colors.white,
+                            child: Text("Cadastrar Roteiro"),
+                            onPressed: () {
+                              chamaTelaCadastrarRoteiro(context, widget.tema.getObjEspecifico(index));
+                            },
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              Icons.delete_forever,
+                              size: 50,
                             ),
-                            IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                Icons.delete_forever,
-                                size: 50,
-                              ),
-                              onPressed: () {
-                                chamaDialogExcluirObjEspecifico(context, index);
-                              },
-                            ),
-                          ],
-                        ),
+                            onPressed: () {
+                              chamaDialogExcluirObjEspecifico(context, index);
+                            },
+                          ),
+                        ],
                       ),
-                    );
-                  }),
+                    ),
+                  );
+                },
+              ),
             ),
             Container(
               alignment: Alignment.bottomRight,

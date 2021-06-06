@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/drive/v3.dart' as v3;
 
-import '../../GoogleAuthClient.dart';
+import '../../Classes/GoogleAuthClient.dart';
 
 class ClasseShareFolder extends StatefulWidget {
   v3.File _folderTema = new v3.File();
@@ -118,14 +118,10 @@ class ShareFolder extends State<ClasseShareFolder> {
                     textColor: Colors.white,
                     child: Text("Confirmar"),
                     onPressed: () async {
-                      final authHeaders = await Util.account.authHeaders;
-                      final authenticateClient = GoogleAuthClient(authHeaders);
-                      final driveApi = v3.DriveApi(authenticateClient);
-
                       widget._folderTema.permissions = participantes;
 
                       for (int idx = 0; idx < participantes.length; ++idx) {
-                        await driveApi.permissions.create(participantes[0], widget._folderTema.id);
+                        await Util.driveApi.permissions.create(participantes[0], widget._folderTema.id);
                       }
                     },
                   ),

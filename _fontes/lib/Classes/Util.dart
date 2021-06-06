@@ -38,6 +38,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'GoogleAuthClient.dart';
 import 'Caracteristicas/CaracteristicaAudio.dart';
 import 'Caracteristicas/CaracteristicaCaracteristica.dart';
 import 'Caracteristicas/CaracteristicaDesenho.dart';
@@ -55,6 +56,10 @@ import 'Roteiro.dart';
 
 class Util {
   static GoogleSignInAccount account;
+
+  static Map<String, String> authHeaders;
+  static GoogleAuthClient authenticateClient;
+  static v3.DriveApi driveApi;
 
   static String idToString(int index) {
     switch (index) {
@@ -438,5 +443,13 @@ class Util {
     driveFile.name = nomeArquivo;
 
     await driveApi.files.create(driveFile, uploadMedia: media);
+  }
+
+  static inicializaAutenticaoDrive(GoogleSignIn googleSignIn) async {
+    account = await googleSignIn.signIn();
+
+    authHeaders = await account.authHeaders;
+    authenticateClient = GoogleAuthClient(authHeaders);
+    driveApi = v3.DriveApi(authenticateClient);
   }
 }

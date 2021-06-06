@@ -35,7 +35,8 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
     'Localização',
     'Produção de Material',
     'Outra intervenção',
-    'Plantar'
+    'Plantar',
+    'Personalizada'
   ];
 
   @override
@@ -57,17 +58,6 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 20),
                     )),
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, 15, 15, 5),
-                  alignment: Alignment.topRight,
-                  child: RaisedButton(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                    color: Colors.green[500],
-                    textColor: Colors.white,
-                    child: Text("Ajuda"),
-                    onPressed: () {},
-                  ),
-                ),
               ],
             ),
             Expanded(
@@ -99,7 +89,9 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                             ],
                           ),
                           onPressed: () {
-                            chamaTelaCadastrarNovaAtividade(context, widget.objEspecifico.getRoteiro(), _listCaracteristicas[index]);
+                            String nomeAtividade = _listCaracteristicas[index];
+                            if (nomeAtividade == 'Personalizada') nomeAtividade = '';
+                            chamaTelaCadastrarNovaAtividade(context, widget.objEspecifico.getRoteiro(), nomeAtividade);
                           },
                         );
                       }),
@@ -127,7 +119,6 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                 children: <Widget>[
                   Expanded(
                     child: CheckboxListTile(
-                      secondary: Icon(Icons.format_list_numbered),
                       title: Text("Este roteiro deve ser realizado na ordem proposta"),
                       controlAffinity: ListTileControlAffinity.leading,
                       value: widget.objEspecifico.getRoteiro().getOrdenado(),
@@ -138,21 +129,6 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                       },
                       activeColor: Colors.white,
                       checkColor: Colors.black,
-                    ),
-                  ),
-                  Container(
-                    height: 70,
-                    padding: EdgeInsets.fromLTRB(5, 5, 15, 5),
-                    child: RaisedButton(
-                      color: Colors.green[500],
-                      textColor: Colors.white,
-                      child: Text(
-                        "Cadastrar Atividade",
-                        textAlign: TextAlign.justify,
-                      ),
-                      onPressed: () {
-                        chamaTelaCadastrarNovaAtividade(context, widget.objEspecifico.getRoteiro(), "");
-                      },
                     ),
                   ),
                   Container(

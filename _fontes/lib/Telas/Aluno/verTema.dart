@@ -1,7 +1,7 @@
 import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:TCC_II/Classes/Roteiro.dart';
 import 'package:TCC_II/Classes/Util.dart';
-import 'package:TCC_II/GoogleAuthClient.dart';
+
 import 'package:TCC_II/Telas/Aluno/shareFolder.dart';
 import 'package:TCC_II/Telas/Aluno/cadastrarObjEspecifico.dart';
 import 'package:TCC_II/Telas/Aluno/visualizarRoteiroDefinido.dart';
@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:googleapis/drive/v3.dart' as v3;
+import '../../Classes/Constantes.dart' as Constantes;
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
@@ -170,22 +171,18 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
   }
 
   Future<v3.File> postFileToGoogleDrive(Tema tema) async {
-    final authHeaders = await Util.account.authHeaders;
-    final authenticateClient = GoogleAuthClient(authHeaders);
-    final driveApi = v3.DriveApi(authenticateClient);
-
-    v3.File folderTema = await criaTema(tema, driveApi);
+    v3.File folderTema = await criaTema(tema, Util.driveApi);
 
     int qtdObj = 1;
 
     for (final objEspecifico in tema.getListaObjEspecifico()) {
-      v3.File folderAtual = await criaObjetivoEspecifico(objEspecifico, folderTema, qtdObj, driveApi);
+      v3.File folderAtual = await criaObjetivoEspecifico(objEspecifico, folderTema, qtdObj, Util.driveApi);
 
-      folderAtual = await criaRoteiro(objEspecifico.getRoteiro(), folderAtual, driveApi);
+      folderAtual = await criaRoteiro(objEspecifico.getRoteiro(), folderAtual, Util.driveApi);
 
       int qtdAtividade = 1;
       for (final atividade in objEspecifico.getRoteiro().getListaAtividade()) {
-        await criaAtividade(atividade, folderAtual, qtdAtividade, driveApi);
+        await criaAtividade(atividade, folderAtual, qtdAtividade, Util.driveApi);
         qtdAtividade++;
       }
 
@@ -204,7 +201,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     List<int> values = Util.leTema(tema);
 
-    await Util.gravaDados(values, "tema.txt", folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_TEMA, folder, driveApi);
     return folder;
   }
 
@@ -218,7 +215,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     List<int> values = Util.leObjEspecifico(objEspecifico);
 
-    await Util.gravaDados(values, "objEspecifico.txt", folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_OBJETIVO_ESPECIFICO, folder, driveApi);
     return folder;
   }
 
@@ -232,7 +229,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     List<int> values = Util.leRoteiro(roteiro);
 
-    await Util.gravaDados(values, "roteiro.txt", folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_ROTEIRO, folder, driveApi);
     return folder;
   }
 
@@ -246,14 +243,11 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     List<int> values = Util.leAtividade(atividade);
 
-    await Util.gravaDados(values, "atividade.txt", folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_ATIVIDADE, folder, driveApi);
   }
 
   Future<String> getFileFromGoogleDrive() async {
-    final authHeaders = await Util.account.authHeaders;
-    final authenticateClient = GoogleAuthClient(authHeaders);
-    final driveApi = v3.DriveApi(authenticateClient);
-    v3.FileList textFileList = await driveApi.files.list();
+    v3.FileList textFileList = await Util.driveApi.files.list();
 
     int idx = 0;
     while (textFileList.files[idx].name != "Centro de Ciencias") {
@@ -262,7 +256,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     String content = "";
 
-    v3.Media response = await driveApi.files.get(textFileList.files[8].id, downloadOptions: v3.DownloadOptions.fullMedia);
+    v3.Media response = await Util.driveApi.files.get(textFileList.files[8].id, downloadOptions: v3.DownloadOptions.fullMedia);
 
     List<int> dataStore = [];
     response.stream.listen((data) {

@@ -58,7 +58,7 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 0, 15, 0),
+                    padding: EdgeInsets.fromLTRB(5, 15, 15, 0),
                     child: RaisedButton(
                       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                       color: Colors.green[500],
@@ -68,6 +68,7 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                         if (objTexto.text.isEmpty) {
                           focusNodeObj.requestFocus();
                         } else {
+                          FocusManager.instance.primaryFocus.unfocus();
                           cadastrarObjetivo();
                         }
                       },
