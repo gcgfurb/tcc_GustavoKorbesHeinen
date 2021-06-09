@@ -50,13 +50,19 @@ class Audio extends State<ClasseAudio> {
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.fromLTRB(20, 20, 0, 10),
-              child: Text("Insira um áudio em seu roteiro:"),
+              padding: EdgeInsets.fromLTRB(0, 15, 0, 5),
+              child: Text(
+                "Insira um áudio em seu roteiro:",
+                style: TextStyle(fontSize: 20),
+              ),
             ),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 20),
-              child: Text(widget._atividade.getDescricao()),
+              padding: EdgeInsets.fromLTRB(0, 5, 0, 10),
+              child: Text(
+                widget._atividade.getDescricao(),
+                style: TextStyle(fontSize: 20),
+              ),
             ),
             FutureBuilder<String>(
               future: getPath(),
@@ -64,7 +70,7 @@ class Audio extends State<ClasseAudio> {
                 if (snapshot.hasData) {
                   if (showPlayer) {
                     return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      padding: EdgeInsets.zero,
                       child: IconButton(
                         padding: EdgeInsets.zero,
                         icon: Icon(
@@ -93,11 +99,11 @@ class Audio extends State<ClasseAudio> {
               },
             ),
             Container(
-              padding: EdgeInsets.fromLTRB(20, 30, 20, 20),
+              padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
               child: TextField(
                 controller: _tecDescricao,
                 maxLength: 150,
-                maxLines: 7,
+                maxLines: 5,
                 decoration: InputDecoration(
                   hintText: 'Descreva um resumo do áudio',
                   enabledBorder: OutlineInputBorder(
@@ -111,51 +117,58 @@ class Audio extends State<ClasseAudio> {
                 ),
               ),
             ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                    width: 150,
-                    child: FloatingActionButton.extended(
-                      heroTag: "btGravar",
-                      label: Text("Gravar"),
-                      backgroundColor: Colors.green,
-                      onPressed: () async {
-                        if (!validaCampos()) {
-                          return showDialog(
-                            context: context,
-                            builder: (BuildContext context) => CupertinoAlertDialog(
-                              title: Text("Campo obrigatório"),
-                              content: Text("É obrigatório adicionar um áudio."),
-                              actions: <Widget>[
-                                CupertinoDialogAction(
-                                  isDefaultAction: true,
-                                  child: Text("OK"),
-                                  onPressed: () => Navigator.pop(context),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                        widget._atividade.adicionaResposta(CaracteristicaAudio(audioPlayer, _tecDescricao.text, path));
-                        Navigator.pop(context);
-                      },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btCancelar",
+                    label: Text(
+                      "Cancelar",
+                      style: TextStyle(fontSize: 20),
                     ),
+                    backgroundColor: Colors.red,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                  Container(
-                    width: 150,
-                    child: FloatingActionButton.extended(
-                      heroTag: "btCancelar",
-                      label: Text("Cancelar"),
-                      backgroundColor: Colors.red,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                ),
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btGravar",
+                    label: Text(
+                      "Gravar",
+                      style: TextStyle(fontSize: 20),
                     ),
+                    backgroundColor: Colors.green,
+                    onPressed: () {
+                      if (!validaCampos()) {
+                        return showDialog(
+                          context: context,
+                          builder: (BuildContext context) => CupertinoAlertDialog(
+                            title: Text("Campo obrigatório"),
+                            content: Text("É obrigatório adicionar um áudio."),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                isDefaultAction: true,
+                                child: Text("OK"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      widget._atividade.adicionaResposta(CaracteristicaAudio(audioPlayer, _tecDescricao.text, path));
+                      Navigator.pop(context);
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
@@ -286,7 +299,10 @@ class _AudioRecorderState extends State<AudioRecorder> {
       return _buildTimer();
     }
 
-    return Text("Aguardando áudio");
+    return Text(
+      "Aguardando áudio",
+      style: TextStyle(fontSize: 20),
+    );
   }
 
   Widget _buildTimer() {

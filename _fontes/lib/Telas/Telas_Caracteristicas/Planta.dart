@@ -35,18 +35,13 @@ class Planta extends State<ClassePlanta> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _decideImageView(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      FloatingActionButton(
-                        backgroundColor: Colors.blue,
-                        onPressed: () {
-                          _openCamera(context);
-                        },
-                        heroTag: 'video1',
-                        child: const Icon(Icons.camera_alt),
-                      ),
-                    ],
+                  FloatingActionButton(
+                    backgroundColor: Colors.blue,
+                    onPressed: () {
+                      _openCamera(context);
+                    },
+                    heroTag: 'video1',
+                    child: const Icon(Icons.camera_alt),
                   ),
                 ],
               ),
@@ -55,8 +50,8 @@ class Planta extends State<ClassePlanta> {
               child: IntrinsicWidth(
                 child: Column(
                   children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 20, 20, 5),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 15, 15, 5),
                       child: TextField(
                         controller: _tecNomePopular,
                         focusNode: _fnNomePopular,
@@ -73,8 +68,8 @@ class Planta extends State<ClassePlanta> {
                         ),
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 5, 20, 20),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 5, 15, 0),
                       child: TextField(
                         controller: _tecNomeCientifico,
                         decoration: InputDecoration(
@@ -93,32 +88,37 @@ class Planta extends State<ClassePlanta> {
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Container(
                             width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.green[500],
-                              textColor: Colors.white,
-                              child: Text("Gravar"),
+                            child: FloatingActionButton.extended(
+                              heroTag: "btCancelar",
+                              label: Text(
+                                "Cancelar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.red,
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: 150,
+                            child: FloatingActionButton.extended(
+                              heroTag: "btGravar",
+                              label: Text(
+                                "Gravar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.green,
                               onPressed: () {
                                 if (validaCampos()) {
                                   widget._atividade.adicionaResposta(CaracteristicaPlanta(_imageFile, _tecNomePopular.text, _tecNomeCientifico.text));
                                   Navigator.pop(context);
                                 }
-                              },
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(right: 20),
-                            width: 150,
-                            child: RaisedButton(
-                              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                              color: Colors.red,
-                              textColor: Colors.white,
-                              child: Text("Cancelar"),
-                              onPressed: () {
-                                Navigator.pop(context);
                               },
                             ),
                           ),
@@ -177,15 +177,18 @@ class Planta extends State<ClassePlanta> {
     if (_imageFile == null) {
       return Expanded(
         child: Center(
-          child: Text("Nenhuma imagem no momento"),
+          child: Text(
+            "Nenhuma imagem no momento",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       );
     } else {
       return Expanded(
           child: Image.file(
         File(_imageFile.path),
-        width: 400,
-        height: 400,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height / 2,
       ));
     }
   }

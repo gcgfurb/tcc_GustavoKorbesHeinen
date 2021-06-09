@@ -1,9 +1,7 @@
 import 'package:TCC_II/Classes/Util.dart';
-import 'package:TCC_II/Telas/Aluno/verTema.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/drive/v3.dart' as v3;
-
 import '../../Classes/GoogleAuthClient.dart';
 
 class ClasseShareFolder extends StatefulWidget {
@@ -19,17 +17,17 @@ class ShareFolder extends State<ClasseShareFolder> {
   int _index = 0;
   TextEditingController _tecEmail = new TextEditingController();
 
-  FocusNode focusNodeObj;
+  FocusNode _fnEmail;
 
   @override
   void initState() {
     super.initState();
-    focusNodeObj = FocusNode();
+    _fnEmail = FocusNode();
   }
 
   @override
   void dispose() {
-    focusNodeObj.dispose();
+    _fnEmail.dispose();
     super.dispose();
   }
 
@@ -42,86 +40,119 @@ class ShareFolder extends State<ClasseShareFolder> {
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 15, 5, 10),
-                child: TextField(
-                  focusNode: focusNodeObj,
-                  controller: _tecEmail,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Digite o email do participante',
-                    hintText: 'fulano@gmail.com',
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 3,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(15, 15, 5, 0),
+                    child: TextField(
+                      focusNode: _fnEmail,
+                      controller: _tecEmail,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Digite o email do participante',
+                        hintText: 'fulano@gmail.com',
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Container(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(5, 10, 15, 0),
-                child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                  color: Colors.green[500],
-                  textColor: Colors.white,
-                  child: Text("Cadastrar Participante"),
-                  onPressed: () {
-                    if (_tecEmail.text.isEmpty) {
-                      focusNodeObj.requestFocus();
-                    } else {
-                      FocusManager.instance.primaryFocus.unfocus();
-                      cadastrarParticipante();
-                    }
-                  },
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(5, 15, 15, 0),
+                    child: RaisedButton(
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
+                      color: Colors.green[500],
+                      textColor: Colors.white,
+                      child: Text(
+                        "Cadastrar Participante",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      onPressed: () {
+                        if (validaCampos()) {
+                          FocusManager.instance.primaryFocus.unfocus();
+                          cadastrarParticipante();
+                        }
+                      },
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
             Flexible(
               child: ListView.builder(
-                  itemCount: participantes.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
-                      child: ListTile(
-                        leading: Icon(Icons.bookmarks),
-                        title: Text(participantes[index].emailAddress),
-                        dense: true,
-                        trailing: Wrap(
-                          spacing: 12,
-                          children: <Widget>[
-                            IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                Icons.delete_forever,
-                                size: 50,
-                              ),
-                              onPressed: () {
-                                chamaDialogExcluirParticipante(context, index);
-                              },
-                            ),
-                          ],
-                        ),
+                itemCount: participantes.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
+                    child: ListTile(
+                      leading: Icon(Icons.people),
+                      title: Text(
+                        participantes[index].emailAddress,
+                        style: TextStyle(fontSize: 15),
                       ),
-                    );
-                  }),
+                      dense: true,
+                      trailing: Wrap(
+                        spacing: 12,
+                        children: <Widget>[
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              Icons.delete_forever,
+                              size: 50,
+                            ),
+                            onPressed: () {
+                              chamaDialogExcluirParticipante(context, index);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
-                  alignment: Alignment.bottomRight,
+                  alignment: Alignment.bottomLeft,
                   padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                   child: RaisedButton(
-                    padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                     color: Colors.green[500],
                     textColor: Colors.white,
-                    child: Text("Confirmar"),
+                    child: Text(
+                      "Confirmar",
+                      style: TextStyle(fontSize: 20),
+                    ),
                     onPressed: () async {
                       widget._folderTema.permissions = participantes;
 
                       for (int idx = 0; idx < participantes.length; ++idx) {
-                        await Util.driveApi.permissions.create(participantes[0], widget._folderTema.id);
+                        if (!participantes[idx].emailAddress.contains("@gmail.com")) {
+                          return showDialog(
+                            context: context,
+                            builder: (BuildContext context) => CupertinoAlertDialog(
+                              title: Text("Email incorreto"),
+                              content: Text("O email \"${participantes[idx].emailAddress}\" não possui uma assinatura Google (@gmail.com)"),
+                              actions: <Widget>[
+                                CupertinoDialogAction(
+                                  isDefaultAction: true,
+                                  child: Text("OK"),
+                                  onPressed: () => Navigator.pop(context),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      }
+
+                      v3.DriveApi driveApi = await Util.getDriveApi();
+
+                      for (int idx = 0; idx < participantes.length; ++idx) {
+                        await driveApi.permissions.create(participantes[idx], widget._folderTema.id);
                       }
                     },
                   ),
@@ -130,10 +161,13 @@ class ShareFolder extends State<ClasseShareFolder> {
                   alignment: Alignment.bottomRight,
                   padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                   child: RaisedButton(
-                    padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                     color: Colors.green[500],
                     textColor: Colors.white,
-                    child: Text("Voltar"),
+                    child: Text(
+                      "Voltar",
+                      style: TextStyle(fontSize: 20),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -187,5 +221,14 @@ class ShareFolder extends State<ClasseShareFolder> {
     participantes.add(permission);
     _tecEmail.clear();
     setState(() {});
+  }
+
+  bool validaCampos() {
+    if (_tecEmail.text.isEmpty) {
+      _fnEmail.requestFocus();
+      return false;
+    }
+
+    return true;
   }
 }

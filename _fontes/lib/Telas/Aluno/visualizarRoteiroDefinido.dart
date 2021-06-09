@@ -26,7 +26,7 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
               padding: EdgeInsets.fromLTRB(5, 15, 0, 5),
               child: Text(
                 'Objetivo: ' + widget._objEspecifico.getObjetivo(),
-                style: TextStyle(fontSize: 25),
+                style: TextStyle(fontSize: 30),
               ),
             ),
             Flexible(
@@ -36,7 +36,7 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
                     return Container(
                       color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                       child: ListTile(
-                        leading: Icon(Icons.bookmarks),
+                        leading: Icon(Icons.multiple_stop),
                         title: getNomeAtividade(index),
                         dense: true,
                         trailing: RaisedButton(
@@ -44,7 +44,10 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
                           color: Colors.green[500],
                           disabledColor: Colors.grey[600],
                           textColor: Colors.white,
-                          child: Text(widget._objEspecifico.getRoteiro().getAtividade(index).getRespostaAtividade() != null ? "Ver Resposta" : "Responder"),
+                          child: Text(
+                            widget._objEspecifico.getRoteiro().getAtividade(index).getRespostaAtividade() != null ? "Ver Resposta" : "Responder",
+                            style: TextStyle(fontSize: 15),
+                          ),
                           onPressed: !podeHabilitarBotao(index) ? null : () => buscaAtividades(context, widget._objEspecifico.getRoteiro().getAtividade(index)),
                         ),
                       ),
@@ -53,14 +56,17 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
             ),
             Container(
               alignment: Alignment.bottomRight,
-              padding: EdgeInsets.fromLTRB(0, 10, 15, 0),
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 color: Colors.green[500],
                 textColor: Colors.white,
-                child: Text("Voltar"),
+                child: Text(
+                  "Voltar",
+                  style: TextStyle(fontSize: 20),
+                ),
                 onPressed: () {
-                  chamaTelaObjEspecificos(context);
+                  Navigator.pop(context);
                 },
               ),
             ),
@@ -74,10 +80,12 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
     String atividade = widget._objEspecifico.getRoteiro().getAtividade(index).getNomeAtividade();
     String descricao = widget._objEspecifico.getRoteiro().getAtividade(index).getDescricao();
 
-    if (descricao.isEmpty)
-      return Text(atividade);
-    else
-      return Text(atividade + " - " + descricao);
+    String retorno = descricao.isEmpty ? atividade : (atividade + " - " + descricao);
+
+    return Text(
+      retorno,
+      style: TextStyle(fontSize: 15),
+    );
   }
 
   bool podeHabilitarBotao(int index) {
@@ -96,9 +104,5 @@ class VisualizarRoteiroDefinido extends State<ClasseRoteiroDefinido> {
   void buscaAtividades(BuildContext context, Atividade atividade) async {
     await Util.escolheAtividadeCorreta(context, atividade);
     setState(() {});
-  }
-
-  void chamaTelaObjEspecificos(BuildContext context) {
-    Navigator.pop(context);
   }
 }

@@ -15,7 +15,7 @@ class ClasseFoto extends StatefulWidget {
 }
 
 class Foto extends State<ClasseFoto> {
-  TextEditingController _textoDescricao = new TextEditingController();
+  TextEditingController _tecDescricao = new TextEditingController();
   PickedFile _imageFile;
 
   @override
@@ -49,11 +49,11 @@ class Foto extends State<ClasseFoto> {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                      padding: EdgeInsets.all(15),
                       child: TextField(
-                        controller: _textoDescricao,
+                        controller: _tecDescricao,
                         maxLength: 150,
-                        maxLines: 7,
+                        maxLines: 5,
                         decoration: InputDecoration(
                           hintText: 'Objetivo geral da atividade de campo',
                           enabledBorder: OutlineInputBorder(
@@ -70,12 +70,30 @@ class Foto extends State<ClasseFoto> {
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Container(
                             width: 150,
                             child: FloatingActionButton.extended(
+                              heroTag: "btCancelar",
+                              label: Text(
+                                "Cancelar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.red,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: 150,
+                            child: FloatingActionButton.extended(
                               heroTag: "btGravar",
-                              label: Text("Gravar"),
+                              label: Text(
+                                "Gravar",
+                                style: TextStyle(fontSize: 20),
+                              ),
                               backgroundColor: Colors.green,
                               onPressed: () {
                                 if (_imageFile == null) {
@@ -94,18 +112,7 @@ class Foto extends State<ClasseFoto> {
                                     ),
                                   );
                                 }
-                                widget._atividade.adicionaResposta(CaracteristicaFoto(_imageFile, _textoDescricao.text));
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ),
-                          Container(
-                            width: 150,
-                            child: FloatingActionButton.extended(
-                              heroTag: "btCancelar",
-                              label: Text("Cancelar"),
-                              backgroundColor: Colors.red,
-                              onPressed: () {
+                                widget._atividade.adicionaResposta(CaracteristicaFoto(_imageFile, _tecDescricao.text));
                                 Navigator.pop(context);
                               },
                             ),
@@ -129,7 +136,7 @@ class Foto extends State<ClasseFoto> {
     dynamic foto = widget._atividade.getRespostaAtividade();
 
     if (foto != null) {
-      _textoDescricao.text = foto.getDescricao();
+      _tecDescricao.text = foto.getDescricao();
       _imageFile = foto.getImageFile();
     }
   }
@@ -146,16 +153,20 @@ class Foto extends State<ClasseFoto> {
     if (_imageFile == null) {
       return Expanded(
         child: Center(
-          child: Text("Nenhuma imagem no momento"),
+          child: Text(
+            "Nenhuma imagem no momento",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       );
     } else {
       return Expanded(
-          child: Image.file(
-        File(_imageFile.path),
-        width: 400,
-        height: 400,
-      ));
+        child: Image.file(
+          File(_imageFile.path),
+          width: MediaQuery.of(context).size.width / 2,
+          height: MediaQuery.of(context).size.height / 2,
+        ),
+      );
     }
   }
 }

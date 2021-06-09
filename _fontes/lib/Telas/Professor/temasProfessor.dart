@@ -6,7 +6,7 @@ import 'package:TCC_II/Classes/Roteiro.dart';
 import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:TCC_II/Telas/aprendaUsar.dart';
+import 'package:TCC_II/Telas/Professor/aprendaUsar.dart';
 import '../telaInicial.dart';
 import 'cadastrarTema.dart';
 import '../../Classes/Tema.dart';
@@ -54,7 +54,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                   if (_temas.length > 0)
                     Text(
                       _temas[_index].getTema(),
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 30),
                       textAlign: TextAlign.justify,
                     ),
                   if (_temas.length > 0)
@@ -81,7 +81,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                           backgroundColor: Colors.green,
                           padding: EdgeInsets.symmetric(
                             horizontal: 20,
-                            vertical: 20,
+                            vertical: 15,
                           ),
                         ),
                         onPressed: () async {
@@ -102,20 +102,39 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                         backgroundColor: Colors.green,
                         padding: EdgeInsets.symmetric(
                           horizontal: 20,
-                          vertical: 20,
+                          vertical: 15,
                         ),
                       ),
                       onPressed: () async {
                         _temasGoogleDrive.clear();
-                        showLoadingDialog("Buscando temas do Google Drive");
+                        showLoadingDialog("Buscando temas do Google Drive...");
                         await getFileFromGoogleDrive();
                         Navigator.pop(context);
 
                         showDialog(
                           context: context,
+                          barrierDismissible: false,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text('Temas encontrados'),
+                              backgroundColor: Colors.green[100],
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text('Temas encontrados'),
+                                  Container(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                      padding: EdgeInsets.zero,
+                                      icon: Icon(
+                                        Icons.close,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
                               content: mostraTema(_temasGoogleDrive),
                             );
                           },
@@ -128,11 +147,11 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
             ),
             Expanded(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 8, vertical: 0),
                     child: ElevatedButton(
                       child: Text(
                         "Cadastrar Novo Tema",
@@ -141,7 +160,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.green,
                         padding: EdgeInsets.symmetric(
-                          vertical: 20,
+                          vertical: 15,
                         ),
                       ),
                       onPressed: () {
@@ -151,7 +170,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 8, vertical: 0),
                     child: ElevatedButton(
                       child: Text(
                         "Próximo Tema",
@@ -160,18 +179,19 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.green,
                         padding: EdgeInsets.symmetric(
-                          vertical: 20,
+                          vertical: 15,
                         ),
                       ),
                       onPressed: () {
-                        setState(() {
-                          _index == _temas.length - 1 ? _index = 0 : _index++;
-                        });
+                        if (_temas.isNotEmpty)
+                          setState(() {
+                            _index == _temas.length - 1 ? _index = 0 : _index++;
+                          });
                       },
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 8, vertical: 0),
                     child: ElevatedButton(
                       child: Text(
                         "Tema Anterior",
@@ -180,18 +200,19 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.green,
                         padding: EdgeInsets.symmetric(
-                          vertical: 20,
+                          vertical: 15,
                         ),
                       ),
                       onPressed: () {
-                        setState(() {
-                          _index == 0 ? _index = _temas.length - 1 : _index--;
-                        });
+                        if (_temas.isNotEmpty)
+                          setState(() {
+                            _index == 0 ? _index = _temas.length - 1 : _index--;
+                          });
                       },
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 8, vertical: 0),
                     child: ElevatedButton(
                       child: Text(
                         "Aprenda a Usar",
@@ -200,7 +221,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.green,
                         padding: EdgeInsets.symmetric(
-                          vertical: 20,
+                          vertical: 15,
                         ),
                       ),
                       onPressed: () {
@@ -209,7 +230,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 8, vertical: 0),
                     child: ElevatedButton(
                       child: Text(
                         "Voltar à Tela Inicial",
@@ -218,7 +239,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.green,
                         padding: EdgeInsets.symmetric(
-                          vertical: 20,
+                          vertical: 15,
                         ),
                       ),
                       onPressed: () {
@@ -259,18 +280,18 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
   }
 
   Future<void> postFileToGoogleDrive(Tema tema) async {
-    v3.File folderTema = await criaTema(tema, Util.driveApi);
+    v3.File folderTema = await criaTema(tema, await Util.getDriveApi());
 
     int qtdObj = 1;
 
     for (final objEspecifico in tema.getListaObjEspecifico()) {
-      v3.File folderAtual = await criaObjetivoEspecifico(objEspecifico, folderTema, qtdObj, Util.driveApi);
+      v3.File folderAtual = await criaObjetivoEspecifico(objEspecifico, folderTema, qtdObj, await Util.getDriveApi());
 
-      folderAtual = await criaRoteiro(objEspecifico.getRoteiro(), folderAtual, Util.driveApi);
+      folderAtual = await criaRoteiro(objEspecifico.getRoteiro(), folderAtual, await Util.getDriveApi());
 
       int qtdAtividade = 1;
       for (final atividade in objEspecifico.getRoteiro().getListaAtividade()) {
-        await criaAtividade(atividade, folderAtual, qtdAtividade, Util.driveApi);
+        await criaAtividade(atividade, folderAtual, qtdAtividade, await Util.getDriveApi());
         qtdAtividade++;
       }
 
@@ -341,14 +362,19 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
         shrinkWrap: true,
         itemCount: tema.length,
         itemBuilder: (BuildContext context, int index) {
-          return ElevatedButton(
-            style: TextButton.styleFrom(backgroundColor: (index % 2 == 0) ? Colors.green[100] : Colors.green[200]),
-            onPressed: () {
-              _temas.add(_temasGoogleDrive[index]);
-              setState(() {});
-            },
-            child: ListTile(
-              title: Text(tema[index].getTema()),
+          return Padding(
+            padding: EdgeInsets.all(2),
+            child: ElevatedButton(
+              style: TextButton.styleFrom(backgroundColor: (index % 2 == 0) ? Colors.green[300] : Colors.green[500]),
+              onPressed: () {
+                _temas.add(_temasGoogleDrive[index]);
+                setState(() {});
+              },
+              child: ListTile(
+                title: Text(
+                  tema[index].getTema(),
+                ),
+              ),
             ),
           );
         },
@@ -357,7 +383,8 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
   }
 
   Future<void> getFileFromGoogleDrive() async {
-    v3.FileList temasDriveProfessor = await Util.driveApi.files.list(q: "mimeType = 'application/vnd.google-apps.folder' and name contains 'Professor - ' and trashed = false");
+    v3.DriveApi driveApi = await Util.getDriveApi();
+    v3.FileList temasDriveProfessor = await driveApi.files.list(q: "mimeType = 'application/vnd.google-apps.folder' and name contains 'Professor - ' and trashed = false");
 
     for (int idxTemas = 0; idxTemas < temasDriveProfessor.files.length; ++idxTemas) {
       _temasGoogleDrive.add(new Tema());
@@ -367,11 +394,12 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
   }
 
   Future<void> getRecursaoTema(v3.File file, int idxTemaGD) async {
-    v3.FileList temaDrive = await Util.driveApi.files.list(q: "parents in '${file.id}'");
+    v3.DriveApi driveApi = await Util.getDriveApi();
+    v3.FileList temaDrive = await driveApi.files.list(q: "parents in '${file.id}'");
 
     for (int idxFile = 0; idxFile < temaDrive.files.length; ++idxFile) {
       if (temaDrive.files[idxFile].mimeType == "text/plain") {
-        v3.Media content = await Util.driveApi.files.get(temaDrive.files[idxFile].id, downloadOptions: v3.DownloadOptions.fullMedia);
+        v3.Media content = await driveApi.files.get(temaDrive.files[idxFile].id, downloadOptions: v3.DownloadOptions.fullMedia);
 
         String texto = await getTexto(content);
 
@@ -457,7 +485,8 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
             child: Text(
               mensagem,
               style: TextStyle(
-                fontSize: 20,
+                color: Colors.white,
+                fontSize: 30,
               ),
             ),
           ),

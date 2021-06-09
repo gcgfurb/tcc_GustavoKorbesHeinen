@@ -32,7 +32,8 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
     'Localização',
     'Produção de Material',
     'Outra intervenção',
-    'Plantar'
+    'Plantar',
+    'Personalizada'
   ];
 
   @override
@@ -41,24 +42,23 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
       body: Container(
         color: Colors.green[300],
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
         child: Column(
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.fromLTRB(15, 15, 0, 5),
+                  padding: EdgeInsets.fromLTRB(15, 5, 0, 5),
                   child: Text(
                     'Objetivo: ' + widget._objEspecifico.getObjetivo(),
                     textAlign: TextAlign.left,
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 30),
                   ),
                 ),
               ],
             ),
             Expanded(
-              flex: 4,
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -66,83 +66,67 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                     child: GridView.count(
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      crossAxisCount: 4,
+                      crossAxisCount: 5,
                       scrollDirection: Axis.vertical,
                       primary: false,
-                      children: List.generate(_listCaracteristicas.length, (index) {
-                        return RaisedButton(
-                          color: Colors.green[500],
-                          textColor: Colors.white,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                _listCaracteristicas[index],
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                          onPressed: () {
-                            Atividade atividade = new Atividade();
-                            atividade.setNomeAtividade(_listCaracteristicas[index]);
-                            atividade.setId(index);
-                            chamaTelaCadastrarNovaPergunta(context, atividade);
-                          },
-                        );
-                      }),
+                      children: List.generate(
+                        _listCaracteristicas.length,
+                        (index) {
+                          return TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.green[500],
+                              primary: Colors.white,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  _listCaracteristicas[index],
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onPressed: () {
+                              Atividade atividade = new Atividade();
+                              if (_listCaracteristicas[index] == "Personalizada") {
+                                atividade.setNomeAtividade("Pergunta personalizada");
+                                atividade.setId(-1);
+                              } else {
+                                atividade.setNomeAtividade(_listCaracteristicas[index]);
+                                atividade.setId(index);
+                              }
+                              chamaTelaCadastrarNovaPergunta(context, atividade);
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Expanded(
-                          child: ListView(
-                            children: getListItems(),
-                          ),
-                        ),
-                      ],
+                    child: ListView(
+                      children: getListItems(),
                     ),
                   ),
                 ],
               ),
             ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    height: 100,
-                    padding: EdgeInsets.all(5),
-                    child: RaisedButton(
-                      color: Colors.green[500],
-                      textColor: Colors.white,
-                      child: Text(
-                        "Cadastrar outra pergunta",
-                        textAlign: TextAlign.justify,
-                      ),
-                      onPressed: () {
-                        Atividade atividade = new Atividade();
-                        atividade.setNomeAtividade("Pergunta personalizada");
-                        atividade.setId(-1);
-                        chamaTelaCadastrarNovaPergunta(context, atividade);
-                      },
-                    ),
-                  ),
-                  Container(
-                    height: 100,
-                    padding: EdgeInsets.all(5),
-                    child: RaisedButton(
-                      color: Colors.green[500],
-                      textColor: Colors.white,
-                      child: Text("Finalizar atividade"),
-                      onPressed: () {
-                        chamaTelaObjEspecificos(context);
-                      },
-                    ),
-                  ),
-                ],
+            Container(
+              alignment: Alignment.bottomRight,
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              child: RaisedButton(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                color: Colors.green[500],
+                textColor: Colors.white,
+                child: Text(
+                  "Finalizar atividade",
+                  style: TextStyle(fontSize: 20),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
           ],
@@ -153,12 +137,14 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
 
   List<ListTile> getListItems() => widget._objEspecifico.getRoteiro().getListaAtividade().asMap().map((index, atividade) => MapEntry(index, geraLista(atividade, index))).values.toList();
 
-  ListTile geraLista(Atividade atividade, int index) =>
-      ListTile(key: ValueKey(atividade), title: Text(atividade.getNomeAtividade().isNotEmpty ? atividade.getNomeAtividade() : "Pergunta Personalizada"), leading: Text("#${index + 1}"), dense: true);
-
-  void chamaTelaObjEspecificos(BuildContext context) {
-    Navigator.pop(context);
-  }
+  ListTile geraLista(Atividade atividade, int index) => ListTile(
+      key: ValueKey(atividade),
+      title: Text(
+        "#${index + 1} - " + (atividade.getNomeAtividade().isNotEmpty ? atividade.getNomeAtividade() : "Pergunta Personalizada"),
+        style: TextStyle(fontSize: 18),
+      ),
+      contentPadding: EdgeInsets.fromLTRB(15, 0, 5, 0),
+      dense: true);
 
   void chamaTelaCadastrarNovaPergunta(BuildContext context, Atividade atividade) async {
     await Util.escolheAtividadeCorreta(context, atividade);

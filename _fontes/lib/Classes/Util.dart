@@ -57,10 +57,9 @@ import 'Roteiro.dart';
 class Util {
   static GoogleSignInAccount account;
 
-  static Map<String, String> authHeaders;
-  static GoogleAuthClient authenticateClient;
-  static v3.DriveApi driveApi;
-
+  static Map<String, String> _authHeaders;
+  static GoogleAuthClient _authenticateClient;
+  static v3.DriveApi _driveApi;
   static String idToString(int index) {
     switch (index) {
       case 0:
@@ -153,7 +152,7 @@ class Util {
       return -1;
   }
 
-  static void escolheAtividadeCorreta(BuildContext context, Atividade atividade) async {
+  static Future<void> escolheAtividadeCorreta(BuildContext context, Atividade atividade) async {
     switch (atividade.getId()) {
       case 0:
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFoto(atividade)));
@@ -398,7 +397,7 @@ class Util {
 
       case 16:
         CaracteristicaLocalizacao localizacao = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta localizacao: ' + localizacao.toString());
+        values = utf8.encode('Resposta localizacao: Latitude: ' + localizacao.getCoordenada().latitude.toString() + ', ' + localizacao.getCoordenada().longitude.toString());
         return values;
 
       case 17:
@@ -412,6 +411,7 @@ class Util {
       case 18:
         CaracteristicaIntervencao intervencao = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + intervencao.getDescricao() + '\n');
+        values += utf8.encode('Resposta coordenada: ' + intervencao.getCoordenada() + '\n');
 
         final bytes = File(intervencao.getImageFile().path).readAsBytesSync();
         values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
@@ -445,11 +445,16 @@ class Util {
     await driveApi.files.create(driveFile, uploadMedia: media);
   }
 
-  static inicializaAutenticaoDrive(GoogleSignIn googleSignIn) async {
+  static Future<v3.DriveApi> inicializaAutenticaoDrive(GoogleSignIn googleSignIn) async {
     account = await googleSignIn.signIn();
+    return getDriveApi();
+  }
 
-    authHeaders = await account.authHeaders;
-    authenticateClient = GoogleAuthClient(authHeaders);
-    driveApi = v3.DriveApi(authenticateClient);
+  static Future<v3.DriveApi> getDriveApi() async {
+    _authHeaders = await account.authHeaders;
+    _authenticateClient = GoogleAuthClient(_authHeaders);
+    _driveApi = v3.DriveApi(_authenticateClient);
+
+    return _driveApi;
   }
 }

@@ -119,7 +119,7 @@ class Atividade {
         _respostaAtividade = new CaracteristicaProducaoDeMaterial(object.getImageFile(), object.getDescricao());
         break;
       case 18:
-        _respostaAtividade = new CaracteristicaIntervencao(object.getImageFile(), object.getDescricao());
+        _respostaAtividade = new CaracteristicaIntervencao(object.getImageFile(), object.getDescricao(), object.getCoordenada());
         break;
       case 19:
         _respostaAtividade = new CaracteristicaPlanta(object.getImageFile(), object.getNomePopular(), object.getNomeCientifico());

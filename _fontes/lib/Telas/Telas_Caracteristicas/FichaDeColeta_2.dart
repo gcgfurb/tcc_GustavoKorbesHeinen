@@ -32,104 +32,108 @@ class FichaDeColeta_2 extends State<ClasseFichaDeColeta_2> {
               child: Column(
                 children: <Widget>[
                   _decideImageView(),
-                  Container(
-                    padding: EdgeInsets.only(top: 20),
-                    width: 150,
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.blue,
-                      onPressed: () {
-                        _openCamera(context);
-                      },
-                      heroTag: 'video1',
-                      child: const Icon(Icons.camera_alt),
-                    ),
+                  FloatingActionButton(
+                    backgroundColor: Colors.blue,
+                    onPressed: () {
+                      _openCamera(context);
+                    },
+                    heroTag: 'video1',
+                    child: const Icon(Icons.camera_alt),
                   ),
                 ],
               ),
             ),
             Expanded(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.fromLTRB(0, 20, 20, 5),
-                    child: TextField(
-                      controller: _tecConservacao,
-                      decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'De que forma será conservado?', hintText: 'meio líquido, vidro, vácuo'),
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 5, 20, 10),
+              child: IntrinsicWidth(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 15, 15, 5),
                       child: TextField(
-                        maxLines: 5,
-                        maxLength: 150,
-                        controller: _tecObservacoes,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Quais são as suas observações?',
-                          hintText: 'Descrever o estado do organismo ou informações relevantes',
-                          alignLabelWithHint: true,
+                        controller: _tecConservacao,
+                        decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'De que forma será conservado?', hintText: 'meio líquido, vidro, vácuo'),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(0, 5, 15, 0),
+                        child: TextField(
+                          controller: _tecObservacoes,
+                          maxLength: 150,
+                          maxLines: 5,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Quais são as suas observações?',
+                            hintText: 'Descrever o estado do organismo ou informações relevantes',
+                            alignLabelWithHint: true,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Container(
-                          width: 150,
-                          child: RaisedButton(
-                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                            color: Colors.green[500],
-                            textColor: Colors.white,
-                            child: Text("Gravar"),
-                            onPressed: () {
-                              widget._atividade.adicionaResposta(CaracteristicaFichaDeColeta(
-                                  widget._fichaDeColeta.getNomePessoa(),
-                                  widget._fichaDeColeta.getLocal(),
-                                  widget._fichaDeColeta.getData(),
-                                  widget._fichaDeColeta.getHora(),
-                                  widget._fichaDeColeta.getAmbiente(),
-                                  widget._fichaDeColeta.getNomePopularCientifico(),
-                                  _tecConservacao.text,
-                                  _tecObservacoes.text,
-                                  _imageFile));
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                          ),
+                    Container(
+                      width: 150,
+                      child: FloatingActionButton.extended(
+                        heroTag: "btCancelar",
+                        label: Text(
+                          "Voltar",
+                          style: TextStyle(fontSize: 20),
                         ),
-                        Container(
-                          padding: EdgeInsets.only(right: 20),
-                          width: 150,
-                          child: RaisedButton(
-                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                            color: Colors.green[500],
-                            textColor: Colors.white,
-                            child: Text("Voltar"),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
+                        backgroundColor: Colors.blue,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            width: 150,
+                            child: FloatingActionButton.extended(
+                              heroTag: "btCancelar",
+                              label: Text(
+                                "Cancelar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.red,
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                          Container(
+                            width: 150,
+                            child: FloatingActionButton.extended(
+                              heroTag: "btGravar",
+                              label: Text(
+                                "Gravar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.green,
+                              onPressed: () {
+                                widget._atividade.adicionaResposta(CaracteristicaFichaDeColeta(
+                                    widget._fichaDeColeta.getNomePessoa(),
+                                    widget._fichaDeColeta.getLocal(),
+                                    widget._fichaDeColeta.getData(),
+                                    widget._fichaDeColeta.getHora(),
+                                    widget._fichaDeColeta.getAmbiente(),
+                                    widget._fichaDeColeta.getNomePopularCientifico(),
+                                    _tecConservacao.text,
+                                    _tecObservacoes.text,
+                                    _imageFile));
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 150,
-                    child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                      color: Colors.red[500],
-                      textColor: Colors.white,
-                      child: Text("Cancelar"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
@@ -162,14 +166,18 @@ class FichaDeColeta_2 extends State<ClasseFichaDeColeta_2> {
     if (_imageFile == null) {
       return Expanded(
         child: Center(
-          child: Text("Nenhuma imagem no momento"),
+          child: Text(
+            "Nenhuma imagem no momento",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       );
     } else {
       return Expanded(
           child: Image.file(
         File(_imageFile.path),
-        width: 300,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height / 2,
       ));
     }
   }

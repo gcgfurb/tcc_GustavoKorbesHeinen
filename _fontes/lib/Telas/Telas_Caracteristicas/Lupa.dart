@@ -54,7 +54,7 @@ class Lupa extends State<ClasseLupa> {
                         controller: _tecDescricao,
                         focusNode: _fnDescricao,
                         maxLength: 150,
-                        maxLines: 7,
+                        maxLines: 5,
                         decoration: InputDecoration(
                           hintText: 'Objetivo geral da atividade de campo',
                           enabledBorder: OutlineInputBorder(
@@ -71,29 +71,36 @@ class Lupa extends State<ClasseLupa> {
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Container(
                             width: 150,
                             child: FloatingActionButton.extended(
-                              heroTag: "btGravar",
-                              label: Text("Gravar"),
-                              backgroundColor: Colors.green,
+                              heroTag: "btCancelar",
+                              label: Text(
+                                "Cancelar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.red,
                               onPressed: () {
-                                if (validaCampos()) {
-                                  widget._atividade.adicionaResposta(CaracteristicaLupa(_imageFile, _tecDescricao.text));
-                                  Navigator.pop(context);
-                                }
+                                Navigator.pop(context);
                               },
                             ),
                           ),
                           Container(
                             width: 150,
                             child: FloatingActionButton.extended(
-                              heroTag: "btCancelar",
-                              label: Text("Cancelar"),
-                              backgroundColor: Colors.red,
+                              heroTag: "btGravar",
+                              label: Text(
+                                "Gravar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.green,
                               onPressed: () {
-                                Navigator.pop(context);
+                                if (validaCampos()) {
+                                  widget._atividade.adicionaResposta(CaracteristicaLupa(_imageFile, _tecDescricao.text));
+                                  Navigator.pop(context);
+                                }
                               },
                             ),
                           ),
@@ -160,6 +167,7 @@ class Lupa extends State<ClasseLupa> {
   _openCamera(BuildContext context) async {
     var ip = ImagePicker();
     var picture = await ip.getImage(source: ImageSource.camera);
+
     this.setState(() {
       _imageFile = picture;
     });
@@ -169,15 +177,18 @@ class Lupa extends State<ClasseLupa> {
     if (_imageFile == null) {
       return Expanded(
         child: Center(
-          child: Text("Nenhuma imagem no momento"),
+          child: Text(
+            "Nenhuma imagem no momento",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       );
     } else {
       return Expanded(
           child: Image.file(
         File(_imageFile.path),
-        width: 400,
-        height: 400,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height / 2,
       ));
     }
   }

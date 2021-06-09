@@ -48,18 +48,24 @@ class Interacao extends State<ClasseInteracao> {
           children: <Widget>[
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 20, 0, 10),
-              child: Text("Registro de interações entre espécies:"),
+              padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
+              child: Text(
+                "Registro de interações entre espécies:",
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 20),
-              child: Text(widget._atividade.getDescricao()),
+              padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
+              child: Text(
+                widget._atividade.getDescricao(),
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             Expanded(
               flex: 0,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
+                padding: EdgeInsets.fromLTRB(15, 5, 15, 10),
                 child: TextField(
                   focusNode: _fnResposta1,
                   controller: _tecResposta1,
@@ -70,7 +76,7 @@ class Interacao extends State<ClasseInteracao> {
             Expanded(
               flex: 0,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                 child: TextField(
                   focusNode: _fnResposta2,
                   controller: _tecResposta2,
@@ -79,33 +85,39 @@ class Interacao extends State<ClasseInteracao> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
                   width: 150,
-                  child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.green,
-                      textColor: Colors.white,
-                      child: Text("Gravar"),
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btCancelar",
+                    label: Text(
+                      "Cancelar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    backgroundColor: Colors.red,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                      heroTag: "btGravar",
+                      label: Text(
+                        "Gravar",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      backgroundColor: Colors.green,
                       onPressed: () {
                         if (validaCampos()) {
                           widget._atividade.adicionaResposta(CaracteristicaInteracao(_tecResposta1.text, _tecResposta2.text));
                           Navigator.pop(context);
                         }
-                      }),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                  width: 150,
-                  child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.red,
-                      textColor: Colors.white,
-                      child: Text("Cancelar"),
-                      onPressed: () {
-                        Navigator.pop(context);
                       }),
                 ),
               ],

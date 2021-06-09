@@ -40,7 +40,7 @@ class CadastrarTema extends State<ClasseTema> {
       body: Container(
         color: Colors.green[300],
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
         child: Column(
           children: <Widget>[
             Padding(
@@ -55,12 +55,12 @@ class CadastrarTema extends State<ClasseTema> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
               child: TextField(
                 focusNode: _fnDescricao,
                 controller: _tecDescricao,
                 maxLength: 150,
-                maxLines: 6,
+                maxLines: 5,
                 decoration: InputDecoration(
                   labelText: 'Objetivo geral da atividade de campo*',
                   hintText: 'Procurar árvore araucária',
@@ -81,15 +81,15 @@ class CadastrarTema extends State<ClasseTema> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                    width: 300,
-                    height: 100,
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    width: MediaQuery.of(context).size.width / 4,
                     child: RaisedButton(
                       color: Colors.green[500],
                       textColor: Colors.white,
                       child: Text(
                         "Cadastrar Objetivos Específicos para o Tema (opcional)",
                         textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
                         if (validaCampos()) {
@@ -100,15 +100,16 @@ class CadastrarTema extends State<ClasseTema> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                    width: 300,
-                    height: 100,
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    width: MediaQuery.of(context).size.width / 4,
+                    height: 70,
                     child: RaisedButton(
                       textColor: Colors.white,
                       color: Colors.green[500],
                       child: Text(
                         "Finalizar Tema e gerar QRCode",
                         textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
                         if (validaCampos()) {

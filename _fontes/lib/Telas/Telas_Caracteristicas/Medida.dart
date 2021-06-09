@@ -72,20 +72,26 @@ class Medida extends State<ClasseMedida> {
           children: <Widget>[
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 20, 0, 10),
-              child: Text("Medidas observadas: "),
+              padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
+              child: Text(
+                "Medidas observadas: ",
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 20),
-              child: Text(widget._atividade.getDescricao()),
+              padding: EdgeInsets.only(left: 15),
+              child: Text(
+                widget._atividade.getDescricao(),
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             criaCampos(false),
             if (_campoAdicional) criaCampos(true),
             Row(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 20),
+                  padding: EdgeInsets.only(left: 15),
                 ),
                 Expanded(
                   child: TextField(
@@ -93,31 +99,43 @@ class Medida extends State<ClasseMedida> {
                     decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Essas medidas resultaram em algum cálculo?', hintText: 'Sim, área, volume, fórmula...'),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 5, 20),
-                  child: ElevatedButton(
-                    child: Text('Gravar'),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.green,
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btCancelar",
+                    label: Text(
+                      "Cancelar",
+                      style: TextStyle(fontSize: 20),
                     ),
+                    backgroundColor: Colors.red,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btGravar",
+                    label: Text(
+                      "Gravar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    backgroundColor: Colors.green,
                     onPressed: () {
                       if (validaCampos()) {
                         widget._atividade.adicionaResposta(
                             CaracteristicaMedida(ddVDimensao1, ddVUnMed1, int.parse(_tecValor1.text), ddVDimensao2, ddVUnMed2, _campoAdicional ? int.parse(_tecValor2.text) : 0, _tecCalculo.text));
                         Navigator.pop(context);
                       }
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(5, 20, 20, 20),
-                  child: ElevatedButton(
-                    child: Text('Cancelar'),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.red,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
                     },
                   ),
                 ),
@@ -130,6 +148,7 @@ class Medida extends State<ClasseMedida> {
   }
 
   bool validaCampos() {
+    FocusManager.instance.primaryFocus.unfocus();
     if (ddVDimensao1 == null || ddVUnMed1 == null) return false;
     if (_campoAdicional) if (ddVDimensao2 == null || ddVUnMed2 == null) return false;
 
@@ -149,7 +168,7 @@ class Medida extends State<ClasseMedida> {
     return Row(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(left: 20),
+          padding: EdgeInsets.only(left: 15),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(10, 4.5, 10, 4.5),
@@ -175,6 +194,7 @@ class Medida extends State<ClasseMedida> {
               color: Colors.black,
             ),
             onChanged: (String newValue) {
+              FocusManager.instance.primaryFocus.unfocus();
               if (bRepetido) {
                 ddVDimensao2 = dimensoes.indexOf(newValue);
                 if (ddVDimensao2 == 0)
@@ -228,6 +248,7 @@ class Medida extends State<ClasseMedida> {
               color: Colors.black,
             ),
             onChanged: (String newValue) {
+              FocusManager.instance.primaryFocus.unfocus();
               setState(() {
                 if (bRepetido)
                   ddVUnMed2 = unMedAtual2.indexOf(newValue);
@@ -248,7 +269,7 @@ class Medida extends State<ClasseMedida> {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(5, 20, bRepetido ? 64 : 0, 20),
+            padding: EdgeInsets.fromLTRB(5, 10, bRepetido ? 64 : 0, 10),
             child: TextField(
               controller: bRepetido ? _tecValor2 : _tecValor1,
               focusNode: bRepetido ? _fnValor2 : _fnValor1,
@@ -259,7 +280,7 @@ class Medida extends State<ClasseMedida> {
         ),
         if (!bRepetido)
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: TextButton.icon(
               label: Text(''),
               style: TextButton.styleFrom(
@@ -267,6 +288,7 @@ class Medida extends State<ClasseMedida> {
               ),
               icon: Icon(Icons.add_circle),
               onPressed: () {
+                FocusManager.instance.primaryFocus.unfocus();
                 setState(() {
                   _campoAdicional = true;
                 });

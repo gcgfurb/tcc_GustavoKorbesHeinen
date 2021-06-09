@@ -20,8 +20,8 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
     return Scaffold(
       body: Container(
         color: Colors.green[300],
-        alignment: Alignment.topCenter,
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
         child: IntrinsicWidth(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -36,10 +36,13 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
               ),
               Container(
                 child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                   color: Colors.green[500],
                   textColor: Colors.white,
-                  child: Text("Sozinho"),
+                  child: Text(
+                    "Sozinho",
+                    style: TextStyle(fontSize: 20),
+                  ),
                   onPressed: () {
                     chamaTelaVerTema(context, widget._tema);
                   },
@@ -47,10 +50,13 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
               ),
               Container(
                 child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                   color: Colors.green[500],
                   textColor: Colors.white,
-                  child: Text("Em grupo"),
+                  child: Text(
+                    "Em grupo",
+                    style: TextStyle(fontSize: 20),
+                  ),
                   onPressed: () {
                     chamaTelaEmGrupo(context, widget._tema);
                   },

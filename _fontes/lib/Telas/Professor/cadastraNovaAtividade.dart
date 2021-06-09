@@ -1,12 +1,11 @@
 import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
-import 'package:TCC_II/Classes/Roteiro.dart';
 
 class ClasseAtividade extends StatefulWidget {
-  Roteiro roteiro;
+  Atividade atividade;
   String _caracteristica;
-  ClasseAtividade(this.roteiro, this._caracteristica);
+  ClasseAtividade(this.atividade, this._caracteristica);
 
   @override
   CadastraNovaAtividade createState() => CadastraNovaAtividade();
@@ -22,6 +21,7 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
   void initState() {
     super.initState();
     _atividadeTexto = new TextEditingController(text: widget._caracteristica);
+    _descricaoTexto = new TextEditingController(text: widget.atividade.getDescricao());
     _focusNodeAtividade = FocusNode();
     _focusNodeDescricao = FocusNode();
   }
@@ -40,13 +40,13 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
       body: Container(
         color: Colors.green[300],
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 15, 20, 30),
+              padding: EdgeInsets.all(15),
               child: TextField(
-                enabled: _atividadeTexto.text.isEmpty,
+                enabled: _atividadeTexto.text.isEmpty || widget.atividade.getId() == -1,
                 focusNode: _focusNodeAtividade,
                 controller: _atividadeTexto,
                 decoration: InputDecoration(
@@ -57,13 +57,13 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
               child: TextField(
                 controller: _descricaoTexto,
                 focusNode: _focusNodeDescricao,
                 autofocus: false,
                 maxLength: 150,
-                maxLines: 6,
+                maxLines: 5,
                 decoration: InputDecoration(
                   hintText: 'Objetivo geral da atividade de campo*',
                   enabledBorder: OutlineInputBorder(
@@ -86,12 +86,15 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
                       maxWidth: 250,
                     ),
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                       color: Colors.green[500],
                       textColor: Colors.white,
-                      child: Text("Cancelar atividade"),
+                      child: Text(
+                        "Cancelar atividade",
+                        style: TextStyle(fontSize: 20),
+                      ),
                       onPressed: () {
-                        chamaTelaRoteiro(context);
+                        Navigator.pop(context, null);
                       },
                     ),
                   ),
@@ -100,10 +103,13 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
                       maxWidth: 250,
                     ),
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                       color: Colors.green[500],
                       textColor: Colors.white,
-                      child: Text("Cadastrar atividade"),
+                      child: Text(
+                        "Cadastrar atividade",
+                        style: TextStyle(fontSize: 20),
+                      ),
                       onPressed: () {
                         if (_atividadeTexto.text.isEmpty)
                           _focusNodeAtividade.requestFocus();
@@ -114,8 +120,7 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
                           _atividade.setId(Util.stringToId(_atividadeTexto.text));
                           _atividade.setNomeAtividade(_atividadeTexto.text);
                           _atividade.setDescricao(_descricaoTexto.text);
-                          widget.roteiro.adicionaAtividade(_atividade);
-                          chamaTelaRoteiro(context);
+                          Navigator.pop(context, _atividade);
                         }
                       },
                     ),
@@ -128,8 +133,4 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
       ),
     );
   }
-}
-
-void chamaTelaRoteiro(BuildContext context) {
-  Navigator.pop(context);
 }

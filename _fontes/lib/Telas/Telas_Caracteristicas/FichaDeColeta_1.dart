@@ -38,19 +38,25 @@ class FichaDeColeta_1 extends State<ClasseFichaDeColeta_1> {
           children: <Widget>[
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 5),
-              child: Text("Faça a ficha de coleta:"),
+              padding: EdgeInsets.fromLTRB(15, 15, 0, 5),
+              child: Text(
+                "Faça a ficha de coleta:",
+                style: TextStyle(fontSize: 20),
+              ),
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 5, 0, 10),
-              child: Text(widget._atividade.getDescricao()),
+              padding: EdgeInsets.fromLTRB(15, 5, 0, 10),
+              child: Text(
+                widget._atividade.getDescricao(),
+                style: TextStyle(fontSize: 20),
+              ),
             ),
             Row(
               children: <Widget>[
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 5, 5, 5),
+                    padding: EdgeInsets.fromLTRB(15, 5, 5, 5),
                     child: TextField(
                       controller: _tecNomePessoa,
                       focusNode: _fnNomePessoa,
@@ -60,7 +66,7 @@ class FichaDeColeta_1 extends State<ClasseFichaDeColeta_1> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 5, 20, 5),
+                    padding: EdgeInsets.fromLTRB(5, 5, 15, 5),
                     child: TextField(
                       controller: _tecLocal,
                       focusNode: _fnLocal,
@@ -74,7 +80,7 @@ class FichaDeColeta_1 extends State<ClasseFichaDeColeta_1> {
               children: <Widget>[
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 5, 5, 5),
+                    padding: EdgeInsets.fromLTRB(15, 5, 5, 5),
                     child: TextField(
                       controller: _tecData,
                       focusNode: _fnData,
@@ -84,7 +90,7 @@ class FichaDeColeta_1 extends State<ClasseFichaDeColeta_1> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 5, 20, 5),
+                    padding: EdgeInsets.fromLTRB(5, 5, 15, 5),
                     child: TextField(
                       controller: _tecHora,
                       focusNode: _fnHora,
@@ -98,7 +104,7 @@ class FichaDeColeta_1 extends State<ClasseFichaDeColeta_1> {
               children: <Widget>[
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 5, 5, 10),
+                    padding: EdgeInsets.fromLTRB(15, 5, 5, 10),
                     child: TextField(
                       controller: _tecAmbiente,
                       focusNode: _fnAmbiente,
@@ -108,7 +114,7 @@ class FichaDeColeta_1 extends State<ClasseFichaDeColeta_1> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 5, 20, 10),
+                    padding: EdgeInsets.fromLTRB(5, 5, 15, 10),
                     child: TextField(
                       controller: _tecNomePopularCientifico,
                       focusNode: _fnNomePopularCientifico,
@@ -119,33 +125,43 @@ class FichaDeColeta_1 extends State<ClasseFichaDeColeta_1> {
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 25, 30, 0),
-                  child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.green,
-                      textColor: Colors.white,
-                      child: Text("Continuar"),
-                      onPressed: () async {
-                        if (validaCampos()) {
-                          CaracteristicaFichaDeColeta fichaDeColeta =
-                              new CaracteristicaFichaDeColeta(_tecNomePessoa.text, _tecLocal.text, _tecData.text, _tecHora.text, _tecAmbiente.text, _tecNomePopularCientifico.text, "", "", null);
-                          await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFichaDeColeta_2(widget._atividade, fichaDeColeta)));
-                        }
-                      }),
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btCancelar",
+                    label: Text(
+                      "Cancelar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    backgroundColor: Colors.red,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(30, 25, 0, 0),
-                  child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.red,
-                      textColor: Colors.white,
-                      child: Text("Cancelar"),
-                      onPressed: () {
-                        return Navigator.pop(context);
-                      }),
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btGravar",
+                    label: Text(
+                      "Gravar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    backgroundColor: Colors.green,
+                    onPressed: () async {
+                      FocusManager.instance.primaryFocus.unfocus();
+                      if (validaCampos()) {
+                        CaracteristicaFichaDeColeta fichaDeColeta =
+                            new CaracteristicaFichaDeColeta(_tecNomePessoa.text, _tecLocal.text, _tecData.text, _tecHora.text, _tecAmbiente.text, _tecNomePopularCientifico.text, "", "", null);
+                        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseFichaDeColeta_2(widget._atividade, fichaDeColeta)));
+                      }
+                    },
+                  ),
                 ),
               ],
             ),

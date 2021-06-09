@@ -37,106 +37,116 @@ class Intervencao extends State<ClasseIntervencao> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   _decideImageView(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      FloatingActionButton(
-                        backgroundColor: Colors.blue,
-                        onPressed: () {
-                          _openCamera(context);
-                        },
-                        heroTag: 'video1',
-                        child: const Icon(Icons.camera_alt),
-                      ),
-                    ],
+                  FloatingActionButton(
+                    backgroundColor: Colors.blue,
+                    onPressed: () {
+                      _openCamera(context);
+                    },
+                    heroTag: 'video1',
+                    child: const Icon(Icons.camera_alt),
                   ),
                 ],
               ),
             ),
             Expanded(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    child: TextField(
-                      controller: _tecDescricao,
-                      focusNode: _fnDescricao,
-                      maxLength: 150,
-                      maxLines: 7,
-                      decoration: InputDecoration(
-                        hintText: 'Qual intervenção humana foi encontrada?*',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.grey),
+              child: IntrinsicWidth(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(15),
+                      child: TextField(
+                        controller: _tecDescricao,
+                        focusNode: _fnDescricao,
+                        maxLength: 150,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          hintText: 'Qual intervenção humana foi encontrada?*',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 150,
-                    child: FloatingActionButton.extended(
-                      heroTag: "btPosicao",
-                      label: Text("Posição atual"),
-                      icon: Icon(Icons.location_on),
-                      backgroundColor: Colors.green[500],
-                      onPressed: () async {
-                        await Geolocator.getCurrentPosition().then((value) => {geolocator = value.toString()});
-                        setState(() {});
+                    Container(
+                      width: 190,
+                      child: FloatingActionButton.extended(
+                        heroTag: "btPosicao",
+                        label: Text(
+                          "Posição atual",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        icon: Icon(Icons.location_on),
+                        backgroundColor: Colors.green[500],
+                        onPressed: () async {
+                          geolocator = "Buscando informações...";
+                          setState(() {});
+                          await Geolocator.getCurrentPosition().then((value) => {geolocator = value.toString()});
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                    TextButton(
+                      child: Text(
+                        geolocator,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          Util.abreGoogleMaps(geolocator);
+                        });
                       },
                     ),
-                  ),
-                  TextButton(
-                    child: Text(
-                      geolocator,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.bold,
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            width: 150,
+                            child: FloatingActionButton.extended(
+                              heroTag: "btCancelar",
+                              label: Text(
+                                "Cancelar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.red,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                          Container(
+                            width: 150,
+                            child: FloatingActionButton.extended(
+                              heroTag: "btGravar",
+                              label: Text(
+                                "Gravar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.green,
+                              onPressed: () {
+                                if (validaCampos()) {
+                                  widget._atividade.adicionaResposta(CaracteristicaIntervencao(_imageFile, _tecDescricao.text, geolocator));
+                                  Navigator.pop(context);
+                                }
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        Util.abreGoogleMaps(geolocator);
-                      });
-                    },
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Container(
-                          width: 150,
-                          child: FloatingActionButton.extended(
-                            heroTag: "btGravar",
-                            label: Text("Gravar"),
-                            backgroundColor: Colors.green,
-                            onPressed: () {
-                              if (validaCampos()) {
-                                widget._atividade.adicionaResposta(CaracteristicaIntervencao(_imageFile, _tecDescricao.text));
-                                Navigator.pop(context);
-                              }
-                            },
-                          ),
-                        ),
-                        Container(
-                          width: 150,
-                          child: FloatingActionButton.extended(
-                            heroTag: "btCancelar",
-                            label: Text("Cancelar"),
-                            backgroundColor: Colors.red,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
@@ -162,6 +172,7 @@ class Intervencao extends State<ClasseIntervencao> {
     if (intervencao != null) {
       _tecDescricao.text = intervencao.getDescricao();
       _imageFile = intervencao.getImageFile();
+      geolocator = intervencao.getCoordenada();
     }
 
     _fnDescricao = FocusNode();
@@ -185,15 +196,18 @@ class Intervencao extends State<ClasseIntervencao> {
     if (_imageFile == null) {
       return Expanded(
         child: Center(
-          child: Text("Nenhuma imagem no momento"),
+          child: Text(
+            "Nenhuma imagem no momento",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       );
     } else {
       return Expanded(
           child: Image.file(
         File(_imageFile.path),
-        width: 400,
-        height: 400,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height / 2,
       ));
     }
   }

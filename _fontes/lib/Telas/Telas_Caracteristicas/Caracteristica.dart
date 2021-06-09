@@ -45,19 +45,25 @@ class Caracteristica extends State<ClasseCaracteristica> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.all(15),
-              child: Text('Registe as característica que foram observadas:'),
+              child: Text(
+                'Registe as característica que foram observadas:',
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
-              child: Text(widget._atividade.getDescricao()),
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+              child: Text(
+                widget._atividade.getDescricao(),
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+              padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
               child: TextField(
                 controller: _tecResposta,
                 focusNode: _fnResposta,
                 maxLength: 150,
-                maxLines: 8,
+                maxLines: 5,
                 decoration: InputDecoration(
                   labelText: 'Objetivo geral da atividade de campo*',
                   hintText: 'Procurar árvore araucária',
@@ -73,48 +79,44 @@ class Caracteristica extends State<ClasseCaracteristica> {
                 ),
               ),
             ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                    width: 200,
-                    height: 100,
-                    child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      color: Colors.green,
-                      textColor: Colors.white,
-                      child: Text(
-                        "Gravar",
-                        textAlign: TextAlign.center,
-                      ),
-                      onPressed: () {
-                        if (validaCampos()) {
-                          widget._atividade.adicionaResposta(CaracteristicaCaracteristica(_tecResposta.text));
-                          Navigator.pop(context);
-                        }
-                      },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btCancelar",
+                    label: Text(
+                      "Cancelar",
+                      style: TextStyle(fontSize: 20),
                     ),
+                    backgroundColor: Colors.red,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                    width: 200,
-                    height: 100,
-                    child: RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                        textColor: Colors.white,
-                        color: Colors.red,
-                        child: Text(
-                          "Cancelar",
-                          textAlign: TextAlign.center,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
+                ),
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btGravar",
+                    label: Text(
+                      "Gravar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    backgroundColor: Colors.green,
+                    onPressed: () {
+                      if (validaCampos()) {
+                        widget._atividade.adicionaResposta(CaracteristicaCaracteristica(_tecResposta.text));
+                        Navigator.pop(context);
+                      }
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

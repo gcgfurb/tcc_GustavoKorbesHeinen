@@ -50,38 +50,57 @@ class Teste extends State<ClasseTeste> {
           children: <Widget>[
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 20, 0, 10),
-              child: Text("Registro dos testes realizados: "),
+              padding: EdgeInsets.fromLTRB(15, 15, 0, 5),
+              child: Text(
+                "Registro dos testes realizados: ",
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 20),
-              child: Text(widget._atividade.getDescricao()),
+              padding: EdgeInsets.fromLTRB(15, 5, 0, 10),
+              child: Text(
+                widget._atividade.getDescricao(),
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             criaCampos(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                ElevatedButton(
-                  child: Text('Gravar'),
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.green,
-                  ),
-                  onPressed: () {
-                    if (validaCampos()) {
-                      widget._atividade.adicionaResposta(CaracteristicaTeste(ddVOpcoes, int.parse(_tecValor.text)));
-                      Navigator.pop(context);
-                    }
-                  },
-                ),
-                ElevatedButton(
-                  child: Text('Cancelar'),
-                  style: TextButton.styleFrom(
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btCancelar",
+                    label: Text(
+                      "Cancelar",
+                      style: TextStyle(fontSize: 20),
+                    ),
                     backgroundColor: Colors.red,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                ),
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btGravar",
+                    label: Text(
+                      "Gravar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    backgroundColor: Colors.green,
+                    onPressed: () {
+                      if (validaCampos()) {
+                        widget._atividade.adicionaResposta(CaracteristicaTeste(ddVOpcoes, int.parse(_tecValor.text)));
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
@@ -106,7 +125,7 @@ class Teste extends State<ClasseTeste> {
     return Row(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(left: 20),
+          padding: EdgeInsets.only(left: 15),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(10, 4.5, 10, 4.5),
@@ -126,6 +145,7 @@ class Teste extends State<ClasseTeste> {
               color: Colors.black,
             ),
             onChanged: (String newValue) {
+              FocusManager.instance.primaryFocus.unfocus();
               ddVOpcoes = opcoes.indexOf(newValue);
               setState(() {});
             },
@@ -145,10 +165,11 @@ class Teste extends State<ClasseTeste> {
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(5, 20, 20, 20),
+            padding: EdgeInsets.fromLTRB(5, 20, 15, 20),
             child: TextField(
               controller: _tecValor,
               focusNode: _fnValor,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Qual o valor obtido?*', hintText: '5'),
             ),
           ),

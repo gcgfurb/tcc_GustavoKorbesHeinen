@@ -20,9 +20,9 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
       body: Container(
         color: Colors.green[300],
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 100),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
               "Faça login com sua conta da Google",
@@ -30,10 +30,13 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
             ),
             Container(
               child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 color: Colors.green[500],
                 textColor: Colors.white,
-                child: Text("Realizar login"),
+                child: Text(
+                  "Realizar login",
+                  style: TextStyle(fontSize: 20),
+                ),
                 onPressed: () async {
                   await chamaAPIGoogle();
                   if (widget.bProfessor) {

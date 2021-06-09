@@ -52,12 +52,13 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
               child: IntrinsicWidth(
                 child: Column(
                   children: <Widget>[
-                    Container(
+                    Padding(
+                      padding: EdgeInsets.all(15),
                       child: TextField(
                         controller: _tecDescricao,
                         focusNode: _fnDescricao,
                         maxLength: 150,
-                        maxLines: 7,
+                        maxLines: 5,
                         decoration: InputDecoration(
                           hintText: 'Como está o desmatamento na área?*',
                           enabledBorder: OutlineInputBorder(
@@ -72,13 +73,18 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
                       ),
                     ),
                     Container(
-                      width: 150,
+                      width: 190,
                       child: FloatingActionButton.extended(
                         heroTag: "btPosicao",
-                        label: Text("Posição atual"),
+                        label: Text(
+                          "Posição atual",
+                          style: TextStyle(fontSize: 20),
+                        ),
                         icon: Icon(Icons.location_on),
-                        backgroundColor: Colors.green[500],
+                        backgroundColor: Colors.blue[500],
                         onPressed: () async {
+                          geolocator = "Buscando informações...";
+                          setState(() {});
                           await Geolocator.getCurrentPosition().then((value) => {geolocator = value.toString()});
                           setState(() {});
                         },
@@ -103,29 +109,36 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           Container(
                             width: 150,
                             child: FloatingActionButton.extended(
-                              heroTag: "btGravar",
-                              label: Text("Gravar"),
-                              backgroundColor: Colors.green,
+                              heroTag: "btCancelar",
+                              label: Text(
+                                "Cancelar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.red,
                               onPressed: () {
-                                if (validaCampos()) {
-                                  widget._atividade.adicionaResposta(CaracteristicaAreaDesmatada(_imageFile, _tecDescricao.text, geolocator));
-                                  Navigator.pop(context);
-                                }
+                                Navigator.pop(context);
                               },
                             ),
                           ),
                           Container(
                             width: 150,
                             child: FloatingActionButton.extended(
-                              heroTag: "btCancelar",
-                              label: Text("Cancelar"),
-                              backgroundColor: Colors.red,
+                              heroTag: "btGravar",
+                              label: Text(
+                                "Gravar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.green,
                               onPressed: () {
-                                Navigator.pop(context);
+                                if (validaCampos()) {
+                                  widget._atividade.adicionaResposta(CaracteristicaAreaDesmatada(_imageFile, _tecDescricao.text, geolocator));
+                                  Navigator.pop(context);
+                                }
                               },
                             ),
                           ),
@@ -183,15 +196,18 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
     if (_imageFile == null) {
       return Expanded(
         child: Center(
-          child: Text("Nenhuma imagem no momento"),
+          child: Text(
+            "Nenhuma imagem no momento",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       );
     } else {
       return Expanded(
           child: Image.file(
         File(_imageFile.path),
-        width: 400,
-        height: 400,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height / 2,
       ));
     }
   }

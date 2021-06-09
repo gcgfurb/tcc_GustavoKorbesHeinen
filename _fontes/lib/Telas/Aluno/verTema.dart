@@ -12,9 +12,6 @@ import 'package:TCC_II/Classes/Tema.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:googleapis/drive/v3.dart' as v3;
 import '../../Classes/Constantes.dart' as Constantes;
-import 'dart:io';
-
-import 'package:path_provider/path_provider.dart';
 
 class ClasseVerTema extends StatefulWidget {
   Tema _tema = new Tema();
@@ -74,14 +71,20 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                     return Container(
                       color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                       child: ListTile(
-                        leading: Icon(Icons.bookmarks),
-                        title: Text('${widget._tema.getObjEspecifico(index).getObjetivo()}'),
+                        leading: Icon(Icons.now_widgets_outlined),
+                        title: Text(
+                          '${widget._tema.getObjEspecifico(index).getObjetivo()}',
+                          style: TextStyle(fontSize: 15),
+                        ),
                         dense: true,
                         trailing: RaisedButton(
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           color: Colors.green[500],
                           textColor: Colors.white,
-                          child: Text("Realizar atividades"),
+                          child: Text(
+                            "Realizar atividades",
+                            style: TextStyle(fontSize: 15),
+                          ),
                           onPressed: () {
                             chamaTelaRealizarAtividades(context, widget._tema.getObjEspecifico(index));
                           },
@@ -97,15 +100,18 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                   alignment: Alignment.bottomLeft,
                   padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                   child: RaisedButton(
-                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                     color: Colors.green[500],
                     textColor: Colors.white,
-                    child: Text("Enviar respostas ao Professor"),
+                    child: Text(
+                      "Enviar respostas ao Professor",
+                      style: TextStyle(fontSize: 20),
+                    ),
                     onPressed: () async {
                       showLoadingDialog();
                       v3.File folderTema = await postFileToGoogleDrive(widget._tema);
                       Navigator.pop(context);
-                      shareFolder(folderTema);
+                      await shareFolder(folderTema);
                     },
                   ),
                 ),
@@ -114,10 +120,13 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                     alignment: Alignment.bottomRight,
                     padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                       color: Colors.green[500],
                       textColor: Colors.white,
-                      child: Text("Cadastrar novo Objetivo Específico"),
+                      child: Text(
+                        "Cadastrar novo Objetivo Específico",
+                        style: TextStyle(fontSize: 20),
+                      ),
                       onPressed: () {
                         chamaTelaNovoObjEspecifico(context, widget._tema);
                       },
@@ -171,18 +180,18 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
   }
 
   Future<v3.File> postFileToGoogleDrive(Tema tema) async {
-    v3.File folderTema = await criaTema(tema, Util.driveApi);
+    v3.File folderTema = await criaTema(tema, await Util.getDriveApi());
 
     int qtdObj = 1;
 
     for (final objEspecifico in tema.getListaObjEspecifico()) {
-      v3.File folderAtual = await criaObjetivoEspecifico(objEspecifico, folderTema, qtdObj, Util.driveApi);
+      v3.File folderAtual = await criaObjetivoEspecifico(objEspecifico, folderTema, qtdObj, await Util.getDriveApi());
 
-      folderAtual = await criaRoteiro(objEspecifico.getRoteiro(), folderAtual, Util.driveApi);
+      folderAtual = await criaRoteiro(objEspecifico.getRoteiro(), folderAtual, await Util.getDriveApi());
 
       int qtdAtividade = 1;
       for (final atividade in objEspecifico.getRoteiro().getListaAtividade()) {
-        await criaAtividade(atividade, folderAtual, qtdAtividade, Util.driveApi);
+        await criaAtividade(atividade, folderAtual, qtdAtividade, await Util.getDriveApi());
         qtdAtividade++;
       }
 

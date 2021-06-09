@@ -43,11 +43,11 @@ class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
       body: Container(
         color: Colors.green[300],
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(10, 15, 10, 5),
+              padding: EdgeInsets.all(15),
               child: TextField(
                 focusNode: _fnPergunta,
                 controller: _tecPergunta,
@@ -59,12 +59,12 @@ class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
               child: TextField(
                 focusNode: _fnResposta,
                 controller: _tecResposta,
                 maxLength: 150,
-                maxLines: 8,
+                maxLines: 5,
                 decoration: InputDecoration(
                   labelText: 'Resposta da sua pergunta*',
                   hintText: 'Azul, Preta, Marrom',
@@ -80,48 +80,46 @@ class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.zero,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: 250,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  width: 150,
+                  child: FloatingActionButton.extended(
+                    heroTag: "btCancelar",
+                    label: Text(
+                      "Cancelar",
+                      style: TextStyle(fontSize: 20),
                     ),
-                    child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.green[500],
-                      textColor: Colors.white,
-                      child: Text("Cadastrar atividade"),
-                      onPressed: () {
-                        if (_tecPergunta.text.isEmpty)
-                          _fnPergunta.requestFocus();
-                        else if (_tecResposta.text.isEmpty)
-                          _fnResposta.requestFocus();
-                        else {
-                          widget._atividade.adicionaResposta(CaracteristicaPersonalizada(_tecPergunta.text, _tecResposta.text));
-                          Navigator.pop(context, widget._atividade);
-                        }
-                      },
-                    ),
+                    backgroundColor: Colors.red,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: 250,
+                ),
+                Container(
+                  width: 150,
+                  child: FloatingActionButton.extended(
+                    heroTag: "btGravar",
+                    label: Text(
+                      "Gravar",
+                      style: TextStyle(fontSize: 20),
                     ),
-                    child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.green[500],
-                      textColor: Colors.white,
-                      child: Text("Cancelar atividade"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
+                    backgroundColor: Colors.green,
+                    onPressed: () {
+                      if (_tecPergunta.text.isEmpty)
+                        _fnPergunta.requestFocus();
+                      else if (_tecResposta.text.isEmpty)
+                        _fnResposta.requestFocus();
+                      else {
+                        widget._atividade.adicionaResposta(CaracteristicaPersonalizada(_tecPergunta.text, _tecResposta.text));
+                        Navigator.pop(context, widget._atividade);
+                      }
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

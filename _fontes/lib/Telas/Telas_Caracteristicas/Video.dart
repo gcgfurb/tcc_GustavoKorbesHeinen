@@ -18,7 +18,7 @@ class ClasseVideo extends StatefulWidget {
 }
 
 class Video extends State<ClasseVideo> {
-  TextEditingController _textoDescricao = new TextEditingController();
+  TextEditingController _tecDescricao = new TextEditingController();
   VideoPlayerController _controller;
   VideoPlayerController _toBeDisposed;
   String _retrieveDataError;
@@ -31,7 +31,7 @@ class Video extends State<ClasseVideo> {
     dynamic video = widget._atividade.getRespostaAtividade();
 
     if (video != null) {
-      _textoDescricao.text = video.getDescricao();
+      _tecDescricao.text = video.getDescricao();
       _controller = video.getVideoFile();
       _controller.setVolume(1);
       _controller.play();
@@ -89,81 +89,84 @@ class Video extends State<ClasseVideo> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(right: 30),
-            ),
             Expanded(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 15, 5, 0),
-                    child: TextField(
-                      controller: _textoDescricao,
-                      maxLength: 150,
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                        hintText: 'Objetivo geral da atividade de campo',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(color: Colors.grey),
+              child: IntrinsicWidth(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(15),
+                      child: TextField(
+                        controller: _tecDescricao,
+                        maxLength: 150,
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                          hintText: 'Objetivo geral da atividade de campo',
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Container(
-                          width: 120,
-                          child: RaisedButton(
-                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                            color: Colors.green,
-                            textColor: Colors.white,
-                            child: Text("Gravar"),
-                            onPressed: () {
-                              if (_controller == null) {
-                                return showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) => CupertinoAlertDialog(
-                                    title: Text("Campo obrigatório"),
-                                    content: Text("É obrigatório adicionar um vídeo."),
-                                    actions: <Widget>[
-                                      CupertinoDialogAction(
-                                        isDefaultAction: true,
-                                        child: Text("OK"),
-                                        onPressed: () => Navigator.pop(context),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                              widget._atividade.adicionaResposta(CaracteristicaVideo(_controller, _textoDescricao.text));
-                              Navigator.pop(context);
-                            },
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            width: 150,
+                            child: FloatingActionButton.extended(
+                              heroTag: "btCancelar",
+                              label: Text(
+                                "Cancelar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.red,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
                           ),
-                        ),
-                        Container(
-                          width: 120,
-                          child: RaisedButton(
-                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                            color: Colors.red,
-                            textColor: Colors.white,
-                            child: Text("Cancelar"),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
+                          Container(
+                            width: 150,
+                            child: FloatingActionButton.extended(
+                              heroTag: "btGravar",
+                              label: Text(
+                                "Gravar",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              backgroundColor: Colors.green,
+                              onPressed: () {
+                                if (_controller == null) {
+                                  return showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) => CupertinoAlertDialog(
+                                      title: Text("Campo obrigatório"),
+                                      content: Text("É obrigatório adicionar um vídeo."),
+                                      actions: <Widget>[
+                                        CupertinoDialogAction(
+                                          isDefaultAction: true,
+                                          child: Text("OK"),
+                                          onPressed: () => Navigator.pop(context),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                                widget._atividade.adicionaResposta(CaracteristicaVideo(_controller, _tecDescricao.text));
+                                Navigator.pop(context);
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
@@ -227,6 +230,7 @@ class Video extends State<ClasseVideo> {
       return const Text(
         "Faça um vídeo sobre a atividade",
         textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 20),
       );
     }
     return Expanded(
@@ -258,7 +262,7 @@ class Video extends State<ClasseVideo> {
             return Expanded(
               child: Center(
                 child: Text(
-                  "You have not yet picked an image.",
+                  "Nenhum vídeo selecionado.",
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -268,12 +272,12 @@ class Video extends State<ClasseVideo> {
           default:
             if (snapshot.hasError) {
               return Text(
-                'Pick image/video error: ${snapshot.error}}',
+                'Erro ao buscar vídeo: ${snapshot.error}}',
                 textAlign: TextAlign.center,
               );
             } else {
               return const Text(
-                'You have not yet picked an image.',
+                'Nenhum vídeo selecionado.',
                 textAlign: TextAlign.center,
               );
             }

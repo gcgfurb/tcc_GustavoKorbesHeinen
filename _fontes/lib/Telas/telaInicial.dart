@@ -14,19 +14,21 @@ class TelaInicial extends State<ClasseTelaInicial> {
     return Scaffold(
       body: Container(
         color: Colors.green[300],
-        alignment: Alignment.topRight,
+        alignment: Alignment.center,
         child: IntrinsicWidth(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
                 child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+                  padding: EdgeInsets.all(15),
                   color: Colors.green[500],
                   textColor: Colors.white,
-                  child: Text("Sou Professor"),
+                  child: Text(
+                    "Sou Professor",
+                    style: TextStyle(fontSize: 20),
+                  ),
                   onPressed: () {
                     bProfessor = true;
                     chamaTelaLogin(context, bProfessor);
@@ -34,12 +36,14 @@ class TelaInicial extends State<ClasseTelaInicial> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
                 child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal: 90, vertical: 30),
+                  padding: EdgeInsets.all(15),
                   textColor: Colors.white,
                   color: Colors.green[500],
-                  child: Text("Sou Aluno"),
+                  child: Text(
+                    "Sou Aluno",
+                    style: TextStyle(fontSize: 20),
+                  ),
                   onPressed: () {
                     bProfessor = false;
                     chamaTelaLogin(context, bProfessor);
@@ -47,12 +51,14 @@ class TelaInicial extends State<ClasseTelaInicial> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 10),
                 child: RaisedButton(
-                  padding: EdgeInsets.symmetric(horizontal: 90, vertical: 30),
+                  padding: EdgeInsets.all(15),
                   textColor: Colors.white,
                   color: Colors.green[500],
-                  child: Text("Sobre"),
+                  child: Text(
+                    "Sobre",
+                    style: TextStyle(fontSize: 20),
+                  ),
                   onPressed: () {
                     showAboutDialog(
                       context: context,

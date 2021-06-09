@@ -15,19 +15,19 @@ class ClasseCadastrarGrupo extends StatefulWidget {
 class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
   List<Pessoa> _participantes = [];
   int _index = 0;
-  TextEditingController _participanteTexto = new TextEditingController();
+  TextEditingController _tecParticipantes = new TextEditingController();
 
-  FocusNode focusNodeObj;
+  FocusNode _fnParticipantes;
 
   @override
   void initState() {
     super.initState();
-    focusNodeObj = FocusNode();
+    _fnParticipantes = FocusNode();
   }
 
   @override
   void dispose() {
-    focusNodeObj.dispose();
+    _fnParticipantes.dispose();
     super.dispose();
   }
 
@@ -44,32 +44,34 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
             Row(
               children: <Widget>[
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(15, 0, 5, 0),
+                    padding: EdgeInsets.fromLTRB(15, 15, 5, 0),
                     child: TextField(
-                      focusNode: focusNodeObj,
-                      controller: _participanteTexto,
+                      focusNode: _fnParticipantes,
+                      controller: _tecParticipantes,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Digite o nome do participante',
-                        hintText: 'Nome do Participante',
+                        hintText: 'Fulano da Silva',
                       ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 0, 15, 0),
+                    padding: EdgeInsets.fromLTRB(5, 15, 15, 0),
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
                       color: Colors.green[500],
                       textColor: Colors.white,
-                      child: Text("Cadastrar Participante"),
+                      child: Text(
+                        "Cadastrar Participante",
+                        style: TextStyle(fontSize: 20),
+                      ),
                       onPressed: () {
-                        if (_participanteTexto.text.isEmpty) {
-                          focusNodeObj.requestFocus();
-                        } else {
+                        if (validaCampos()) {
+                          FocusManager.instance.primaryFocus.unfocus();
                           cadastrarParticipante();
                         }
                       },
@@ -85,8 +87,11 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
                     return Container(
                       color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                       child: ListTile(
-                        leading: Icon(Icons.bookmarks),
-                        title: Text(_participantes[index].getNome()),
+                        leading: Icon(Icons.people),
+                        title: Text(
+                          _participantes[index].getNome(),
+                          style: TextStyle(fontSize: 15),
+                        ),
                         dense: true,
                         trailing: Wrap(
                           spacing: 12,
@@ -98,6 +103,7 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
                                 size: 50,
                               ),
                               onPressed: () {
+                                FocusManager.instance.primaryFocus.unfocus();
                                 chamaDialogExcluirParticipante(context, index);
                               },
                             ),
@@ -111,11 +117,15 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
               alignment: Alignment.bottomRight,
               padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 color: Colors.green[500],
                 textColor: Colors.white,
-                child: Text("Continuar"),
+                child: Text(
+                  "Continuar",
+                  style: TextStyle(fontSize: 20),
+                ),
                 onPressed: () {
+                  FocusManager.instance.primaryFocus.unfocus();
                   chamaTelaVerTema(context);
                 },
               ),
@@ -157,8 +167,8 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
   }
 
   void cadastrarParticipante() {
-    _participantes.add(new Pessoa(_index++, _participanteTexto.text));
-    _participanteTexto.clear();
+    _participantes.add(new Pessoa(_index++, _tecParticipantes.text));
+    _tecParticipantes.clear();
     setState(() {});
   }
 
@@ -169,5 +179,14 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
 
   void chamaTelaSozinhoOuGrupo(BuildContext context) {
     Navigator.pop(context);
+  }
+
+  bool validaCampos() {
+    if (_tecParticipantes.text.isEmpty) {
+      _fnParticipantes.requestFocus();
+      return false;
+    }
+
+    return true;
   }
 }

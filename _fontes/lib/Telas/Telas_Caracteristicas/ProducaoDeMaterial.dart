@@ -48,12 +48,13 @@ class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
             Expanded(
               child: Column(
                 children: <Widget>[
-                  Container(
+                  Padding(
+                    padding: EdgeInsets.all(15),
                     child: TextField(
                       controller: _tecDescricao,
                       focusNode: _fnDescricao,
                       maxLength: 150,
-                      maxLines: 7,
+                      maxLines: 5,
                       decoration: InputDecoration(
                         hintText: 'Descreva as etapas da confecção do material*',
                         enabledBorder: OutlineInputBorder(
@@ -70,31 +71,36 @@ class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
                   Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Container(
                           width: 150,
-                          child: RaisedButton(
-                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                            color: Colors.green,
-                            textColor: Colors.white,
-                            child: Text("Gravar"),
+                          child: FloatingActionButton.extended(
+                            heroTag: "btCancelar",
+                            label: Text(
+                              "Cancelar",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            backgroundColor: Colors.red,
                             onPressed: () {
-                              if (validaCampos()) {
-                                widget._atividade.adicionaResposta(CaracteristicaProducaoDeMaterial(_imageFile, _tecDescricao.text));
-                                Navigator.pop(context);
-                              }
+                              Navigator.pop(context);
                             },
                           ),
                         ),
                         Container(
                           width: 150,
-                          child: RaisedButton(
-                            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
-                            color: Colors.red,
-                            textColor: Colors.white,
-                            child: Text("Cancelar"),
+                          child: FloatingActionButton.extended(
+                            heroTag: "btGravar",
+                            label: Text(
+                              "Gravar",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            backgroundColor: Colors.green,
                             onPressed: () {
-                              Navigator.pop(context);
+                              if (validaCampos()) {
+                                widget._atividade.adicionaResposta(CaracteristicaProducaoDeMaterial(_imageFile, _tecDescricao.text));
+                                Navigator.pop(context);
+                              }
                             },
                           ),
                         ),
@@ -150,15 +156,18 @@ class ProducaoDeMaterial extends State<ClasseProducaoDeMaterial> {
     if (_imageFile == null) {
       return Expanded(
         child: Center(
-          child: Text("Nenhuma imagem no momento"),
+          child: Text(
+            "Nenhuma imagem no momento",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       );
     } else {
       return Expanded(
           child: Image.file(
         File(_imageFile.path),
-        width: 400,
-        height: 400,
+        width: MediaQuery.of(context).size.width / 2,
+        height: MediaQuery.of(context).size.height / 2,
       ));
     }
   }

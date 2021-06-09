@@ -18,8 +18,31 @@ class Desenho extends State<ClasseDesenho> {
         color: Colors.green[300],
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-        child: Center(
-          child: Text("Implementação não realizada"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                "Implementação não realizada",
+                style: TextStyle(fontSize: 30),
+              ),
+            ),
+            Container(
+              width: 150,
+              padding: EdgeInsets.all(15),
+              child: FloatingActionButton.extended(
+                heroTag: "btCancelar",
+                label: Text(
+                  "Cancelar",
+                  style: TextStyle(fontSize: 20),
+                ),
+                backgroundColor: Colors.red,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

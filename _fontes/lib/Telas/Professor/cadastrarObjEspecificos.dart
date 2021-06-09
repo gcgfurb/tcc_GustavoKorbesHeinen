@@ -41,7 +41,7 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
             Row(
               children: <Widget>[
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(15, 15, 5, 0),
                     child: TextField(
@@ -59,16 +59,20 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(5, 15, 15, 0),
                     child: RaisedButton(
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                        color: Colors.green[500],
-                        textColor: Colors.white,
-                        child: Text("Cadastrar Objetivo"),
-                        onPressed: () {
-                          if (validaCampos()) {
-                            FocusManager.instance.primaryFocus.unfocus();
-                            cadastrarObjetivo();
-                          }
-                        }),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
+                      color: Colors.green[500],
+                      textColor: Colors.white,
+                      child: Text(
+                        "Cadastrar Objetivo",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      onPressed: () {
+                        if (validaCampos()) {
+                          FocusManager.instance.primaryFocus.unfocus();
+                          cadastrarObjetivo();
+                        }
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -80,8 +84,11 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                   return Container(
                     color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                     child: ListTile(
-                      leading: Icon(Icons.bookmarks),
-                      title: Text(widget.tema.getObjEspecifico(index).getObjetivo()),
+                      leading: Icon(Icons.now_widgets_outlined),
+                      title: Text(
+                        widget.tema.getObjEspecifico(index).getObjetivo(),
+                        style: TextStyle(fontSize: 15),
+                      ),
                       dense: true,
                       trailing: Wrap(
                         spacing: 12,
@@ -90,8 +97,12 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             color: Colors.green[500],
                             textColor: Colors.white,
-                            child: Text("Cadastrar Roteiro"),
+                            child: Text(
+                              "Cadastrar Roteiro",
+                              style: TextStyle(fontSize: 15),
+                            ),
                             onPressed: () {
+                              FocusManager.instance.primaryFocus.unfocus();
                               chamaTelaCadastrarRoteiro(context, widget.tema.getObjEspecifico(index));
                             },
                           ),
@@ -102,6 +113,7 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                               size: 50,
                             ),
                             onPressed: () {
+                              FocusManager.instance.primaryFocus.unfocus();
                               chamaDialogExcluirObjEspecifico(context, index);
                             },
                           ),
@@ -116,10 +128,13 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
               alignment: Alignment.bottomRight,
               padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 color: Colors.green[500],
                 textColor: Colors.white,
-                child: Text("Finalizar Cadastro de Objetivos"),
+                child: Text(
+                  "Finalizar Cadastro de Objetivos",
+                  style: TextStyle(fontSize: 20),
+                ),
                 onPressed: () {
                   chamaTelaCadastrarTema(context);
                 },
@@ -182,8 +197,8 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
 
     return true;
   }
-}
 
-void chamaTelaCadastrarTema(BuildContext context) {
-  Navigator.pop(context);
+  void chamaTelaCadastrarTema(BuildContext context) {
+    Navigator.pop(context);
+  }
 }

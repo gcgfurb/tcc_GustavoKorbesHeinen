@@ -58,19 +58,25 @@ class Solo extends State<ClasseSolo> {
           children: <Widget>[
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 20, 0, 10),
-              child: Text("Observe o solo:"),
+              padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
+              child: Text(
+                "Observe o solo:",
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.fromLTRB(20, 10, 0, 20),
-              child: Text(widget._atividade.getDescricao()),
+              padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
+              child: Text(
+                widget._atividade.getDescricao(),
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             Row(
               children: <Widget>[
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 5, 5, 15),
+                    padding: EdgeInsets.fromLTRB(15, 5, 5, 15),
                     child: TextField(
                       focusNode: _fnResposta1,
                       controller: _tecResposta1,
@@ -80,7 +86,7 @@ class Solo extends State<ClasseSolo> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 5, 5, 15),
+                    padding: EdgeInsets.fromLTRB(5, 5, 15, 15),
                     child: TextField(
                       focusNode: _fnResposta2,
                       controller: _tecResposta2,
@@ -94,7 +100,7 @@ class Solo extends State<ClasseSolo> {
               children: <Widget>[
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                    padding: EdgeInsets.fromLTRB(15, 5, 5, 15),
                     child: TextField(
                       focusNode: _fnResposta3,
                       controller: _tecResposta3,
@@ -104,7 +110,7 @@ class Solo extends State<ClasseSolo> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
+                    padding: EdgeInsets.fromLTRB(5, 5, 15, 15),
                     child: TextField(
                       focusNode: _fnResposta4,
                       controller: _tecResposta4,
@@ -115,33 +121,39 @@ class Solo extends State<ClasseSolo> {
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Container(
                   width: 150,
-                  padding: EdgeInsets.fromLTRB(0, 25, 30, 0),
-                  child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.green,
-                      textColor: Colors.white,
-                      child: Text("Gravar"),
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                    heroTag: "btCancelar",
+                    label: Text(
+                      "Cancelar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    backgroundColor: Colors.red,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+                Container(
+                  width: 150,
+                  padding: EdgeInsets.all(15),
+                  child: FloatingActionButton.extended(
+                      heroTag: "btGravar",
+                      label: Text(
+                        "Gravar",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      backgroundColor: Colors.green,
                       onPressed: () {
                         if (validaCampos()) {
                           widget._atividade.adicionaResposta(CaracteristicaSolo(_tecResposta1.text, _tecResposta2.text, _tecResposta3.text, _tecResposta4.text));
                           return Navigator.pop(context, widget._atividade);
                         }
-                      }),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(30, 25, 0, 0),
-                  width: 150,
-                  child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      color: Colors.red,
-                      textColor: Colors.white,
-                      child: Text("Cancelar"),
-                      onPressed: () {
-                        return Navigator.pop(context);
                       }),
                 ),
               ],

@@ -13,19 +13,18 @@ class ClasseObjEspecifico extends StatefulWidget {
 }
 
 class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
-  TextEditingController objTexto = new TextEditingController();
-
-  FocusNode focusNodeObj;
+  TextEditingController _tecObjetivo = new TextEditingController();
+  FocusNode _fnObjetivo;
 
   @override
   void initState() {
     super.initState();
-    focusNodeObj = FocusNode();
+    _fnObjetivo = FocusNode();
   }
 
   @override
   void dispose() {
-    focusNodeObj.dispose();
+    _fnObjetivo.dispose();
     super.dispose();
   }
 
@@ -42,12 +41,12 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
             Row(
               children: <Widget>[
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(15, 15, 5, 0),
                     child: TextField(
-                      focusNode: focusNodeObj,
-                      controller: objTexto,
+                      focusNode: _fnObjetivo,
+                      controller: _tecObjetivo,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Cadastrar Objetivo',
@@ -60,14 +59,15 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(5, 15, 15, 0),
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
                       color: Colors.green[500],
                       textColor: Colors.white,
-                      child: Text("Cadastrar Objetivo"),
+                      child: Text(
+                        "Cadastrar Objetivo",
+                        style: TextStyle(fontSize: 20),
+                      ),
                       onPressed: () {
-                        if (objTexto.text.isEmpty) {
-                          focusNodeObj.requestFocus();
-                        } else {
+                        if (validaCampos()) {
                           FocusManager.instance.primaryFocus.unfocus();
                           cadastrarObjetivo();
                         }
@@ -84,8 +84,11 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                     return Container(
                       color: (index % 2 == 0) ? Colors.green[100] : Colors.green[200],
                       child: ListTile(
-                        leading: Icon(Icons.bookmarks),
-                        title: Text(widget.temaAtual.getObjEspecifico(index).getObjetivo()),
+                        leading: Icon(Icons.now_widgets_outlined),
+                        title: Text(
+                          widget.temaAtual.getObjEspecifico(index).getObjetivo(),
+                          style: TextStyle(fontSize: 15),
+                        ),
                         dense: true,
                         trailing: Wrap(
                           spacing: 12,
@@ -94,8 +97,12 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                               padding: EdgeInsets.symmetric(horizontal: 10),
                               color: Colors.green[500],
                               textColor: Colors.white,
-                              child: Text("Cadastrar Pergunta"),
+                              child: Text(
+                                "Cadastrar Pergunta",
+                                style: TextStyle(fontSize: 15),
+                              ),
                               onPressed: () {
+                                FocusManager.instance.primaryFocus.unfocus();
                                 chamaTelaCadastrarRoteiro(context, widget.temaAtual.getObjEspecifico(index));
                               },
                             ),
@@ -107,6 +114,7 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
                                   size: 50,
                                 ),
                                 onPressed: () {
+                                  FocusManager.instance.primaryFocus.unfocus();
                                   chamaDialogExcluirObjEspecifico(context, index);
                                 },
                               ),
@@ -120,10 +128,13 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
               alignment: Alignment.bottomRight,
               padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 color: Colors.green[500],
                 textColor: Colors.white,
-                child: Text("Finalizar Cadastro de Objetivos"),
+                child: Text(
+                  "Finalizar Cadastro de Objetivos",
+                  style: TextStyle(fontSize: 20),
+                ),
                 onPressed: () {
                   chamaTelaCadastrarTema(context, widget.temaAtual);
                 },
@@ -167,9 +178,9 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
 
   void cadastrarObjetivo() {
     ObjEspecifico obj = new ObjEspecifico();
-    obj.setObjetivo(objTexto.text);
+    obj.setObjetivo(_tecObjetivo.text);
     widget.temaAtual.adicionaObjEspecifico(obj);
-    objTexto.clear();
+    _tecObjetivo.clear();
     setState(() {});
   }
 
@@ -177,8 +188,17 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
     _objEspecifico = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroNaoDefinido(_objEspecifico)));
     setState(() {});
   }
-}
 
-void chamaTelaCadastrarTema(BuildContext context, Tema temaAtual) {
-  Navigator.pop(context, temaAtual);
+  bool validaCampos() {
+    if (_tecObjetivo.text.isEmpty) {
+      _fnObjetivo.requestFocus();
+      return false;
+    }
+
+    return true;
+  }
+
+  void chamaTelaCadastrarTema(BuildContext context, Tema temaAtual) {
+    Navigator.pop(context, temaAtual);
+  }
 }

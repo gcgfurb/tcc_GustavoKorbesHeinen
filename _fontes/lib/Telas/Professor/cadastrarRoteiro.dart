@@ -1,9 +1,7 @@
-import 'package:TCC_II/Classes/Roteiro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
-import 'package:TCC_II/Telas/Professor/visualizaAtividade.dart';
 import 'cadastraNovaAtividade.dart';
 
 class ClasseRoteiro extends StatefulWidget {
@@ -45,23 +43,19 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
       body: Container(
         color: Colors.green[300],
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
         child: Column(
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                    padding: EdgeInsets.fromLTRB(15, 5, 0, 5),
-                    child: Text(
-                      'Objetivo: ' + widget.objEspecifico.getObjetivo(),
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 20),
-                    )),
-              ],
+            Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.fromLTRB(15, 5, 0, 5),
+              child: Text(
+                'Objetivo: ' + widget.objEspecifico.getObjetivo(),
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 30),
+              ),
             ),
             Expanded(
-              flex: 4,
               child: Row(
                 children: <Widget>[
                   Expanded(
@@ -72,43 +66,40 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                       crossAxisCount: 5,
                       scrollDirection: Axis.vertical,
                       primary: false,
-                      children: List.generate(_listCaracteristicas.length, (index) {
-                        return RaisedButton(
-                          color: Colors.green[500],
-                          textColor: Colors.white,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                _listCaracteristicas[index],
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 25,
+                      children: List.generate(
+                        _listCaracteristicas.length,
+                        (index) {
+                          return TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.green[500],
+                              primary: Colors.white,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  _listCaracteristicas[index],
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          onPressed: () {
-                            String nomeAtividade = _listCaracteristicas[index];
-                            if (nomeAtividade == 'Personalizada') nomeAtividade = '';
-                            chamaTelaCadastrarNovaAtividade(context, widget.objEspecifico.getRoteiro(), nomeAtividade);
-                          },
-                        );
-                      }),
+                              ],
+                            ),
+                            onPressed: () {
+                              String nomeAtividade = _listCaracteristicas[index];
+                              if (nomeAtividade == 'Personalizada') nomeAtividade = '';
+                              chamaTelaCadastrarNovaAtividade(context, new Atividade(), nomeAtividade);
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Expanded(
-                          child: ReorderableListView(
-                            onReorder: onReorder,
-                            children: getListItems(),
-                          ),
-                        ),
-                      ],
+                    child: ReorderableListView(
+                      onReorder: onReorder,
+                      children: getListItems(),
                     ),
                   ),
                 ],
@@ -117,9 +108,12 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
             Container(
               child: Row(
                 children: <Widget>[
-                  Expanded(
+                  Flexible(
                     child: CheckboxListTile(
-                      title: Text("Este roteiro deve ser realizado na ordem proposta"),
+                      title: Text(
+                        "Este roteiro deve ser realizado na ordem proposta",
+                        style: TextStyle(fontSize: 20),
+                      ),
                       controlAffinity: ListTileControlAffinity.leading,
                       value: widget.objEspecifico.getRoteiro().getOrdenado(),
                       onChanged: (bool value) {
@@ -137,7 +131,10 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                     child: RaisedButton(
                       color: Colors.green[500],
                       textColor: Colors.white,
-                      child: Text("Finalizar atividade"),
+                      child: Text(
+                        "Finalizar atividade",
+                        style: TextStyle(fontSize: 20),
+                      ),
                       onPressed: () {
                         Navigator.pop(context, widget.objEspecifico);
                       },
@@ -168,7 +165,7 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
             primary: Colors.black54,
           ),
           onPressed: () async {
-            chamaDialogAlterarExcluir(context, atividade, index);
+            chamaDialogAlterarExcluir(context, atividade, atividade.getNomeAtividade(), index);
           },
         ),
       );
@@ -186,18 +183,22 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
     });
   }
 
-  void chamaDialogAlterarExcluir(BuildContext context, Atividade atividade, int idx) {
+  void chamaDialogAlterarExcluir(BuildContext context, Atividade atividade, String nomeAtividade, int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) => CupertinoAlertDialog(
         title: Text("Ação"),
-        content: Text("Deseja alterar ou excluir a atividade: " + atividade.getNomeAtividade()),
+        content: Text("Deseja alterar ou excluir a atividade: " + nomeAtividade),
         actions: <Widget>[
           CupertinoDialogAction(
               isDefaultAction: true,
               child: Text("Alterar"),
               onPressed: () async {
-                await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseVisualizaAtividade(atividade)));
+                Atividade novo = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAtividade(atividade, nomeAtividade)));
+                if (novo != null) {
+                  widget.objEspecifico.getRoteiro().getAtividade(index).setNomeAtividade(novo.getNomeAtividade());
+                  widget.objEspecifico.getRoteiro().getAtividade(index).setDescricao(novo.getDescricao());
+                }
                 Navigator.pop(context);
                 setState(() {});
               }),
@@ -205,7 +206,7 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
             child: Text("Excluir"),
             onPressed: () {
               setState(() {
-                widget.objEspecifico.getRoteiro().removeAtividade(idx);
+                widget.objEspecifico.getRoteiro().removeAtividade(index);
               });
               Navigator.pop(context);
             },
@@ -215,8 +216,9 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
     );
   }
 
-  void chamaTelaCadastrarNovaAtividade(BuildContext context, Roteiro roteiro, String _caracteristica) async {
-    await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAtividade(roteiro, _caracteristica)));
+  void chamaTelaCadastrarNovaAtividade(BuildContext context, Atividade atividade, String _caracteristica) async {
+    Atividade novo = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAtividade(atividade, _caracteristica)));
+    if (novo != null) widget.objEspecifico.getRoteiro().adicionaAtividade(novo);
     setState(() {});
   }
 }

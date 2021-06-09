@@ -12,14 +12,14 @@ class AprendaAUsar extends State<ClasseAprendaUsar> {
       body: Container(
         color: Colors.green[300],
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 200, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 4),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
               child: Text(
-                "Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade Este aplicativo tem como funcionalidade.",
+                "Este aplicativo tem como funcionalidade a disponibilização da realização de apoio para atividades de saídas a campo em Clubes de Ciências.\nAtualmente possui dois tipos de usuários: Professor e Clubista.\nProfessor: Realiza o cadastro de temas, objetivos específicos e atividades para os Clubistas poderem atuar e trabalhar em cada atividade.",
                 style: TextStyle(fontSize: 20),
                 textAlign: TextAlign.justify,
                 maxLines: 12,
@@ -29,10 +29,13 @@ class AprendaAUsar extends State<ClasseAprendaUsar> {
               alignment: Alignment.center,
               padding: EdgeInsets.only(top: 25),
               child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 75, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 color: Colors.green[500],
                 textColor: Colors.white,
-                child: Text("Voltar"),
+                child: Text(
+                  "Voltar",
+                  style: TextStyle(fontSize: 20),
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
