@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:googleapis/drive/v3.dart' as v3;
+import 'Constantes.dart' as Constantes;
 
 import 'package:TCC_II/Classes/Atividade.dart';
 import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaAreaDesmatada.dart';
@@ -249,24 +250,23 @@ class Util {
     return utf8.encode('Ordenado: ' + (roteiro.getOrdenado() ? "Sim" : "Não"));
   }
 
-  static List<int> leAtividade(Atividade atividade) {
+  static List<int> leAtividade(Atividade atividade, v3.File folder) {
     List<int> values = utf8.encode('Atividade: ' + atividade.getNomeAtividade() + '\n');
     values += utf8.encode('Descricao: ' + atividade.getDescricao() + '\n');
-    values += adicionaResposta(atividade);
+    values += adicionaResposta(atividade, folder);
 
     return values;
   }
 
-  static List<int> adicionaResposta(Atividade atividade) {
+  static List<int> adicionaResposta(Atividade atividade, v3.File folder) {
     List<int> values;
 
     switch (atividade.getId()) {
       case 0:
         CaracteristicaFoto foto = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + foto.getDescricao() + '\n');
+        gravaMidiaAtividade(foto.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
-        final bytes = File(foto.getImageFile().path).readAsBytesSync();
-        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
         return values;
 
       case 1:
@@ -281,6 +281,7 @@ class Util {
         values += utf8.encode('Resposta valor2: ' + medida.getValor2().toString() + '\n');
 
         values += utf8.encode('Resposta calculo: ' + medida.getCalculo().toString());
+
         return values;
 
       case 2:
@@ -289,76 +290,78 @@ class Util {
         values += utf8.encode('Resposta 2: ' + solo.getResposta2() + '\n');
         values += utf8.encode('Resposta 3: ' + solo.getResposta3() + '\n');
         values += utf8.encode('Resposta 4: ' + solo.getResposta4());
+
         return values;
 
       case 3:
         CaracteristicaInteracao interacao = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta 1: ' + interacao.getResposta1() + '\n');
         values += utf8.encode('Resposta 2: ' + interacao.getResposta2());
+
         return values;
 
       case 4:
         CaracteristicaAreaDesmatada areaDesmatada = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + areaDesmatada.getDescricao() + '\n');
         values += utf8.encode('Resposta coordenada: ' + areaDesmatada.getCoordenada() + '\n');
+        gravaMidiaAtividade(areaDesmatada.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
-        final bytes = File(areaDesmatada.getImageFile().path).readAsBytesSync();
-        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
         return values;
 
       case 5:
         CaracteristicaVideo video = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + video.getDescricao() + '\n');
 
-        //final bytes = File(video.getVideoFile().dataSource).readAsBytesSync();
-        //values += utf8.encode('Resposta video: ' + base64Encode(bytes));
+        String path = video.getVideoFile().dataSource.substring(8, video.getVideoFile().dataSource.length);
+        gravaMidiaAtividade(path, folder, Constantes.VIDEO_ATIVIDADE);
+
         return values;
 
       case 6:
         CaracteristicaCaracteristica caracteristica = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta: ' + caracteristica.getResposta());
+
         return values;
 
       case 7:
         CaracteristicaLupa lupa = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + lupa.getDescricao() + '\n');
+        gravaMidiaAtividade(lupa.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
-        final bytes = File(lupa.getImageFile().path).readAsBytesSync();
-        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
         return values;
 
       case 8:
         CaracteristicaVivencia vivencia = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta: ' + vivencia.getResposta());
+
         return values;
 
       case 9:
         CaracteristicaMosquito mosquito = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + mosquito.getDescricao() + '\n');
         values += utf8.encode('Resposta coordenada: ' + mosquito.getCoordenada() + '\n');
+        gravaMidiaAtividade(mosquito.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
-        final bytes = File(mosquito.getImageFile().path).readAsBytesSync();
-        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
         return values;
 
       case 10:
         CaracteristicaAudio audio = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + audio.getDescricao() + '\n');
-        values += utf8.encode('Resposta path: ' + audio.getPath() + '\n');
+        gravaMidiaAtividade(audio.getPath(), folder, Constantes.AUDIO_ATIVIDADE);
 
-        //final bytes = File().readAsBytesSync();
-        //values += utf8.encode('Resposta audio: ' + base64Encode(bytes));
         return values;
 
       case 11:
         CaracteristicaTeste teste = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta 1: ' + teste.getResposta1().toString() + '\n');
         values += utf8.encode('Resposta 2: ' + teste.getResposta2().toString());
+
         return values;
 
       case 12:
         CaracteristicaDesenho desenho = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta desenho: ' + desenho.toString());
+
         return values;
 
       case 13:
@@ -373,68 +376,78 @@ class Util {
         values += utf8.encode('Resposta conservacao: ' + fichaDeColeta.getConservacao() + '\n');
         values += utf8.encode('Resposta observacoes: ' + fichaDeColeta.getObservacoes() + '\n');
 
-        final bytes = File(fichaDeColeta.getImageFile().path).readAsBytesSync();
-        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
+        gravaMidiaAtividade(fichaDeColeta.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
+
         return values;
 
       case 14:
         CaracteristicaLixo lixo = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + lixo.getDescricao() + '\n');
         values += utf8.encode('Resposta coordenada: ' + lixo.getCoordenada() + '\n');
+        gravaMidiaAtividade(lixo.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
-        final bytes = File(lixo.getImageFile().path).readAsBytesSync();
-        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
         return values;
 
       case 15:
         CaracteristicaSonsDaNatureza sonsDaNatureza = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + sonsDaNatureza.getDescricao() + '\n');
-        //values += utf8.encode('Resposta path: ' + sonsDaNatureza.getPath() + '\n');
+        gravaMidiaAtividade(sonsDaNatureza.getPath(), folder, Constantes.AUDIO_ATIVIDADE);
 
-        //final bytes = File().readAsBytesSync();
-        //values += utf8.encode('Resposta audio: ' + base64Encode(bytes));
         return values;
 
       case 16:
         CaracteristicaLocalizacao localizacao = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta localizacao: Latitude: ' + localizacao.getCoordenada().latitude.toString() + ', ' + localizacao.getCoordenada().longitude.toString());
+        values = utf8.encode('Resposta localizacao: Latitude: ' + localizacao.getCoordenada().latitude.toString() + ', Longitude: ' + localizacao.getCoordenada().longitude.toString());
+
         return values;
 
       case 17:
         CaracteristicaProducaoDeMaterial producaoDeMaterial = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + producaoDeMaterial.getDescricao() + '\n');
+        gravaMidiaAtividade(producaoDeMaterial.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
-        final bytes = File(producaoDeMaterial.getImageFile().path).readAsBytesSync();
-        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
         return values;
 
       case 18:
         CaracteristicaIntervencao intervencao = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta descricao: ' + intervencao.getDescricao() + '\n');
         values += utf8.encode('Resposta coordenada: ' + intervencao.getCoordenada() + '\n');
+        gravaMidiaAtividade(intervencao.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
-        final bytes = File(intervencao.getImageFile().path).readAsBytesSync();
-        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
         return values;
 
       case 19:
         CaracteristicaPlanta planta = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta nome popular: ' + planta.getNomePopular() + '\n');
         values += utf8.encode('Resposta nome cientifico: ' + planta.getNomeCientifico() + '\n');
+        gravaMidiaAtividade(planta.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
-        final bytes = File(planta.getImageFile().path).readAsBytesSync();
-        values += utf8.encode('Resposta imagem: ' + base64Encode(bytes));
         return values;
 
       default:
         CaracteristicaPersonalizada personalizada = atividade.getRespostaAtividade();
         values = utf8.encode('Pergunta: ' + personalizada.getPergunta() + '\n');
         values += utf8.encode('Resposta: ' + personalizada.getResposta());
+
         return values;
     }
   }
 
-  static Future<void> gravaDados(List<int> values, String nomeArquivo, v3.File folder, v3.DriveApi driveApi) async {
+  static void gravaMidiaAtividade(String path, v3.File folder, nomeArquivo) async {
+    List<int> bytes = File(path).readAsBytesSync();
+    final Stream<List<int>> mediaStream = Future.value(bytes).asStream().asBroadcastStream();
+    var media = new v3.Media(mediaStream, bytes.length);
+
+    var driveFile = new v3.File();
+    driveFile.parents = [folder.id];
+    driveFile.name = nomeArquivo;
+
+    v3.DriveApi driveApi = await getDriveApi();
+
+    await driveApi.files.create(driveFile, uploadMedia: media);
+  }
+
+  static Future<void> gravaDados(List<int> values, String nomeArquivo, v3.File folder) async {
     final Stream<List<int>> mediaStream = Future.value(values).asStream().asBroadcastStream();
     var media = new v3.Media(mediaStream, values.length);
 
@@ -442,6 +455,7 @@ class Util {
     driveFile.parents = [folder.id];
     driveFile.name = nomeArquivo;
 
+    v3.DriveApi driveApi = await getDriveApi();
     await driveApi.files.create(driveFile, uploadMedia: media);
   }
 

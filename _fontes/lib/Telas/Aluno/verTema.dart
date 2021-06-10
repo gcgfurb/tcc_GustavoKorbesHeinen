@@ -210,7 +210,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     List<int> values = Util.leTema(tema);
 
-    await Util.gravaDados(values, Constantes.ARQUIVO_TEMA, folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_TEMA, folder);
     return folder;
   }
 
@@ -224,7 +224,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     List<int> values = Util.leObjEspecifico(objEspecifico);
 
-    await Util.gravaDados(values, Constantes.ARQUIVO_OBJETIVO_ESPECIFICO, folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_OBJETIVO_ESPECIFICO, folder);
     return folder;
   }
 
@@ -238,7 +238,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     List<int> values = Util.leRoteiro(roteiro);
 
-    await Util.gravaDados(values, Constantes.ARQUIVO_ROTEIRO, folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_ROTEIRO, folder);
     return folder;
   }
 
@@ -250,9 +250,9 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
     v3.File folder = await driveApi.files.create(folderType, $fields: "id");
 
-    List<int> values = Util.leAtividade(atividade);
+    List<int> values = Util.leAtividade(atividade, folder);
 
-    await Util.gravaDados(values, Constantes.ARQUIVO_ATIVIDADE, folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_ATIVIDADE, folder);
   }
 
   void showLoadingDialog() {

@@ -117,6 +117,22 @@ class ShareFolder extends State<ClasseShareFolder> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
+                  alignment: Alignment.bottomRight,
+                  padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                  child: RaisedButton(
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                    color: Colors.green[500],
+                    textColor: Colors.white,
+                    child: Text(
+                      "Voltar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+                Container(
                   alignment: Alignment.bottomLeft,
                   padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                   child: RaisedButton(
@@ -154,22 +170,13 @@ class ShareFolder extends State<ClasseShareFolder> {
                       for (int idx = 0; idx < participantes.length; ++idx) {
                         await driveApi.permissions.create(participantes[idx], widget._folderTema.id);
                       }
-                    },
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.bottomRight,
-                  padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
-                  child: RaisedButton(
-                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-                    color: Colors.green[500],
-                    textColor: Colors.white,
-                    child: Text(
-                      "Voltar",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
+
+                      final scaffold = ScaffoldMessenger.of(context);
+                      scaffold.showSnackBar(
+                        SnackBar(
+                          content: const Text('Pasta compartilhada'),
+                        ),
+                      );
                     },
                   ),
                 ),

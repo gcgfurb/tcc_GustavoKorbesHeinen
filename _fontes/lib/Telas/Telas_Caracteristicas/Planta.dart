@@ -101,7 +101,6 @@ class Planta extends State<ClassePlanta> {
                               backgroundColor: Colors.red,
                               onPressed: () {
                                 Navigator.pop(context);
-                                Navigator.pop(context);
                               },
                             ),
                           ),

@@ -308,7 +308,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
 
     List<int> values = Util.leTema(tema);
 
-    await Util.gravaDados(values, Constantes.ARQUIVO_TEMA, folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_TEMA, folder);
     return folder;
   }
 
@@ -322,7 +322,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
 
     List<int> values = Util.leObjEspecifico(objEspecifico);
 
-    await Util.gravaDados(values, Constantes.ARQUIVO_OBJETIVO_ESPECIFICO, folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_OBJETIVO_ESPECIFICO, folder);
     return folder;
   }
 
@@ -336,7 +336,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
 
     List<int> values = Util.leRoteiro(roteiro);
 
-    await Util.gravaDados(values, Constantes.ARQUIVO_ROTEIRO, folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_ROTEIRO, folder);
     return folder;
   }
 
@@ -351,7 +351,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
     List<int> values = utf8.encode('Atividade: ' + atividade.getNomeAtividade() + '\n');
     values += utf8.encode('Descricao: ' + atividade.getDescricao());
 
-    await Util.gravaDados(values, Constantes.ARQUIVO_ATIVIDADE, folder, driveApi);
+    await Util.gravaDados(values, Constantes.ARQUIVO_ATIVIDADE, folder);
   }
 
   Widget mostraTema(List<Tema> tema) {

@@ -147,9 +147,9 @@ class FichaDeColeta_1 extends State<ClasseFichaDeColeta_1> {
                   width: 150,
                   padding: EdgeInsets.all(15),
                   child: FloatingActionButton.extended(
-                    heroTag: "btGravar",
+                    heroTag: "btProximo",
                     label: Text(
-                      "Gravar",
+                      "Próximo",
                       style: TextStyle(fontSize: 20),
                     ),
                     backgroundColor: Colors.green,

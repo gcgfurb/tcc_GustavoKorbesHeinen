@@ -85,6 +85,8 @@ class Localizacao extends State<ClasseLocalizacao> {
                     icon: Icon(Icons.location_on),
                     backgroundColor: Colors.green[500],
                     onPressed: () async {
+                      geolocator = "Buscando informações...";
+                      setState(() {});
                       await Geolocator.getCurrentPosition().then((value) => {position = value});
                       geolocator = position.toString();
                       bLink = true;
