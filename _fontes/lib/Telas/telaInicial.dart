@@ -41,7 +41,7 @@ class TelaInicial extends State<ClasseTelaInicial> {
                   textColor: Colors.white,
                   color: Colors.green[500],
                   child: Text(
-                    "Sou Aluno",
+                    "Sou Clubista",
                     style: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
@@ -62,8 +62,8 @@ class TelaInicial extends State<ClasseTelaInicial> {
                   onPressed: () {
                     showAboutDialog(
                       context: context,
-                      applicationVersion: '2.0.1',
-                      applicationLegalese: 'Desenvolvido por: Gustavo Korbes Heinen',
+                      applicationVersion: '1.0.1',
+                      applicationLegalese: 'Desenvolvido por: Gustavo Korbes Heinen\nAuxílios externos: Lucas Serodio Gonçalves,\nBruna Hamann',
                     );
                   },
                 ),

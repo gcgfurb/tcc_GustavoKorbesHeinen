@@ -264,45 +264,44 @@ class Util {
     switch (atividade.getId()) {
       case 0:
         CaracteristicaFoto foto = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta descricao: ' + foto.getDescricao() + '\n');
+        values = utf8.encode('Resposta descrição: ' + foto.getDescricao() + '\n');
         gravaMidiaAtividade(foto.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
         return values;
 
       case 1:
         CaracteristicaMedida medida = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta dimensao1: ' + medida.getDimensao1().toString() + '\n');
-        values += utf8.encode('Resposta dimensao2: ' + medida.getDimensao2().toString() + '\n');
+        values = utf8.encode('Resposta dimensão 1: ' + medida.getDimensao1().toString() + '\n');
+        values += utf8.encode('Resposta un. Med. 1: ' + medida.getUnMed1().toString() + '\n');
+        values += utf8.encode('Resposta valor 1: ' + medida.getValor1().toString() + '\n');
 
-        values += utf8.encode('Resposta unMed1: ' + medida.getUnMed1().toString() + '\n');
-        values += utf8.encode('Resposta unMed2: ' + medida.getUnMed2().toString() + '\n');
+        values += utf8.encode('Resposta dimensão 2: ' + medida.getDimensao2().toString() + '\n');
+        values += utf8.encode('Resposta un. Med. 2: ' + medida.getUnMed2().toString() + '\n');
+        values += utf8.encode('Resposta valor 2: ' + medida.getValor2().toString() + '\n');
 
-        values += utf8.encode('Resposta valor1: ' + medida.getValor1().toString() + '\n');
-        values += utf8.encode('Resposta valor2: ' + medida.getValor2().toString() + '\n');
-
-        values += utf8.encode('Resposta calculo: ' + medida.getCalculo().toString());
+        values += utf8.encode('Resposta cálculo: ' + medida.getCalculo().toString());
 
         return values;
 
       case 2:
         CaracteristicaSolo solo = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta 1: ' + solo.getResposta1() + '\n');
-        values += utf8.encode('Resposta 2: ' + solo.getResposta2() + '\n');
-        values += utf8.encode('Resposta 3: ' + solo.getResposta3() + '\n');
-        values += utf8.encode('Resposta 4: ' + solo.getResposta4());
+        values = utf8.encode('Coloração Solo: ' + solo.getResposta1() + '\n');
+        values += utf8.encode('Matéria Orgânica: ' + solo.getResposta2() + '\n');
+        values += utf8.encode('Granulometria: ' + solo.getResposta3() + '\n');
+        values += utf8.encode('Elementos Químicos: ' + solo.getResposta4());
 
         return values;
 
       case 3:
         CaracteristicaInteracao interacao = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta 1: ' + interacao.getResposta1() + '\n');
-        values += utf8.encode('Resposta 2: ' + interacao.getResposta2());
+        values = utf8.encode('Seres vivos interagindo: ' + interacao.getResposta1() + '\n');
+        values += utf8.encode('Interação: ' + interacao.getResposta2());
 
         return values;
 
       case 4:
         CaracteristicaAreaDesmatada areaDesmatada = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta descricao: ' + areaDesmatada.getDescricao() + '\n');
+        values = utf8.encode('Resposta descrição: ' + areaDesmatada.getDescricao() + '\n');
         values += utf8.encode('Resposta coordenada: ' + areaDesmatada.getCoordenada() + '\n');
         gravaMidiaAtividade(areaDesmatada.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
@@ -310,7 +309,7 @@ class Util {
 
       case 5:
         CaracteristicaVideo video = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta descricao: ' + video.getDescricao() + '\n');
+        values = utf8.encode('Resposta descrição: ' + video.getDescricao() + '\n');
 
         String path = video.getVideoFile().dataSource.substring(8, video.getVideoFile().dataSource.length);
         gravaMidiaAtividade(path, folder, Constantes.VIDEO_ATIVIDADE);
@@ -325,7 +324,7 @@ class Util {
 
       case 7:
         CaracteristicaLupa lupa = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta descricao: ' + lupa.getDescricao() + '\n');
+        values = utf8.encode('Resposta descrição: ' + lupa.getDescricao() + '\n');
         gravaMidiaAtividade(lupa.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
         return values;
@@ -338,7 +337,7 @@ class Util {
 
       case 9:
         CaracteristicaMosquito mosquito = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta descricao: ' + mosquito.getDescricao() + '\n');
+        values = utf8.encode('Resposta descrição: ' + mosquito.getDescricao() + '\n');
         values += utf8.encode('Resposta coordenada: ' + mosquito.getCoordenada() + '\n');
         gravaMidiaAtividade(mosquito.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
@@ -346,15 +345,15 @@ class Util {
 
       case 10:
         CaracteristicaAudio audio = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta descricao: ' + audio.getDescricao() + '\n');
+        values = utf8.encode('Resposta descrição: ' + audio.getDescricao() + '\n');
         gravaMidiaAtividade(audio.getPath(), folder, Constantes.AUDIO_ATIVIDADE);
 
         return values;
 
       case 11:
         CaracteristicaTeste teste = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta 1: ' + teste.getResposta1().toString() + '\n');
-        values += utf8.encode('Resposta 2: ' + teste.getResposta2().toString());
+        values = utf8.encode('Teste realizado: ' + teste.getResposta1().toString() + '\n');
+        values += utf8.encode('Valor: ' + teste.getResposta2().toString());
 
         return values;
 
@@ -371,10 +370,10 @@ class Util {
         values += utf8.encode('Resposta data: ' + fichaDeColeta.getData() + '\n');
         values += utf8.encode('Resposta hora: ' + fichaDeColeta.getHora() + '\n');
         values += utf8.encode('Resposta ambiente: ' + fichaDeColeta.getAmbiente() + '\n');
-        values += utf8.encode('Resposta nome Popular ou Cientifico: ' + fichaDeColeta.getNomePopularCientifico() + '\n');
+        values += utf8.encode('Resposta nome Popular ou Científico: ' + fichaDeColeta.getNomePopularCientifico() + '\n');
 
-        values += utf8.encode('Resposta conservacao: ' + fichaDeColeta.getConservacao() + '\n');
-        values += utf8.encode('Resposta observacoes: ' + fichaDeColeta.getObservacoes() + '\n');
+        values += utf8.encode('Resposta conservacão: ' + fichaDeColeta.getConservacao() + '\n');
+        values += utf8.encode('Resposta observações: ' + fichaDeColeta.getObservacoes() + '\n');
 
         gravaMidiaAtividade(fichaDeColeta.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
@@ -382,7 +381,7 @@ class Util {
 
       case 14:
         CaracteristicaLixo lixo = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta descricao: ' + lixo.getDescricao() + '\n');
+        values = utf8.encode('Resposta descrição: ' + lixo.getDescricao() + '\n');
         values += utf8.encode('Resposta coordenada: ' + lixo.getCoordenada() + '\n');
         gravaMidiaAtividade(lixo.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
@@ -390,27 +389,27 @@ class Util {
 
       case 15:
         CaracteristicaSonsDaNatureza sonsDaNatureza = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta descricao: ' + sonsDaNatureza.getDescricao() + '\n');
+        values = utf8.encode('Resposta descrição: ' + sonsDaNatureza.getDescricao() + '\n');
         gravaMidiaAtividade(sonsDaNatureza.getPath(), folder, Constantes.AUDIO_ATIVIDADE);
 
         return values;
 
       case 16:
         CaracteristicaLocalizacao localizacao = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta localizacao: Latitude: ' + localizacao.getCoordenada().latitude.toString() + ', Longitude: ' + localizacao.getCoordenada().longitude.toString());
+        values = utf8.encode('Resposta localização: Latitude: ' + localizacao.getCoordenada().latitude.toString() + ', Longitude: ' + localizacao.getCoordenada().longitude.toString());
 
         return values;
 
       case 17:
         CaracteristicaProducaoDeMaterial producaoDeMaterial = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta descricao: ' + producaoDeMaterial.getDescricao() + '\n');
+        values = utf8.encode('Resposta descrição: ' + producaoDeMaterial.getDescricao() + '\n');
         gravaMidiaAtividade(producaoDeMaterial.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
         return values;
 
       case 18:
         CaracteristicaIntervencao intervencao = atividade.getRespostaAtividade();
-        values = utf8.encode('Resposta descricao: ' + intervencao.getDescricao() + '\n');
+        values = utf8.encode('Resposta descrição: ' + intervencao.getDescricao() + '\n');
         values += utf8.encode('Resposta coordenada: ' + intervencao.getCoordenada() + '\n');
         gravaMidiaAtividade(intervencao.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
@@ -419,7 +418,7 @@ class Util {
       case 19:
         CaracteristicaPlanta planta = atividade.getRespostaAtividade();
         values = utf8.encode('Resposta nome popular: ' + planta.getNomePopular() + '\n');
-        values += utf8.encode('Resposta nome cientifico: ' + planta.getNomeCientifico() + '\n');
+        values += utf8.encode('Resposta nome científico: ' + planta.getNomeCientifico() + '\n');
         gravaMidiaAtividade(planta.getImageFile().path, folder, Constantes.IMAGEM_ATIVIDADE);
 
         return values;
