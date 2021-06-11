@@ -104,7 +104,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                     color: Colors.green[500],
                     textColor: Colors.white,
                     child: Text(
-                      "Enviar respostas ao Professor",
+                      "Enviar respostas ao Google Drive",
                       style: TextStyle(fontSize: 20),
                     ),
                     onPressed: () async {
@@ -115,7 +115,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                     },
                   ),
                 ),
-                if (!widget._tema.getObjDefinido() || !widget._tema.getRoteiroDefinido())
+                if (!widget._tema.getObjDefinido())
                   Container(
                     alignment: Alignment.bottomRight,
                     padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
@@ -141,10 +141,32 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
   }
 
   void chamaTelaRealizarAtividades(context, ObjEspecifico _objEspecifico) async {
-    if (_objEspecifico.getRoteiro().getQtdAtividades() > 0) {
+    if (widget._tema.getRoteiroDefinido()) {
       await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroDefinido(_objEspecifico)));
     } else {
-      await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroNaoDefinido(_objEspecifico)));
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: Text("Atividades?"),
+          content: Text("Deseja Cadastrar ou Visualizar/Alterar as atividades do Roteiro?"),
+          actions: <Widget>[
+            CupertinoDialogAction(
+                child: Text("Cadastrar"),
+                onPressed: () async {
+                  Navigator.pop(context);
+                  await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroNaoDefinido(_objEspecifico)));
+                }),
+            CupertinoDialogAction(
+              child: Text("Visualizar"),
+              onPressed: () async {
+                Navigator.pop(context);
+                await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseRoteiroDefinido(_objEspecifico)));
+              },
+            ),
+          ],
+        ),
+      );
+
       setState(() {});
     }
   }
