@@ -155,7 +155,6 @@ class ShareFolder extends State<ClasseShareFolder> {
                               content: Text("O email \"${participantes[idx].emailAddress}\" não possui uma assinatura Google (@gmail.com)"),
                               actions: <Widget>[
                                 CupertinoDialogAction(
-                                  isDefaultAction: true,
                                   child: Text("OK"),
                                   onPressed: () => Navigator.pop(context),
                                 ),
@@ -196,7 +195,6 @@ class ShareFolder extends State<ClasseShareFolder> {
         content: Text("Deseja excluir o participante " + participantes[index].emailAddress + "?"),
         actions: <Widget>[
           CupertinoDialogAction(
-            isDefaultAction: true,
             child: Text("Não"),
             onPressed: () => Navigator.pop(context),
           ),
@@ -223,7 +221,10 @@ class ShareFolder extends State<ClasseShareFolder> {
 
     permission.type = "user";
     permission.role = "reader";
-    permission.emailAddress = _tecEmail.text;
+
+    String email = _tecEmail.text.trim();
+
+    permission.emailAddress = email;
 
     participantes.add(permission);
     _tecEmail.clear();

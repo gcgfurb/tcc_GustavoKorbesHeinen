@@ -191,7 +191,6 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
         content: Text("Deseja alterar ou excluir a atividade: " + nomeAtividade),
         actions: <Widget>[
           CupertinoDialogAction(
-              isDefaultAction: true,
               child: Text("Alterar"),
               onPressed: () async {
                 Atividade novo = await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAtividade(atividade, nomeAtividade)));

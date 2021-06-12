@@ -167,7 +167,6 @@ class Localizacao extends State<ClasseLocalizacao> {
                             content: Text("É obrigatório adicionar a sua localização."),
                             actions: <Widget>[
                               CupertinoDialogAction(
-                                isDefaultAction: true,
                                 child: Text("OK"),
                                 onPressed: () => Navigator.pop(context),
                               ),

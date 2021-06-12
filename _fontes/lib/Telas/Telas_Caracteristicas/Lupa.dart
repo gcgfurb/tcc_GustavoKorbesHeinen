@@ -131,7 +131,6 @@ class Lupa extends State<ClasseLupa> {
           content: Text("É obrigatório adicionar uma imagem."),
           actions: <Widget>[
             CupertinoDialogAction(
-              isDefaultAction: true,
               child: Text("OK"),
               onPressed: () => Navigator.pop(context),
             ),

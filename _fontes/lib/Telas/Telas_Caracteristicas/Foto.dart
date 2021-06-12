@@ -96,6 +96,7 @@ class Foto extends State<ClasseFoto> {
                               ),
                               backgroundColor: Colors.green,
                               onPressed: () {
+                                FocusManager.instance.primaryFocus.unfocus();
                                 if (_imageFile == null) {
                                   return showDialog(
                                     context: context,
@@ -104,7 +105,6 @@ class Foto extends State<ClasseFoto> {
                                       content: Text("É obrigatório adicionar uma imagem."),
                                       actions: <Widget>[
                                         CupertinoDialogAction(
-                                          isDefaultAction: true,
                                           child: Text("OK"),
                                           onPressed: () => Navigator.pop(context),
                                         ),

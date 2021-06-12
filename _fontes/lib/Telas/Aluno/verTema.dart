@@ -185,7 +185,6 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
         content: Text("Deseja compartilhar o conteúdo no Google Drive?"),
         actions: <Widget>[
           CupertinoDialogAction(
-            isDefaultAction: true,
             child: Text("Não"),
             onPressed: () => Navigator.pop(context),
           ),
@@ -295,7 +294,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
             child: Text(
               'Gravando dados no Google Drive...',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 30,
               ),
             ),
           ),

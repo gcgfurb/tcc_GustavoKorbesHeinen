@@ -144,7 +144,6 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
         content: Text("Deseja excluir o participante " + _participantes[index].getNome() + "?"),
         actions: <Widget>[
           CupertinoDialogAction(
-            isDefaultAction: true,
             child: Text("Não"),
             onPressed: () => Navigator.pop(context),
           ),

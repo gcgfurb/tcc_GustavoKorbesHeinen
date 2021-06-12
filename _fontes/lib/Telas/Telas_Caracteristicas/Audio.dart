@@ -146,7 +146,7 @@ class Audio extends State<ClasseAudio> {
                       style: TextStyle(fontSize: 20),
                     ),
                     backgroundColor: Colors.green,
-                    onPressed: () {
+                    onPressed: () async {
                       if (!validaCampos()) {
                         return showDialog(
                           context: context,
@@ -155,7 +155,6 @@ class Audio extends State<ClasseAudio> {
                             content: Text("É obrigatório adicionar um áudio."),
                             actions: <Widget>[
                               CupertinoDialogAction(
-                                isDefaultAction: true,
                                 child: Text("OK"),
                                 onPressed: () => Navigator.pop(context),
                               ),
@@ -177,9 +176,9 @@ class Audio extends State<ClasseAudio> {
   }
 
   bool validaCampos() {
-    if (audioPlayer == null) return false;
+    if (showPlayer) return true;
 
-    return true;
+    return false;
   }
 
   Future<String> getPath() async {
@@ -230,8 +229,6 @@ class _AudioRecorderState extends State<AudioRecorder> {
         children: <Widget>[
           _buildRecordStopControl(),
           const SizedBox(width: 20),
-          _buildPauseResumeControl(),
-          const SizedBox(width: 20),
           _buildText(),
         ],
       ),
@@ -258,36 +255,6 @@ class _AudioRecorderState extends State<AudioRecorder> {
           child: SizedBox(width: 56, height: 56, child: icon),
           onTap: () {
             _isRecording ? _stop() : _start();
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPauseResumeControl() {
-    if (!_isRecording && !_isPaused) {
-      return const SizedBox.shrink();
-    }
-
-    Icon icon;
-    Color color;
-
-    if (!_isPaused) {
-      icon = Icon(Icons.pause, color: Colors.red, size: 30);
-      color = Colors.red.withOpacity(0.1);
-    } else {
-      final theme = Theme.of(context);
-      icon = Icon(Icons.play_arrow, color: Colors.red, size: 30);
-      color = theme.primaryColor.withOpacity(0.1);
-    }
-
-    return ClipOval(
-      child: Material(
-        color: color,
-        child: InkWell(
-          child: SizedBox(width: 56, height: 56, child: icon),
-          onTap: () {
-            _isPaused ? _resume() : _pause();
           },
         ),
       ),
@@ -349,20 +316,6 @@ class _AudioRecorderState extends State<AudioRecorder> {
     setState(() => _isRecording = false);
 
     widget.onStop();
-  }
-
-  Future<void> _pause() async {
-    _timer?.cancel();
-    await Record.pause();
-
-    setState(() => _isPaused = true);
-  }
-
-  Future<void> _resume() async {
-    _startTimer();
-    await Record.resume();
-
-    setState(() => _isPaused = false);
   }
 
   void _startTimer() {

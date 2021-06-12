@@ -149,7 +149,6 @@ class Video extends State<ClasseVideo> {
                                       content: Text("É obrigatório adicionar um vídeo."),
                                       actions: <Widget>[
                                         CupertinoDialogAction(
-                                          isDefaultAction: true,
                                           child: Text("OK"),
                                           onPressed: () => Navigator.pop(context),
                                         ),

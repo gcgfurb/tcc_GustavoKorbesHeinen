@@ -154,7 +154,6 @@ class CadastrarObjEspecificos extends State<ClasseObjEspecifico> {
         content: Text("Deseja excluir o objetivo? O roteiro também irá ser excluído."),
         actions: <Widget>[
           CupertinoDialogAction(
-            isDefaultAction: true,
             child: Text("Não"),
             onPressed: () => Navigator.pop(context),
           ),

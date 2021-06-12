@@ -19,7 +19,7 @@ class AprendaAUsar extends State<ClasseAprendaUsar> {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
               child: Text(
-                "Este aplicativo tem como funcionalidade a disponibilização da realização de apoio para atividades de saídas a campo em Clubes de Ciências.\nAtualmente possui dois tipos de usuários: Professor e Clubista.\nProfessor: Realiza o cadastro de temas, objetivos específicos e atividades para os Clubistas poderem atuar e trabalhar em cada atividade.",
+                "Este aplicativo tem como funcionalidade a disponibilização da realização de apoio para atividades de saídas a campo em Clubes de Ciências.\nComo professor, seu objeitvo é cadastrar temas, objetivos específicos, roteiros e atividades para que os Clubistas possam atuar e trabalhar em cada atividade.",
                 style: TextStyle(fontSize: 20),
                 textAlign: TextAlign.justify,
                 maxLines: 12,
