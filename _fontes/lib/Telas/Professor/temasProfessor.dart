@@ -64,7 +64,10 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                         data: carregaInfo(),
                         size: 200,
                       ),
-                      style: TextButton.styleFrom(primary: Colors.green[300]),
+                      style: ButtonStyle(
+                        elevation: MaterialStateProperty.all(1),
+                        shadowColor: MaterialStateProperty.all(Colors.black),
+                      ),
                       onPressed: () {
                         chamaTelaCadastrarTema(context, _temas[_index]);
                       },
@@ -355,6 +358,8 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
   }
 
   Widget mostraTema(List<Tema> tema) {
+    List<int> idxTema = [];
+
     return Container(
       height: 300.0,
       width: 300.0,
@@ -367,6 +372,8 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
             child: ElevatedButton(
               style: TextButton.styleFrom(backgroundColor: (index % 2 == 0) ? Colors.green[300] : Colors.green[500]),
               onPressed: () {
+                if (idxTema.contains(index)) return;
+                idxTema.add(index);
                 _temas.add(_temasGoogleDrive[index]);
                 setState(() {});
               },

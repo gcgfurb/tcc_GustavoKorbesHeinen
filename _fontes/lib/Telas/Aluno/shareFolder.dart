@@ -2,7 +2,6 @@ import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapis/drive/v3.dart' as v3;
-import '../../Classes/GoogleAuthClient.dart';
 
 class ClasseShareFolder extends StatefulWidget {
   v3.File _folderTema = new v3.File();
