@@ -14,7 +14,7 @@ import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaSonsDaNatureza.dart
 import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaVivencia.dart';
 import 'package:TCC_II/Classes/ObjEspecifico.dart';
 import 'package:TCC_II/Classes/Tema.dart';
-import 'package:TCC_II/Telas/Aluno/cadastrarNovaPergunta.dart';
+import 'package:TCC_II/Telas/Telas_Caracteristicas/Personalizada.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/AreaDesmatada.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Audio.dart';
 import 'package:TCC_II/Telas/Telas_Caracteristicas/Caracteristica.dart';
@@ -216,7 +216,7 @@ class Util {
         await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClassePlanta(atividade)));
         break;
       default:
-        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseNovaPergunta(atividade)));
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClassePersonalizada(atividade)));
         break;
     }
   }

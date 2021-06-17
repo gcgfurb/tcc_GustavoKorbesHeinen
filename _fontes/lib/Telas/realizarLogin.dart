@@ -29,8 +29,10 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
               style: TextStyle(fontSize: 30),
             ),
             Container(
+              width: 150,
+              padding: EdgeInsets.only(bottom: 10),
               child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                 color: Colors.green[500],
                 textColor: Colors.white,
                 child: Text(
@@ -46,9 +48,27 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
                   }
                 },
               ),
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 70),
             ),
-            Text("Caso você não tenha conta na Google, faça seu cadastro."),
+            Text(
+              "Caso você não tenha conta na Google, faça seu cadastro.",
+              style: TextStyle(fontSize: 20),
+            ),
+            Container(
+              width: 150,
+              padding: EdgeInsets.only(top: 15),
+              child: RaisedButton(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                color: Colors.green[500],
+                textColor: Colors.white,
+                child: Text(
+                  "Voltar",
+                  style: TextStyle(fontSize: 20),
+                ),
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
           ],
         ),
       ),

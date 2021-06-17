@@ -72,18 +72,24 @@ class FichaDeColeta_2 extends State<ClasseFichaDeColeta_2> {
                     ),
                     Container(
                       width: 150,
-                      child: FloatingActionButton.extended(
-                        heroTag: "btCancelar",
-                        label: Text(
-                          "Voltar",
+                      child: ElevatedButton(
+                        child: Text(
+                          'Voltar',
                           style: TextStyle(fontSize: 20),
                         ),
-                        backgroundColor: Colors.blue,
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 15,
+                          ),
+                        ),
                         onPressed: () {
                           Navigator.pop(context);
                         },
                       ),
                     ),
+                    Spacer(),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -91,13 +97,18 @@ class FichaDeColeta_2 extends State<ClasseFichaDeColeta_2> {
                         children: <Widget>[
                           Container(
                             width: 150,
-                            child: FloatingActionButton.extended(
-                              heroTag: "btCancelar",
-                              label: Text(
-                                "Cancelar",
+                            child: ElevatedButton(
+                              child: Text(
+                                'Cancelar',
                                 style: TextStyle(fontSize: 20),
                               ),
-                              backgroundColor: Colors.red,
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 15,
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
@@ -106,13 +117,18 @@ class FichaDeColeta_2 extends State<ClasseFichaDeColeta_2> {
                           ),
                           Container(
                             width: 150,
-                            child: FloatingActionButton.extended(
-                              heroTag: "btGravar",
-                              label: Text(
-                                "Gravar",
+                            child: ElevatedButton(
+                              child: Text(
+                                'Gravar',
                                 style: TextStyle(fontSize: 20),
                               ),
-                              backgroundColor: Colors.green,
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 15,
+                                ),
+                              ),
                               onPressed: () {
                                 widget._atividade.adicionaResposta(CaracteristicaFichaDeColeta(
                                     widget._fichaDeColeta.getNomePessoa(),

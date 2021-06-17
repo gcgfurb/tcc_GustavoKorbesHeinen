@@ -73,15 +73,18 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
                       ),
                     ),
                     Container(
-                      width: 190,
-                      child: FloatingActionButton.extended(
-                        heroTag: "btPosicao",
-                        label: Text(
+                      child: ElevatedButton(
+                        child: Text(
                           "Posição atual",
                           style: TextStyle(fontSize: 20),
                         ),
-                        icon: Icon(Icons.location_on),
-                        backgroundColor: Colors.blue[500],
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.green[500],
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 15,
+                          ),
+                        ),
                         onPressed: () async {
                           geolocator = "Buscando informações...";
                           setState(() {});
@@ -113,13 +116,18 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
                         children: <Widget>[
                           Container(
                             width: 150,
-                            child: FloatingActionButton.extended(
-                              heroTag: "btCancelar",
-                              label: Text(
-                                "Cancelar",
+                            child: ElevatedButton(
+                              child: Text(
+                                'Cancelar',
                                 style: TextStyle(fontSize: 20),
                               ),
-                              backgroundColor: Colors.red,
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 15,
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.pop(context);
                               },
@@ -127,13 +135,18 @@ class AreaDesmatada extends State<ClasseAreaDesmatada> {
                           ),
                           Container(
                             width: 150,
-                            child: FloatingActionButton.extended(
-                              heroTag: "btGravar",
-                              label: Text(
-                                "Gravar",
+                            child: ElevatedButton(
+                              child: Text(
+                                'Gravar',
                                 style: TextStyle(fontSize: 20),
                               ),
-                              backgroundColor: Colors.green,
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 15,
+                                ),
+                              ),
                               onPressed: () {
                                 if (validaCampos()) {
                                   widget._atividade.adicionaResposta(CaracteristicaAreaDesmatada(_imageFile, _tecDescricao.text, geolocator));

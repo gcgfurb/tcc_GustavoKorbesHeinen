@@ -74,14 +74,18 @@ class Mosquito extends State<ClasseMosquito> {
                     ),
                     Container(
                       width: 190,
-                      child: FloatingActionButton.extended(
-                        heroTag: "btPosicao",
-                        label: Text(
+                      child: ElevatedButton(
+                        child: Text(
                           "Posição atual",
                           style: TextStyle(fontSize: 20),
                         ),
-                        icon: Icon(Icons.location_on),
-                        backgroundColor: Colors.green[500],
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.green[500],
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 15,
+                          ),
+                        ),
                         onPressed: () async {
                           geolocator = "Buscando informações...";
                           setState(() {});
@@ -113,13 +117,18 @@ class Mosquito extends State<ClasseMosquito> {
                         children: <Widget>[
                           Container(
                             width: 150,
-                            child: FloatingActionButton.extended(
-                              heroTag: "btCancelar",
-                              label: Text(
-                                "Cancelar",
+                            child: ElevatedButton(
+                              child: Text(
+                                'Cancelar',
                                 style: TextStyle(fontSize: 20),
                               ),
-                              backgroundColor: Colors.red,
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 15,
+                                ),
+                              ),
                               onPressed: () {
                                 Navigator.pop(context);
                               },
@@ -127,13 +136,18 @@ class Mosquito extends State<ClasseMosquito> {
                           ),
                           Container(
                             width: 150,
-                            child: FloatingActionButton.extended(
-                              heroTag: "btGravar",
-                              label: Text(
-                                "Gravar",
+                            child: ElevatedButton(
+                              child: Text(
+                                'Gravar',
                                 style: TextStyle(fontSize: 20),
                               ),
-                              backgroundColor: Colors.green,
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 15,
+                                ),
+                              ),
                               onPressed: () {
                                 if (validaCampos()) {
                                   widget._atividade.adicionaResposta(CaracteristicaMosquito(_imageFile, _tecDescricao.text, geolocator));

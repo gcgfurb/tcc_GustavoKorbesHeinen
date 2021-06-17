@@ -2,15 +2,15 @@ import 'package:TCC_II/Classes/Caracteristicas/CaracteristicaPersonalizada.dart'
 import 'package:flutter/material.dart';
 import 'package:TCC_II/Classes/Atividade.dart';
 
-class ClasseNovaPergunta extends StatefulWidget {
+class ClassePersonalizada extends StatefulWidget {
   Atividade _atividade = new Atividade();
-  ClasseNovaPergunta(this._atividade);
+  ClassePersonalizada(this._atividade);
 
   @override
-  CadastrarNovaPergunta createState() => CadastrarNovaPergunta();
+  Personalizada createState() => Personalizada();
 }
 
-class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
+class Personalizada extends State<ClassePersonalizada> {
   TextEditingController _tecPergunta = new TextEditingController();
   TextEditingController _tecResposta = new TextEditingController();
   FocusNode _fnPergunta;
@@ -81,18 +81,23 @@ class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Container(
                   width: 150,
-                  child: FloatingActionButton.extended(
-                    heroTag: "btCancelar",
-                    label: Text(
-                      "Cancelar",
+                  child: ElevatedButton(
+                    child: Text(
+                      'Cancelar',
                       style: TextStyle(fontSize: 20),
                     ),
-                    backgroundColor: Colors.red,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -100,13 +105,18 @@ class CadastrarNovaPergunta extends State<ClasseNovaPergunta> {
                 ),
                 Container(
                   width: 150,
-                  child: FloatingActionButton.extended(
-                    heroTag: "btGravar",
-                    label: Text(
-                      "Gravar",
+                  child: ElevatedButton(
+                    child: Text(
+                      'Gravar',
                       style: TextStyle(fontSize: 20),
                     ),
-                    backgroundColor: Colors.green,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                    ),
                     onPressed: () {
                       if (_tecPergunta.text.isEmpty)
                         _fnPergunta.requestFocus();

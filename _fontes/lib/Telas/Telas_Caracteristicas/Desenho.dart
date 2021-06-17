@@ -30,13 +30,18 @@ class Desenho extends State<ClasseDesenho> {
             Container(
               width: 150,
               padding: EdgeInsets.all(15),
-              child: FloatingActionButton.extended(
-                heroTag: "btCancelar",
-                label: Text(
-                  "Cancelar",
+              child: ElevatedButton(
+                child: Text(
+                  'Cancelar',
                   style: TextStyle(fontSize: 20),
                 ),
-                backgroundColor: Colors.red,
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 15,
+                  ),
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },

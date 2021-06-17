@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Habitat',
+      title: 'ExploraHabitat',
       home: ClasseTelaInicial(),
     );
   }

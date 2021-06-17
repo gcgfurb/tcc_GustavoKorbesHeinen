@@ -88,18 +88,12 @@ class Medida extends State<ClasseMedida> {
             ),
             criaCampos(false),
             if (_campoAdicional) criaCampos(true),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 15),
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: _tecCalculo,
-                    decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Essas medidas resultaram em algum cálculo?', hintText: 'Sim, área, volume, fórmula...'),
-                  ),
-                ),
-              ],
+            Padding(
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 10),
+              child: TextField(
+                controller: _tecCalculo,
+                decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'Essas medidas resultaram em algum cálculo?', hintText: 'Sim, área, volume, fórmula...'),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -107,14 +101,18 @@ class Medida extends State<ClasseMedida> {
               children: <Widget>[
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(15),
-                  child: FloatingActionButton.extended(
-                    heroTag: "btCancelar",
-                    label: Text(
-                      "Cancelar",
+                  child: ElevatedButton(
+                    child: Text(
+                      'Cancelar',
                       style: TextStyle(fontSize: 20),
                     ),
-                    backgroundColor: Colors.red,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -122,14 +120,18 @@ class Medida extends State<ClasseMedida> {
                 ),
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(15),
-                  child: FloatingActionButton.extended(
-                    heroTag: "btGravar",
-                    label: Text(
-                      "Gravar",
+                  child: ElevatedButton(
+                    child: Text(
+                      'Gravar',
                       style: TextStyle(fontSize: 20),
                     ),
-                    backgroundColor: Colors.green,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                    ),
                     onPressed: () {
                       if (validaCampos()) {
                         widget._atividade.adicionaResposta(

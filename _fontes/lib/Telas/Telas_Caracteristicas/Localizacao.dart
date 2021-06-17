@@ -79,11 +79,18 @@ class Localizacao extends State<ClasseLocalizacao> {
                   padding: EdgeInsets.only(
                     right: 10,
                   ),
-                  child: FloatingActionButton.extended(
-                    heroTag: "btPosicao",
-                    label: bTelaAlterar ? Text("Alterar posição", style: TextStyle(fontSize: 20)) : Text("Posição atual", style: TextStyle(fontSize: 20)),
-                    icon: Icon(Icons.location_on),
-                    backgroundColor: Colors.green[500],
+                  child: ElevatedButton(
+                    child: Text(
+                      bTelaAlterar ? "Alterar posição" : "Posição atual",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.green[500],
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                    ),
                     onPressed: () async {
                       geolocator = "Buscando informações...";
                       setState(() {});
@@ -99,11 +106,18 @@ class Localizacao extends State<ClasseLocalizacao> {
                     padding: EdgeInsets.only(
                       left: 10,
                     ),
-                    child: FloatingActionButton.extended(
-                      heroTag: "btChecarPosicao",
-                      label: Text("Checar posição", style: TextStyle(fontSize: 20)),
-                      icon: Icon(Icons.location_on),
-                      backgroundColor: Colors.green[500],
+                    child: ElevatedButton(
+                      child: Text(
+                        "Checar posição",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.green[500],
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 15,
+                        ),
+                      ),
                       onPressed: () async {
                         geolocator = positionInicial.toString();
                         bLink = true;
@@ -135,14 +149,18 @@ class Localizacao extends State<ClasseLocalizacao> {
               children: <Widget>[
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(15),
-                  child: FloatingActionButton.extended(
-                    heroTag: "btCancelar",
-                    label: Text(
-                      "Cancelar",
+                  child: ElevatedButton(
+                    child: Text(
+                      'Cancelar',
                       style: TextStyle(fontSize: 20),
                     ),
-                    backgroundColor: Colors.red,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -150,14 +168,18 @@ class Localizacao extends State<ClasseLocalizacao> {
                 ),
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(15),
-                  child: FloatingActionButton.extended(
-                    heroTag: "btGravar",
-                    label: Text(
-                      "Gravar",
+                  child: ElevatedButton(
+                    child: Text(
+                      'Gravar',
                       style: TextStyle(fontSize: 20),
                     ),
-                    backgroundColor: Colors.green,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                    ),
                     onPressed: () {
                       if (!validaCampos()) {
                         return showDialog(

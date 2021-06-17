@@ -104,7 +104,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                     color: Colors.green[500],
                     textColor: Colors.white,
                     child: Text(
-                      "Enviar respostas ao Google Drive",
+                      "Enviar respostas ao Professor",
                       style: TextStyle(fontSize: 20),
                     ),
                     onPressed: () async {
@@ -115,6 +115,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                     },
                   ),
                 ),
+                Spacer(),
                 if (!widget._tema.getObjDefinido())
                   Container(
                     alignment: Alignment.bottomRight,
@@ -132,6 +133,22 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                       },
                     ),
                   ),
+                Container(
+                  alignment: Alignment.bottomRight,
+                  padding: EdgeInsets.fromLTRB(0, 10, 15, 0),
+                  child: RaisedButton(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    color: Colors.green[500],
+                    textColor: Colors.white,
+                    child: Text(
+                      "Voltar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
               ],
             )
           ],

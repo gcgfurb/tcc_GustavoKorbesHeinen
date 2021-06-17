@@ -62,6 +62,20 @@ class SozinhoGrupo extends State<ClasseSozinhoGrupo> {
                   },
                 ),
               ),
+              Container(
+                child: RaisedButton(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                  color: Colors.green[500],
+                  textColor: Colors.white,
+                  child: Text(
+                    "Voltar",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
             ],
           ),
         ),

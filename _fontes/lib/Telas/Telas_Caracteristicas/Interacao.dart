@@ -76,7 +76,7 @@ class Interacao extends State<ClasseInteracao> {
             Expanded(
               flex: 0,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
                 child: TextField(
                   focusNode: _fnResposta2,
                   controller: _tecResposta2,
@@ -90,14 +90,18 @@ class Interacao extends State<ClasseInteracao> {
               children: <Widget>[
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(15),
-                  child: FloatingActionButton.extended(
-                    heroTag: "btCancelar",
-                    label: Text(
-                      "Cancelar",
+                  child: ElevatedButton(
+                    child: Text(
+                      'Cancelar',
                       style: TextStyle(fontSize: 20),
                     ),
-                    backgroundColor: Colors.red,
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -105,20 +109,25 @@ class Interacao extends State<ClasseInteracao> {
                 ),
                 Container(
                   width: 150,
-                  padding: EdgeInsets.all(15),
-                  child: FloatingActionButton.extended(
-                      heroTag: "btGravar",
-                      label: Text(
-                        "Gravar",
-                        style: TextStyle(fontSize: 20),
-                      ),
+                  child: ElevatedButton(
+                    child: Text(
+                      'Gravar',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    style: TextButton.styleFrom(
                       backgroundColor: Colors.green,
-                      onPressed: () {
-                        if (validaCampos()) {
-                          widget._atividade.adicionaResposta(CaracteristicaInteracao(_tecResposta1.text, _tecResposta2.text));
-                          Navigator.pop(context);
-                        }
-                      }),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 15,
+                      ),
+                    ),
+                    onPressed: () {
+                      if (validaCampos()) {
+                        widget._atividade.adicionaResposta(CaracteristicaInteracao(_tecResposta1.text, _tecResposta2.text));
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
