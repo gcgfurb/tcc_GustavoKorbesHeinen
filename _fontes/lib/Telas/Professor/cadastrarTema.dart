@@ -81,7 +81,7 @@ class CadastrarTema extends State<ClasseTema> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                     width: MediaQuery.of(context).size.width / 4,
                     child: RaisedButton(
                       color: Colors.green[500],

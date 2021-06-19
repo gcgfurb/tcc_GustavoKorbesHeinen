@@ -65,7 +65,7 @@ class ShareFolder extends State<ClasseShareFolder> {
                       color: Colors.green[500],
                       textColor: Colors.white,
                       child: Text(
-                        "Cadastrar Participante",
+                        "Cadastrar email",
                         style: TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
@@ -144,6 +144,8 @@ class ShareFolder extends State<ClasseShareFolder> {
                     ),
                     onPressed: () async {
                       widget._folderTema.permissions = participantes;
+
+                      if (participantes.isEmpty) return;
 
                       for (int idx = 0; idx < participantes.length; ++idx) {
                         if (!participantes[idx].emailAddress.contains("@gmail.com")) {

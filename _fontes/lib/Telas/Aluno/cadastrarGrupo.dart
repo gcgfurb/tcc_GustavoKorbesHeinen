@@ -62,11 +62,11 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(5, 15, 15, 0),
                     child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
+                      padding: EdgeInsets.symmetric(vertical: 18),
                       color: Colors.green[500],
                       textColor: Colors.white,
                       child: Text(
-                        "Cadastrar Participante",
+                        "Cadastrar Usuário",
                         style: TextStyle(fontSize: 20),
                       ),
                       onPressed: () {
@@ -113,22 +113,43 @@ class CadastrarGrupo extends State<ClasseCadastrarGrupo> {
                     );
                   }),
             ),
-            Container(
-              alignment: Alignment.bottomRight,
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
-              child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                color: Colors.green[500],
-                textColor: Colors.white,
-                child: Text(
-                  "Continuar",
-                  style: TextStyle(fontSize: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.bottomRight,
+                  padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                  child: RaisedButton(
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                    color: Colors.green[500],
+                    textColor: Colors.white,
+                    child: Text(
+                      "Voltar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
-                onPressed: () {
-                  FocusManager.instance.primaryFocus.unfocus();
-                  chamaTelaVerTema(context);
-                },
-              ),
+                Container(
+                  alignment: Alignment.bottomRight,
+                  padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+                  child: RaisedButton(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    color: Colors.green[500],
+                    textColor: Colors.white,
+                    child: Text(
+                      "Continuar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      FocusManager.instance.primaryFocus.unfocus();
+                      chamaTelaVerTema(context);
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),

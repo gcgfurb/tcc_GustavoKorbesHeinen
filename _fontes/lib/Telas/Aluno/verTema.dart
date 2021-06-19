@@ -97,6 +97,22 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
+                  alignment: Alignment.bottomRight,
+                  padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
+                  child: RaisedButton(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    color: Colors.green[500],
+                    textColor: Colors.white,
+                    child: Text(
+                      "Voltar",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+                Container(
                   alignment: Alignment.bottomLeft,
                   padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                   child: RaisedButton(
@@ -108,10 +124,29 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                       style: TextStyle(fontSize: 20),
                     ),
                     onPressed: () async {
-                      showLoadingDialog();
-                      v3.File folderTema = await postFileToGoogleDrive(widget._tema);
-                      Navigator.pop(context);
-                      await shareFolder(folderTema);
+                      if (!gravouTodasAtividades(widget._tema)) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) => CupertinoAlertDialog(
+                            title: Text("Respostas atividade"),
+                            content: Text("É necessário responder todas as atividades do Tema"),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                child: Text("OK"),
+                                onPressed: () async {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        showLoadingDialog();
+                        v3.File folderTema = await postFileToGoogleDrive(widget._tema);
+                        Navigator.pop(context);
+                        await shareFolder(folderTema);
+                      }
                     },
                   ),
                 ),
@@ -133,28 +168,28 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
                       },
                     ),
                   ),
-                Container(
-                  alignment: Alignment.bottomRight,
-                  padding: EdgeInsets.fromLTRB(0, 10, 15, 0),
-                  child: RaisedButton(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                    color: Colors.green[500],
-                    textColor: Colors.white,
-                    child: Text(
-                      "Voltar",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
               ],
             )
           ],
         ),
       ),
     );
+  }
+
+  bool gravouTodasAtividades(Tema tema) {
+    List<ObjEspecifico> objEspecificos = tema.getListaObjEspecifico();
+
+    for (ObjEspecifico itObj in objEspecificos) {
+      List<Atividade> atividades = itObj.getRoteiro().getListaAtividade();
+
+      for (Atividade itAt in atividades) {
+        if (itAt.getRespostaAtividade() == null) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   void chamaTelaRealizarAtividades(context, ObjEspecifico _objEspecifico) async {
