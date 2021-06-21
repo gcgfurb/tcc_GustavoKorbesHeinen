@@ -66,7 +66,7 @@ class Caracteristica extends State<ClasseCaracteristica> {
                 maxLines: 5,
                 decoration: InputDecoration(
                   labelText: 'Objetivo geral da atividade de campo*',
-                  hintText: 'Procurar árvore araucária',
+                  hintText: 'Foi encontrado um tronco cheio de líquens',
                   alignLabelWithHint: true,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
