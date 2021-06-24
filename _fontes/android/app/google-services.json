@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:825082203276:android:78217e40b6253ce323bfa9",
+        "mobilesdk_app_id": "1:825082203276:android:1e5a848922088bcb23bfa9",
         "android_client_info": {
-          "package_name": "com.example.TCC_II"
+          "package_name": "br.furb.cgc.ExploraHabitat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "825082203276-tdfftv8pvhdhhq15gq0frdh0epb1co85.apps.googleusercontent.com",
+          "client_id": "825082203276-6m6nuql31jfgmokmr30cb37205u17vqk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.TCC_II",
+            "package_name": "br.furb.cgc.ExploraHabitat",
             "certificate_hash": "06dfea5150a0e498f6a1b8d9e0dab820f0ca0b34"
           }
         },
@@ -28,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCxMb0LJxS6onUejAuq15vpUBYn16x1dGA"
+          "current_key": "AIzaSyCt7BLVUyuDIbOtPAhvVn9Vs2M7xPvb6JQ"
         }
       ],
       "services": {

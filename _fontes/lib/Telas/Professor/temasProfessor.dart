@@ -6,7 +6,6 @@ import 'package:TCC_II/Classes/Roteiro.dart';
 import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:TCC_II/Telas/Professor/aprendaUsar.dart';
 import '../telaInicial.dart';
 import 'cadastrarTema.dart';
 import '../../Classes/Tema.dart';
@@ -157,8 +156,8 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 8, vertical: 0),
                     child: ElevatedButton(
                       child: Text(
-                        "Cadastrar Novo Tema",
-                        style: TextStyle(fontSize: 20),
+                        "Cadastrar novo tema",
+                        style: TextStyle(fontSize: 18),
                       ),
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.green,
@@ -218,7 +217,7 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 8, vertical: 0),
                     child: ElevatedButton(
                       child: Text(
-                        "Aprenda a Usar",
+                        "Excluir Tema",
                         style: TextStyle(fontSize: 20),
                       ),
                       style: TextButton.styleFrom(
@@ -228,7 +227,11 @@ class TemasProfessor extends State<ClasseProfessor> with SingleTickerProviderSta
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseAprendaUsar()));
+                        if (_temas.isNotEmpty)
+                          setState(() {
+                            _temas.removeAt(_index);
+                            _index = 0;
+                          });
                       },
                     ),
                   ),

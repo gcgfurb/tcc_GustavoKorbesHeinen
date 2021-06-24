@@ -276,7 +276,7 @@ class VerTema extends State<ClasseVerTema> with SingleTickerProviderStateMixin {
 
   Future<v3.File> criaTema(Tema tema, v3.DriveApi driveApi) async {
     v3.File folderType = new v3.File();
-    folderType.name = "Clube de Ciencias - ${tema.getTema()}";
+    folderType.name = "ExploraHabitat - ${tema.getTema()}";
     folderType.mimeType = "application/vnd.google-apps.folder";
 
     v3.File folder = await driveApi.files.create(folderType, $fields: "id");
