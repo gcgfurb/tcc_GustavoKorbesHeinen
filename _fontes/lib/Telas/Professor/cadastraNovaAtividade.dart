@@ -65,7 +65,7 @@ class CadastraNovaAtividade extends State<ClasseAtividade> {
                 maxLength: 150,
                 maxLines: 5,
                 decoration: InputDecoration(
-                  hintText: 'Objetivo geral da atividade de campo*',
+                  hintText: 'Detalhe a atividade para o clubista*',
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     borderSide: BorderSide(color: Colors.grey),

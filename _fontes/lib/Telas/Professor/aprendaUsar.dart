@@ -17,17 +17,24 @@ class AprendaAUsar extends State<ClasseAprendaUsar> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-              child: Text(
-                "Este aplicativo tem como funcionalidade a disponibilização da realização de apoio para atividades de saídas a campo em Clubes de Ciências.\nComo professor, seu objeitvo é cadastrar temas, objetivos específicos, roteiros e atividades para que os Clubistas possam atuar e trabalhar em cada atividade.",
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.justify,
-                maxLines: 12,
+              padding: EdgeInsets.only(top: 20),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Text(
+                  "Este aplicativo tem como funcionalidade a disponibilização da realização de apoio para atividades de saídas a campo em Clubes de Ciências." +
+                      "\nComo professor, seu objeitvo é cadastrar temas, objetivos específicos, roteiros e atividades para que os Clubistas possam atuar e trabalhar em cada atividade." +
+                      " Caso não seja cadastrado nenhum Objetivo Específico ou Atividade por parte do Professor, o Clubista pode detalhar Objetivos Específicos, Roteiros e Atividades encontrados no meio da natureza.\n" +
+                      "Como Clubista, você pode responder as atividades cadastradas pelo Professor ou criá-las caso o Professor não as tenha criado. Desta forma o Clubista fica livre a cadastrar qualquer atividade encontrada na natureza",
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.justify,
+                ),
               ),
             ),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(top: 25),
+              padding: EdgeInsets.all(15),
               child: RaisedButton(
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                 color: Colors.green[500],

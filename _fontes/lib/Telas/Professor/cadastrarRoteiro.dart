@@ -26,7 +26,7 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
     'Mosquito',
     'Áudio',
     'Teste',
-    'Desenhar',
+    //'Desenhar',
     'Ficha Coleta',
     'Lixo',
     'Sons da Natureza',
@@ -87,6 +87,7 @@ class CadastrarRoteiro extends State<ClasseRoteiro> {
                               ],
                             ),
                             onPressed: () {
+                              //if (index > 11) index++;
                               String nomeAtividade = _listCaracteristicas[index];
                               if (nomeAtividade == 'Personalizada') nomeAtividade = '';
                               chamaTelaCadastrarNovaAtividade(context, new Atividade(), nomeAtividade);

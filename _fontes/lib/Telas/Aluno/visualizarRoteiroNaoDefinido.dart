@@ -25,7 +25,7 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
     'Mosquito',
     'Áudio',
     'Teste',
-    'Desenhar',
+    //'Desenhar',
     'Ficha Coleta',
     'Lixo',
     'Sons da Natureza',
@@ -96,6 +96,7 @@ class CadastrarRoteiroNaoDefinido extends State<ClasseRoteiroNaoDefinido> {
                                 atividade.setId(-1);
                               } else {
                                 atividade.setNomeAtividade(_listCaracteristicas[index]);
+                                if (index > 11) index++;
                                 atividade.setId(index);
                               }
                               chamaTelaCadastrarNovaPergunta(context, atividade);
