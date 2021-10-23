@@ -412,11 +412,6 @@ class Util {
     await driveApi.files.create(driveFile, uploadMedia: media);
   }
 
-  static Future<v3.DriveApi> inicializaAutenticaoDrive(GoogleSignIn googleSignIn) async {
-    account = await googleSignIn.signIn();
-    return getDriveApi();
-  }
-
   static Future<v3.DriveApi> getDriveApi() async {
     _authHeaders = await account.authHeaders;
     _authenticateClient = GoogleAuthClient(_authHeaders);

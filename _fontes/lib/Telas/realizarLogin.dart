@@ -1,7 +1,10 @@
+import 'package:TCC_II/Classes/GoogleSignInProvider.dart';
 import 'package:TCC_II/Classes/Util.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:google_sign_in/google_sign_in.dart' as signIn;
+import 'package:provider/provider.dart';
 import 'Aluno/carregarTema.dart';
 import 'Professor/temasProfessor.dart';
 
@@ -29,18 +32,22 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
               style: TextStyle(fontSize: 30),
             ),
             Container(
-              width: 150,
+              width: 200,
               padding: EdgeInsets.only(bottom: 10),
-              child: RaisedButton(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                color: Colors.green[500],
-                textColor: Colors.white,
-                child: Text(
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green[500],
+                  onPrimary: Colors.white,
+                  minimumSize: Size(double.infinity, 50),
+                ),
+                icon: FaIcon(FontAwesomeIcons.google, color: Colors.red),
+                label: Text(
                   "Realizar login",
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () async {
-                  await chamaAPIGoogle();
+                  final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
+                  await provider.googleLogin();
                   if (widget.bProfessor) {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ClasseProfessor()));
                   } else {
@@ -54,7 +61,7 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
               style: TextStyle(fontSize: 20),
             ),
             Container(
-              width: 150,
+              width: 200,
               padding: EdgeInsets.only(top: 15),
               child: RaisedButton(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -74,11 +81,4 @@ class RealizarLogin extends State<ClasseRealizarLogin> {
       ),
     );
   }
-}
-
-Future<void> chamaAPIGoogle() async {
-  final googleSignIn = signIn.GoogleSignIn.standard(scopes: [drive.DriveApi.driveScope]);
-  await Util.inicializaAutenticaoDrive(googleSignIn);
-
-  print("User account " + Util.account.email);
 }
