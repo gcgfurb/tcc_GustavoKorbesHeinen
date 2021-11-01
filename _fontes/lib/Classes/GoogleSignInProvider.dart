@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'Util.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
-  final googleSignIn = GoogleSignIn();
+  final googleSignIn = GoogleSignIn(scopes: ["https://www.googleapis.com/auth/drive.file"]);
   GoogleSignInAccount _user;
   GoogleSignInAccount get user => _user;
 
