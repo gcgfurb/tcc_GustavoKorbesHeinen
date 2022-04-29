@@ -1,1 +1,1 @@
-# TCC: em desenvolvimento
+# TCC: Trabalho de Conclusão de Curso
